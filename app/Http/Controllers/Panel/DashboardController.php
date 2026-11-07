@@ -21,6 +21,7 @@ class DashboardController extends Controller
         return view('panel.beranda', [
             'user' => $user,
             'tugas' => $this->tugas($user),
+            'ringkasan' => app(\App\Services\RingkasanPanel::class)->untuk($user),
         ]);
     }
 
