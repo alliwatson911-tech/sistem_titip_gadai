@@ -1,0 +1,2 @@
+Font di folder ini berlisensi SIL Open Font License 1.1 (Fraunces, Instrument Sans, IBM Plex Mono), diambil dari paket Fontsource.
+Teks lisensi lengkap: lihat berkas LICENSE di paket npm @fontsource-variable/fraunces, @fontsource-variable/instrument-sans, dan @fontsource/ibm-plex-mono.

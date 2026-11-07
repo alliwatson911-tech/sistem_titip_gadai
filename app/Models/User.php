@@ -1,0 +1,88 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\Role;
+use App\Models\Concerns\Auditable;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+// role, branch_id, dan status SENGAJA tidak mass-assignable: hanya diatur oleh kode tepercaya
+// (seeder, modul manajemen pengguna Owner) agar tidak ada eskalasi hak akses lewat input form.
+#[Fillable(['name', 'email', 'password'])]
+#[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'])]
+class User extends Authenticatable
+{
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable, Auditable;
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
+            'password' => 'hashed',
+            'role' => Role::class,
+            'two_factor_secret' => 'encrypted',
+            'two_factor_recovery_codes' => 'encrypted:array',
+            'two_factor_confirmed_at' => 'datetime',
+        ];
+    }
+
+    public function duaFaktorAktif(): bool
+    {
+        return $this->two_factor_secret !== null && $this->two_factor_confirmed_at !== null;
+    }
+
+    /** Hash tetap (HMAC dengan kunci aplikasi) untuk kode pemulihan; kode asli tidak pernah disimpan. */
+    public static function hashKodePemulihan(string $kode): string
+    {
+        return hash_hmac('sha256', strtolower(preg_replace('/[^a-z0-9]/i', '', $kode)), (string) config('app.key'));
+    }
+
+    /** Email atur ulang memakai notifikasi sendiri (bahasa Indonesia, tautan ke rute sandi.atur-ulang). */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new \App\Notifications\AturUlangSandi($token));
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function member()
+    {
+        return $this->hasOne(Member::class);
+    }
+
+    public function hasRole(Role ...$roles): bool
+    {
+        return in_array($this->role, $roles, true);
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'aktif';
+    }
+
+    public function hasPermission(string $izin): bool
+    {
+        // Jangan pakai config("permissions.$izin"): titik pada nama izin dibaca sebagai kunci bersarang.
+        return $this->isActive()
+            && in_array($this->role, config('permissions')[$izin] ?? [], true);
+    }
+
+    /** Daftar izin yang dimiliki pengguna ini (untuk tampilan dan uji). */
+    public function permissions(): array
+    {
+        return array_keys(array_filter(
+            config('permissions'),
+            fn (array $roles) => in_array($this->role, $roles, true)
+        ));
+    }
+}
