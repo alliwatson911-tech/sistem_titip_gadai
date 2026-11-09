@@ -37,11 +37,12 @@
     <main id="isi">
         @include('publik.partials.hero')
         @include('publik.partials.pengumuman')
-        @include('publik.partials.standar')
-        @include('publik.partials.faq')
         @include('publik.partials.produk')
+        @include('publik.partials.banner-member')
+        @include('publik.partials.standar')
         @include('publik.partials.panduan')
         @include('publik.partials.simulasi')
+        @include('publik.partials.faq')
         @include('publik.partials.tentang')
         @include('publik.partials.akun')
     </main>
