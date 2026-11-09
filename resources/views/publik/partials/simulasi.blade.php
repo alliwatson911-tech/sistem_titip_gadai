@@ -13,7 +13,7 @@
             <p>Simulasi akan tersedia setelah produk diisi.</p>
         @else
         <div class="sim">
-            <form id="sim-form" data-url="{{ route('simulasi') }}" novalidate>
+            <form id="sim-form" class="panel-form" style="padding: 2rem;" data-url="{{ route('simulasi') }}" novalidate>
                 <div class="bidang">
                     <label for="sim-produk">Jenis barang</label>
                     <select id="sim-produk" name="produk">
