@@ -60,6 +60,43 @@
     if (tujuan) tujuan.scrollIntoView();
   }
 
+  /* ---- filter kategori produk ---- */
+  var tabs = d.querySelectorAll('.tab-pill');
+  var kartuList = d.querySelectorAll('.kartu-modern');
+  if (tabs.length && kartuList.length) {
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('aktif'); t.setAttribute('aria-selected', 'false'); });
+        tab.classList.add('aktif');
+        tab.setAttribute('aria-selected', 'true');
+        var kat = tab.dataset.filter;
+        kartuList.forEach(function (k) {
+          if (kat === 'semua' || k.dataset.kategori === kat) {
+            k.style.display = '';
+          } else {
+            k.style.display = 'none';
+          }
+        });
+      });
+    });
+  }
+
+  /* ---- tombol kembali ke atas (back-to-top) ---- */
+  var btnTop = d.getElementById('back-to-top');
+  if (btnTop) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 300) {
+        btnTop.classList.add('aktif');
+      } else {
+        btnTop.classList.remove('aktif');
+      }
+    }, { passive: true });
+
+    btnTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: gerakKurang ? 'auto' : 'smooth' });
+    });
+  }
+
   /* ---- simulasi ---- */
   var dataEl = d.getElementById('data-produk');
   var pilih = d.getElementById('sim-produk');
