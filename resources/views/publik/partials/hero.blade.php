@@ -30,8 +30,8 @@
             </ul>
 
             <div class="aksi">
-                <a class="btn btn--utama" href="#simulasi">Hitung Simulasi Titip</a>
-                <a class="btn" href="#produk">Lihat Produk Gadai</a>
+                <a class="btn btn--utama" href="{{ route('publik.simulasi') }}">Hitung Simulasi Titip</a>
+                <a class="btn" href="{{ route('publik.layanan') }}">Lihat Layanan Gadai</a>
             </div>
         </div>
 

@@ -5,19 +5,19 @@
 <section class="bagian" id="produk" data-spy="produk" aria-labelledby="judul-produk">
     <div class="wrap">
         <div class="kepala-bagian">
-            <p class="nomor">Katalog Titip</p>
+            <p class="nomor">Katalog Layanan</p>
             <div>
-                <h2 id="judul-produk">Pilihan Produk Elektronik yang Diterima</h2>
-                <p class="pengantar" style="margin-top:1rem">Pilih kategori barang elektronik Anda. Plafon taksiran, tenor titip, dan tarif sewa modal tercantum transparan dan dapat langsung dihitung di kalkulator simulasi.</p>
+                <h2 id="judul-produk">Pilihan Layanan Gadai Elektronik yang Diterima</h2>
+                <p class="pengantar" style="margin-top:1rem">Pilih kategori layanan barang elektronik Anda. Plafon taksiran, tenor titip, dan tarif sewa modal tercantum transparan dan dapat langsung dihitung di kalkulator simulasi.</p>
             </div>
         </div>
 
         @if ($produk->isEmpty())
-            <p>Daftar produk sedang disiapkan.</p>
+            <p>Daftar layanan sedang disiapkan.</p>
         @else
             <!-- Filter Kategori Tabs -->
-            <div class="filter-tabs" role="tablist" aria-label="Filter kategori barang elektronik">
-                <button type="button" class="tab-pill aktif" data-filter="semua" role="tab" aria-selected="true">Semua Barang</button>
+            <div class="filter-tabs" role="tablist" aria-label="Filter kategori layanan barang elektronik">
+                <button type="button" class="tab-pill aktif" data-filter="semua" role="tab" aria-selected="true">Semua Layanan</button>
                 @foreach ($kategoriList as $kat)
                     <button type="button" class="tab-pill" data-filter="{{ strtolower($kat) }}" role="tab" aria-selected="false">{{ ucfirst($kat) }}</button>
                 @endforeach
@@ -53,8 +53,8 @@
                                     <b>{{ Rupiah::ringkas($p->pinjaman_min) }} &ndash; {{ Rupiah::ringkas($p->pinjaman_max) }}</b>
                                 </div>
                                 <div class="kartu-aksi-ganda">
-                                    <a class="btn btn--utama btn--kecil" href="#simulasi" data-pilih="{{ $p->slug }}">Hitung Simulasi</a>
-                                    <a class="btn btn--kecil" href="{{ auth()->check() ? route('panel') : '#akun' }}">Ajukan</a>
+                                    <a class="btn btn--utama btn--kecil" href="{{ request()->routeIs('beranda') ? '#simulasi' : route('publik.simulasi', ['produk' => $p->slug]) }}" data-pilih="{{ $p->slug }}">Hitung Simulasi</a>
+                                    <a class="btn btn--kecil" href="{{ auth()->check() ? route('panel') : route('beranda').'#akun' }}">Ajukan</a>
                                 </div>
                             </div>
                         </div>

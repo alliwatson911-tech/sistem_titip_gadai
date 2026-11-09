@@ -36,12 +36,18 @@
 
             <div class="lembar panel-form" style="padding: 1.8rem;" data-muncul>
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 03</div>
-                <h3 style="border-bottom: 2px solid var(--lumut); padding-bottom: .6rem; margin-bottom: 1.25rem;">Syarat Kelengkapan</h3>
-                <ul class="syarat">
-                    @foreach ($syarat as $s)
-                        <li>{{ $isi($s) }}</li>
-                    @endforeach
-                </ul>
+                <h3 style="border-bottom: 2px solid var(--lumut); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pelunasan &amp; Tebus</h3>
+                <ol class="langkah">
+                    <li><div><b>Perpanjang Masa Titip</b><span>Sebelum jatuh tempo, Anda dapat memperpanjang masa simpan dengan melunasi sewa modal dan administrasi berjalan.</span></div></li>
+                    <li><div><b>Cicil Pokok Pinjaman</b><span>Kurangi beban kewajiban dengan mencicil pokok pinjaman bertahap sesuai kesiapan dana Anda.</span></div></li>
+                    <li><div><b>Pelunasan &amp; Pengambilan</b><span>Lunasi sisa pokok dan biaya untuk mengambil kembali barang elektronik Anda yang tersimpan aman bersegel brankas.</span></div></li>
+                </ol>
+                <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--garis);">
+                    <a href="{{ route('publik.syarat') }}" style="display:inline-flex; align-items:center; gap:.4rem; font:600 .85rem/1.3 var(--f-isi); color:var(--kuningan-tua); text-decoration:none;">
+                        <span>Lihat Syarat &amp; Ketentuan Lengkap</span>
+                        <span aria-hidden="true">&rarr;</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

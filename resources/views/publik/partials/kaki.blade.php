@@ -25,13 +25,14 @@
             <div class="kaki-kolom">
                 <h4>Navigasi Pintas</h4>
                 <ul aria-label="Navigasi cepat situs">
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#produk">Produk Gadai</a></li>
-                    <li><a href="#standar">Standar Layanan</a></li>
-                    <li><a href="#panduan">Panduan Titip</a></li>
-                    <li><a href="#simulasi">Hitung Simulasi</a></li>
-                    <li><a href="#faq">FAQ & Informasi</a></li>
-                    <li><a href="#tentang">Tentang & Cabang</a></li>
+                    <li><a href="{{ route('beranda') }}">Beranda</a></li>
+                    <li><a href="{{ route('publik.layanan') }}">Layanan Gadai</a></li>
+                    <li><a href="{{ route('publik.standar') }}">Standar Layanan</a></li>
+                    <li><a href="{{ route('publik.panduan') }}">Panduan Titip</a></li>
+                    <li><a href="{{ route('publik.syarat') }}">Syarat &amp; Ketentuan</a></li>
+                    <li><a href="{{ route('publik.simulasi') }}">Hitung Simulasi</a></li>
+                    <li><a href="{{ route('publik.faq') }}">FAQ & Informasi</a></li>
+                    <li><a href="{{ route('publik.tentang') }}">Tentang & Cabang</a></li>
                 </ul>
             </div>
 
@@ -65,8 +66,8 @@
                             </form>
                         </li>
                     @else
-                        <li><a href="#akun">Masuk Anggota</a></li>
-                        <li><a href="#akun">Daftar Akun Baru</a></li>
+                        <li><a href="{{ route('masuk') }}">Masuk Anggota</a></li>
+                        <li><a href="{{ route('daftar') }}">Daftar Akun Baru</a></li>
                     @endauth
                     <li style="margin-top: .6rem; font-size: .85rem; line-height: 1.5; opacity: .75;">
                         Barang disimpan dalam brankas khusus bersegel stiker resmi. Data identitas dienkripsi.

@@ -57,11 +57,13 @@ final class LoanCalculator
 
     /**
      * @param  int  $taksiran  nilai taksiran barang (rupiah)
-     * @param  int  $ltvBp     persentase pinjaman dari taksiran, basis poin (8000 = 80%)
-     * @param  int  $periode   jumlah periode tenor yang disimulasikan (1 = tanpa perpanjangan)
+     * @param  int  $ltvBp  persentase pinjaman dari taksiran, basis poin (8000 = 80%)
+     * @param  int  $periode  jumlah periode tenor yang disimulasikan (1 = tanpa perpanjangan)
+     * @param  int|null  $hari  lama titip kustom dalam hari (misal harian/mingguan). Jika null, memakai $periode * $syarat['tenor_hari']
+     *
      * @throws InvalidArgumentException bila masukan di luar batas produk
      */
-    public static function simulasi(array $syarat, int $taksiran, int $ltvBp, int $periode = 1): array
+    public static function simulasi(array $syarat, int $taksiran, int $ltvBp, int $periode = 1, ?int $hari = null): array
     {
         if ($taksiran < 1) {
             throw new InvalidArgumentException('Taksiran harus lebih dari nol.');
@@ -69,6 +71,46 @@ final class LoanCalculator
         if ($ltvBp < 1 || $ltvBp > $syarat['ltv_max_bp']) {
             throw new InvalidArgumentException('Persentase pinjaman maksimal '.rtrim(rtrim(number_format($syarat['ltv_max_bp'] / 100, 2, ',', ''), '0'), ',').'% untuk jenis barang ini.');
         }
+
+        $pokok = self::pokok($taksiran, $ltvBp);
+        if ($pokok < $syarat['pinjaman_min']) {
+            throw new InvalidArgumentException('Pinjaman di bawah batas minimum Rp '.number_format($syarat['pinjaman_min'], 0, ',', '.').'.');
+        }
+        if ($pokok > $syarat['pinjaman_max']) {
+            throw new InvalidArgumentException('Pinjaman melebihi batas maksimum Rp '.number_format($syarat['pinjaman_max'], 0, ',', '.').'.');
+        }
+
+        if ($hari !== null) {
+            if ($hari < 1 || $hari > $syarat['tenor_hari'] * self::MAKS_PERIODE) {
+                throw new InvalidArgumentException('Lama titip harus 1 sampai '.($syarat['tenor_hari'] * self::MAKS_PERIODE).' hari.');
+            }
+
+            $sewaTotal = self::sewaModal($syarat, $pokok, $hari);
+            $adminTotal = self::administrasi($syarat, $pokok);
+
+            return [
+                'taksiran' => $taksiran,
+                'ltv_bp' => $ltvBp,
+                'pokok' => $pokok,
+                'periode' => 1,
+                'hari_total' => $hari,
+                'sewa_modal_per_periode' => $sewaTotal,
+                'administrasi_per_periode' => $adminTotal,
+                'sewa_modal_total' => $sewaTotal,
+                'administrasi_total' => $adminTotal,
+                'total_tebus' => $pokok + $sewaTotal + $adminTotal,
+                'rincian' => [
+                    [
+                        'ke' => 1,
+                        'keterangan' => 'Lama titip '.$hari.' hari',
+                        'hari' => $hari,
+                        'sewa_modal' => $sewaTotal,
+                        'administrasi' => $adminTotal,
+                    ],
+                ],
+            ];
+        }
+
         if ($periode < 1 || $periode > self::MAKS_PERIODE) {
             throw new InvalidArgumentException('Jumlah periode harus 1 sampai '.self::MAKS_PERIODE.'.');
         }

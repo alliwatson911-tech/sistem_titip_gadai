@@ -14,12 +14,20 @@ class SimulasiController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $data = $request->validate([
+        $aturan = [
             'produk' => ['required', 'integer'],
             'taksiran' => ['required', 'integer', 'min:1', 'max:1000000000'],
             'ltv_bp' => ['required', 'integer', 'min:1', 'max:10000'],
-            'periode' => ['required', 'integer', 'min:1', 'max:'.LoanCalculator::MAKS_PERIODE],
-        ], [
+            'hari' => ['nullable', 'integer', 'min:1', 'max:120'],
+        ];
+
+        if ($request->filled('hari')) {
+            $aturan['periode'] = ['nullable', 'integer', 'min:1', 'max:'.LoanCalculator::MAKS_PERIODE];
+        } else {
+            $aturan['periode'] = ['required', 'integer', 'min:1', 'max:'.LoanCalculator::MAKS_PERIODE];
+        }
+
+        $data = $request->validate($aturan, [
             'taksiran.required' => 'Isi taksiran barang.',
             'taksiran.integer' => 'Taksiran harus berupa angka.',
             'taksiran.min' => 'Taksiran harus lebih dari nol.',
@@ -31,8 +39,11 @@ class SimulasiController extends Controller
             return response()->json(['pesan' => 'Jenis barang tidak ditemukan.'], 422);
         }
 
+        $hari = isset($data['hari']) && $data['hari'] !== null ? (int) $data['hari'] : null;
+        $periode = isset($data['periode']) && $data['periode'] !== null ? (int) $data['periode'] : 1;
+
         try {
-            $hasil = LoanCalculator::simulasi(LoanCalculator::dariProduk($produk), (int) $data['taksiran'], (int) $data['ltv_bp'], (int) $data['periode']);
+            $hasil = LoanCalculator::simulasi(LoanCalculator::dariProduk($produk), (int) $data['taksiran'], (int) $data['ltv_bp'], $periode, $hari);
         } catch (InvalidArgumentException $e) {
             return response()->json(['pesan' => $e->getMessage()], 422);
         }

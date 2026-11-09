@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\Member;
 use App\Models\User;
+use App\Notifications\VerifikasiEmail;
+use App\Services\Situs;
 use App\Support\Pii;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +22,14 @@ class RegisterController extends Controller
 {
     public function create()
     {
-        return view('auth.daftar', ['cabang' => Branch::where('is_active', true)->where('kode', '!=', 'PUSAT')->orderBy('kode')->get()]);
+        $semuaCabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
+
+        return view('auth.daftar', [
+            'cabang' => $semuaCabang->where('kode', '!=', 'PUSAT')->values(),
+            'semuaCabang' => $semuaCabang,
+            'pusat' => $semuaCabang->get('PUSAT'),
+            'konten' => Situs::konten(),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -73,7 +82,7 @@ class RegisterController extends Controller
             return $user;
         });
 
-        $user->notify(new \App\Notifications\VerifikasiEmail);
+        $user->notify(new VerifikasiEmail);
         Auth::login($user);
         $request->session()->regenerate();
 

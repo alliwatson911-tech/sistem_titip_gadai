@@ -10,11 +10,11 @@
                 <p>Sebagai anggota linygadai, Anda dapat mengajukan taksiran awal secara online, memantau masa simpan & jatuh tempo, serta melakukan verifikasi pembayaran loket secara transparan.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: .75rem; flex-shrink: 0;">
-                <a class="btn btn--utama" href="{{ auth()->check() ? route('panel') : '#akun' }}">
+                <a class="btn btn--utama" href="{{ auth()->check() ? route('panel') : route('daftar') }}">
                     {{ auth()->check() ? 'Buka Panel Anggota' : 'Daftar Akun Anggota' }}
                 </a>
                 @guest
-                    <a class="btn btn--gelap btn--kecil" style="border-color: rgba(244, 239, 230, .4); text-align: center;" href="#akun">
+                    <a class="btn btn--gelap btn--kecil" style="border-color: rgba(244, 239, 230, .4); text-align: center;" href="{{ route('masuk') }}">
                         Sudah punya akun? Masuk
                     </a>
                 @endguest

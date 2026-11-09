@@ -16,12 +16,19 @@ use Tests\PanelTestCase;
 
 class PanelAdminTest extends PanelTestCase
 {
-    // ---------- masuk/daftar menyatu di halaman utama ----------
+    // ---------- masuk/daftar halaman tersendiri ----------
 
-    public function test_alamat_masuk_dan_daftar_dialihkan_ke_halaman_utama(): void
+    public function test_alamat_masuk_dan_daftar_dapat_diakses_sebagai_halaman_tersendiri(): void
     {
-        $this->get('/masuk')->assertRedirect('/#akun');
-        $this->get('/daftar')->assertRedirect('/#akun');
+        $this->get('/masuk')
+            ->assertOk()
+            ->assertSee('Masuk ke Akun Anda')
+            ->assertSee('Kembali ke Beranda');
+
+        $this->get('/daftar')
+            ->assertOk()
+            ->assertSee('Daftar Akun Anggota linygadai')
+            ->assertSee('Kembali ke Beranda');
     }
 
     // ---------- verifikasi anggota ----------

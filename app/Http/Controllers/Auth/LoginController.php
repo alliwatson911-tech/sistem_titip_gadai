@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Branch;
 use App\Models\User;
 use App\Services\Audit;
+use App\Services\Situs;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +19,13 @@ class LoginController extends Controller
 {
     public function create()
     {
-        return view('auth.masuk');
+        $cabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
+
+        return view('auth.masuk', [
+            'cabang' => $cabang,
+            'pusat' => $cabang->get('PUSAT'),
+            'konten' => Situs::konten(),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse

@@ -26,6 +26,29 @@ class LoanCalculatorTest extends TestCase
         $this->assertSame(30, $h['hari_total']);
     }
 
+    public function test_hitungan_harian_dan_mingguan_proporsional(): void
+    {
+        // 7 hari (1 minggu): sewa 2.400.000 x 0,15% x 7 = 25.200; admin 1% = 24.000
+        $h7 = LoanCalculator::simulasi($this->syarat, 3_000_000, 8000, 1, 7);
+        $this->assertSame(2_400_000, $h7['pokok']);
+        $this->assertSame(25_200, $h7['sewa_modal_total']);
+        $this->assertSame(24_000, $h7['administrasi_total']);
+        $this->assertSame(2_449_200, $h7['total_tebus']);
+        $this->assertSame(7, $h7['hari_total']);
+
+        // 3 hari: sewa 2.400.000 x 0,15% x 3 = 10.800
+        $h3 = LoanCalculator::simulasi($this->syarat, 3_000_000, 8000, 1, 3);
+        $this->assertSame(10_800, $h3['sewa_modal_total']);
+        $this->assertSame(2_434_800, $h3['total_tebus']);
+        $this->assertSame(3, $h3['hari_total']);
+
+        // 1 hari: sewa 2.400.000 x 0,15% x 1 = 3.600
+        $h1 = LoanCalculator::simulasi($this->syarat, 3_000_000, 8000, 1, 1);
+        $this->assertSame(3_600, $h1['sewa_modal_total']);
+        $this->assertSame(2_427_600, $h1['total_tebus']);
+        $this->assertSame(1, $h1['hari_total']);
+    }
+
     public function test_dua_periode_menggandakan_sewa_dan_administrasi(): void
     {
         $h = LoanCalculator::simulasi($this->syarat, 3_000_000, 8000, 2);

@@ -10,7 +10,7 @@
         </div>
 
         @if ($produk->isEmpty())
-            <p>Simulasi akan tersedia setelah produk diisi.</p>
+            <p>Simulasi akan tersedia setelah data layanan diisi.</p>
         @else
         <div class="sim">
             <form id="sim-form" class="panel-form" style="padding: 2rem;" data-url="{{ route('simulasi') }}" novalidate>
@@ -34,11 +34,63 @@
                 </div>
                 <fieldset class="bidang">
                     <legend>Lama titip</legend>
-                    <div class="segmen" role="radiogroup" aria-label="Lama titip">
-                        @for ($n = 1; $n <= $maksPeriode; $n++)
-                            <input type="radio" name="periode" id="periode-{{ $n }}" value="{{ $n }}" @checked($n === 1)>
-                            <label for="periode-{{ $n }}"><span>{{ $n * $token['tenor'] }} hari<br><small>{{ $n === 1 ? 'tanpa perpanjang' : ($n - 1).'x perpanjang' }}</small></span></label>
-                        @endfor
+
+                    <!-- Pilihan Satuan Hitungan: Harian, Mingguan, Bulanan -->
+                    <div class="satuan-titip-tabs" role="tablist" aria-label="Pilihan satuan lama titip">
+                        <button type="button" class="tab-satuan" data-satuan="harian" role="tab" aria-selected="false">Harian</button>
+                        <button type="button" class="tab-satuan" data-satuan="mingguan" role="tab" aria-selected="false">Mingguan</button>
+                        <button type="button" class="tab-satuan aktif" data-satuan="bulanan" role="tab" aria-selected="true">Bulanan / Tenor</button>
+                    </div>
+
+                    <!-- Durasi Harian -->
+                    <div class="pilihan-durasi" id="durasi-harian" hidden>
+                        <div class="segmen" role="radiogroup" aria-label="Pilihan hari titip">
+                            <input type="radio" name="durasi_hari" id="hari-1" value="1">
+                            <label for="hari-1"><span>1 Hari<br><small>titip kilat</small></span></label>
+
+                            <input type="radio" name="durasi_hari" id="hari-3" value="3">
+                            <label for="hari-3"><span>3 Hari<br><small>titip singkat</small></span></label>
+
+                            <input type="radio" name="durasi_hari" id="hari-7" value="7" checked>
+                            <label for="hari-7"><span>7 Hari<br><small>1 pekan</small></span></label>
+
+                            <input type="radio" name="durasi_hari" id="hari-14" value="14">
+                            <label for="hari-14"><span>14 Hari<br><small>2 pekan</small></span></label>
+                        </div>
+                        <div class="slider-hari-wrap" style="margin-top: .85rem;">
+                            <label for="sim-hari-custom" style="display:flex; justify-content:space-between; font-size:.82rem; margin:0 0 .3rem;">
+                                <span>Atur hari kustom (1 &ndash; 30 hari):</span>
+                                <b id="sim-hari-custom-nilai" style="color:var(--kuningan-tua);">7 hari</b>
+                            </label>
+                            <input id="sim-hari-custom" type="range" min="1" max="30" step="1" value="7">
+                        </div>
+                    </div>
+
+                    <!-- Durasi Mingguan -->
+                    <div class="pilihan-durasi" id="durasi-mingguan" hidden>
+                        <div class="segmen" role="radiogroup" aria-label="Pilihan minggu titip">
+                            <input type="radio" name="durasi_minggu" id="minggu-1" value="7" checked>
+                            <label for="minggu-1"><span>1 Minggu<br><small>7 hari</small></span></label>
+
+                            <input type="radio" name="durasi_minggu" id="minggu-2" value="14">
+                            <label for="minggu-2"><span>2 Minggu<br><small>14 hari</small></span></label>
+
+                            <input type="radio" name="durasi_minggu" id="minggu-3" value="21">
+                            <label for="minggu-3"><span>3 Minggu<br><small>21 hari</small></span></label>
+
+                            <input type="radio" name="durasi_minggu" id="minggu-4" value="28">
+                            <label for="minggu-4"><span>4 Minggu<br><small>28 hari</small></span></label>
+                        </div>
+                    </div>
+
+                    <!-- Durasi Bulanan / Tenor Standar -->
+                    <div class="pilihan-durasi" id="durasi-bulanan">
+                        <div class="segmen" role="radiogroup" aria-label="Lama titip bulanan">
+                            @for ($n = 1; $n <= $maksPeriode; $n++)
+                                <input type="radio" name="periode" id="periode-{{ $n }}" value="{{ $n }}" @checked($n === 1)>
+                                <label for="periode-{{ $n }}"><span>{{ $n * $token['tenor'] }} hari<br><small>{{ $n === 1 ? 'tanpa perpanjang' : ($n - 1).'x perpanjang' }}</small></span></label>
+                            @endfor
+                        </div>
                     </div>
                 </fieldset>
                 <noscript><p class="galat">Simulasi memerlukan JavaScript aktif di browser Anda.</p></noscript>

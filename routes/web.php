@@ -2,41 +2,52 @@
 
 use App\Http\Controllers\Auth\AturUlangSandiController;
 use App\Http\Controllers\Auth\DuaFaktorTantanganController;
-use App\Http\Controllers\Panel\DuaFaktorController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LupaSandiController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\VerifikasiEmailController;
 use App\Http\Controllers\Panel\AkunController;
 use App\Http\Controllers\Panel\AuditController;
-use App\Http\Controllers\Panel\LaporanController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Panel\BerkasController;
 use App\Http\Controllers\Panel\DashboardController;
+use App\Http\Controllers\Panel\DuaFaktorController;
 use App\Http\Controllers\Panel\FaqController;
 use App\Http\Controllers\Panel\GadaiController;
-use App\Http\Controllers\Panel\LelangController;
-use App\Http\Controllers\Panel\PembayaranController;
-use App\Http\Controllers\Panel\PenebusanController;
 use App\Http\Controllers\Panel\KontakCabangController;
 use App\Http\Controllers\Panel\KontenSitusController;
+use App\Http\Controllers\Panel\LaporanController;
+use App\Http\Controllers\Panel\LelangController;
 use App\Http\Controllers\Panel\MemberController;
+use App\Http\Controllers\Panel\PembayaranController;
+use App\Http\Controllers\Panel\PenebusanController;
 use App\Http\Controllers\Panel\PengajuanController;
 use App\Http\Controllers\Panel\PengumumanController;
 use App\Http\Controllers\Panel\ProfilController;
 use App\Http\Controllers\Panel\UserController;
 use App\Http\Controllers\Publik\BerandaController;
+use App\Http\Controllers\Publik\HalamanPublikController;
 use App\Http\Controllers\Publik\SimulasiController;
 use App\Http\Controllers\Publik\SitemapController;
 use Illuminate\Support\Facades\Route;
 
-// Halaman publik (satu halaman, banyak bagian).
+// Halaman publik utama & endpoint AJAX
 Route::get('/', BerandaController::class)->name('beranda');
 Route::get('/simulasi', SimulasiController::class)->middleware('throttle:60,1')->name('simulasi');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
-// Masuk dan daftar hidup di bagian #akun halaman utama; alamat lama dialihkan ke sana.
+// Halaman publik khusus tiap panel navigasi
+Route::get('/layanan', [HalamanPublikController::class, 'layanan'])->name('publik.layanan');
+Route::get('/standar', [HalamanPublikController::class, 'standar'])->name('publik.standar');
+Route::get('/panduan', [HalamanPublikController::class, 'panduan'])->name('publik.panduan');
+Route::get('/syarat', [HalamanPublikController::class, 'syarat'])->name('publik.syarat');
+Route::get('/simulasi-gadai', [HalamanPublikController::class, 'simulasi'])->name('publik.simulasi');
+Route::get('/faq', [HalamanPublikController::class, 'faq'])->name('publik.faq');
+Route::get('/tentang', [HalamanPublikController::class, 'tentang'])->name('publik.tentang');
+
+// Halaman masuk dan daftar terpisah dan tersendiri
 Route::middleware('guest')->group(function () {
-    Route::redirect('/masuk', '/#akun')->name('masuk');
-    Route::redirect('/daftar', '/#akun')->name('daftar');
+    Route::get('/masuk', [LoginController::class, 'create'])->name('masuk');
+    Route::get('/daftar', [RegisterController::class, 'create'])->name('daftar');
     Route::post('/masuk', [LoginController::class, 'store'])->middleware('throttle:20,1');
     Route::post('/daftar', [RegisterController::class, 'store'])->middleware('throttle:6,1');
 
@@ -51,7 +62,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/atur-ulang-sandi', [AturUlangSandiController::class, 'store'])->middleware('throttle:10,1')->name('sandi.simpan');
 });
 
-Route::get('/email/verifikasi/{id}/{hash}', [\App\Http\Controllers\Auth\VerifikasiEmailController::class, 'verifikasi'])->middleware(['signed', 'throttle:20,1'])->name('email.verifikasi');
+Route::get('/email/verifikasi/{id}/{hash}', [VerifikasiEmailController::class, 'verifikasi'])->middleware(['signed', 'throttle:20,1'])->name('email.verifikasi');
 
 Route::post('/keluar', [LoginController::class, 'destroy'])->middleware('auth')->name('keluar');
 
@@ -99,7 +110,7 @@ Route::middleware(['auth', 'wajib.2fa'])->prefix('panel')->group(function () {
     Route::get('/berkas/ktp/{anggota}', [BerkasController::class, 'ktp'])->name('panel.berkas.ktp');
     Route::get('/berkas/foto/{foto}', [BerkasController::class, 'foto'])->name('panel.berkas.foto');
     Route::get('/berkas/kuasa/{gadai}', [BerkasController::class, 'kuasa'])->name('panel.berkas.kuasa');
-    Route::post('/akun/kirim-verifikasi', [\App\Http\Controllers\Auth\VerifikasiEmailController::class, 'kirimUlang'])->middleware('throttle:3,10')->name('panel.akun.verifikasi.kirim');
+    Route::post('/akun/kirim-verifikasi', [VerifikasiEmailController::class, 'kirimUlang'])->middleware('throttle:3,10')->name('panel.akun.verifikasi.kirim');
 
     // Ganti kata sandi sendiri (semua peran)
     Route::get('/akun/sandi', [AkunController::class, 'sandi'])->name('panel.akun.sandi');

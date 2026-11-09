@@ -209,4 +209,53 @@ class PublicPageTest extends TestCase
 
         $this->getJson('/simulasi?'.http_build_query(['produk' => $id, 'taksiran' => 3000000, 'ltv_bp' => 7000, 'periode' => 1]))->assertStatus(422);
     }
+
+    public function test_simulasi_hitungan_harian_dan_mingguan_via_api(): void
+    {
+        $id = $this->produkId('gadai-smartphone');
+
+        // Harian (3 hari)
+        $this->getJson('/simulasi?'.http_build_query(['produk' => $id, 'taksiran' => 3000000, 'ltv_bp' => 8000, 'hari' => 3]))
+            ->assertOk()
+            ->assertJson([
+                'pokok' => 2400000,
+                'sewa_modal_total' => 10800,
+                'administrasi_total' => 24000,
+                'total_tebus' => 2434800,
+                'hari_total' => 3,
+            ]);
+
+        // Mingguan (7 hari / 1 minggu)
+        $this->getJson('/simulasi?'.http_build_query(['produk' => $id, 'taksiran' => 3000000, 'ltv_bp' => 8000, 'hari' => 7]))
+            ->assertOk()
+            ->assertJson([
+                'pokok' => 2400000,
+                'sewa_modal_total' => 25200,
+                'administrasi_total' => 24000,
+                'total_tebus' => 2449200,
+                'hari_total' => 7,
+            ]);
+    }
+
+    public function test_halaman_khusus_panel_berhasil_dimuat_dan_memiliki_tombol_kembali(): void
+    {
+        $halaman = [
+            '/layanan' => 'Layanan Titip Gadai Elektronik',
+            '/standar' => 'Standar Layanan linygadai',
+            '/panduan' => 'Panduan Transaksi Titip Gadai',
+            '/syarat' => 'Syarat &amp; Ketentuan Layanan Titip Gadai',
+            '/simulasi-gadai' => 'Hitung Simulasi Titip Gadai',
+            '/faq' => 'Pertanyaan yang Sering Diajukan',
+            '/tentang' => 'Tentang Kami',
+        ];
+
+        foreach ($halaman as $url => $judul) {
+            $response = $this->get($url);
+            $response->assertOk();
+            $response->assertSee($judul, false);
+            $response->assertSee('btn-kembali', false);
+            $response->assertSee('Kembali ke', false);
+            $this->assertSame(1, preg_match_all('/<h1[\s>]/', $response->getContent()), "halaman $url harus tepat memiliki 1 h1");
+        }
+    }
 }

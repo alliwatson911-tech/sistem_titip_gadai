@@ -112,7 +112,17 @@
 
   function produkAktif() { return produk.filter(function (p) { return String(p.id) === pilih.value; })[0] || produk[0]; }
   function angkaTaksiran() { return parseInt((taksir.value || '').replace(/\D/g, ''), 10) || 0; }
+  var satuanAktif = 'bulanan';
+  var tabsSatuan = d.querySelectorAll('.tab-satuan');
+  var boxHarian = d.getElementById('durasi-harian');
+  var boxMingguan = d.getElementById('durasi-mingguan');
+  var boxBulanan = d.getElementById('durasi-bulanan');
+  var sliderHari = d.getElementById('sim-hari-custom');
+  var sliderHariNilai = d.getElementById('sim-hari-custom-nilai');
+
   function periode() { var r = d.querySelector('input[name="periode"]:checked'); return r ? parseInt(r.value, 10) : 1; }
+  function hariHarian() { return sliderHari ? parseInt(sliderHari.value, 10) : 7; }
+  function hariMingguan() { var r = d.querySelector('input[name="durasi_minggu"]:checked'); return r ? parseInt(r.value, 10) : 7; }
 
   function aturRentang() {
     var p = produkAktif(), maks = Math.floor(p.ltvMaxBp / 500) * 500;
@@ -128,7 +138,15 @@
     nota.classList.remove('memuat'); pesan.textContent = '';
     tulis('n-produk', h.produk); tulis('n-taksiran', fmt(h.taksiran));
     tulis('n-ltv', (h.ltv_bp / 100).toLocaleString('id-ID') + '%');
-    tulis('n-pokok', fmt(h.pokok)); tulis('n-hari', h.hari_total + ' hari');
+    tulis('n-pokok', fmt(h.pokok));
+    
+    var ketHari = h.hari_total + ' hari';
+    if (satuanAktif === 'mingguan') {
+      ketHari = h.hari_total + ' hari (' + Math.round(h.hari_total / 7) + ' minggu)';
+    } else if (satuanAktif === 'harian' && h.hari_total === 7) {
+      ketHari = '7 hari (1 pekan)';
+    }
+    tulis('n-hari', ketHari);
     tulis('n-sewa', fmt(h.sewa_modal_total)); tulis('n-admin', fmt(h.administrasi_total));
     tulis('n-total', fmt(h.total_tebus));
     var tgl = new Date(h.jatuh_tempo + 'T00:00:00');
@@ -150,7 +168,14 @@
     if (!tak) { pesan.textContent = 'Isi perkiraan taksiran barang Anda.'; return; }
     pembatal = 'AbortController' in window ? new AbortController() : null;
     nota.classList.add('memuat');
-    var q = new URLSearchParams({ produk: p.id, taksiran: tak, ltv_bp: ltv.value, periode: periode() });
+    var q = new URLSearchParams({ produk: p.id, taksiran: tak, ltv_bp: ltv.value });
+    if (satuanAktif === 'harian') {
+      q.set('hari', hariHarian());
+    } else if (satuanAktif === 'mingguan') {
+      q.set('hari', hariMingguan());
+    } else {
+      q.set('periode', periode());
+    }
     fetch(el('sim-form').dataset.url + '?' + q.toString(), { headers: { Accept: 'application/json' }, signal: pembatal ? pembatal.signal : undefined })
       .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (x) {
@@ -162,6 +187,52 @@
       .catch(function (e) { if (e.name !== 'AbortError') { nota.classList.remove('memuat'); pesan.textContent = 'Simulasi belum dapat dimuat. Coba lagi sebentar.'; } });
   }
   function jadwalkan() { clearTimeout(tunda); tunda = setTimeout(hitung, 220); }
+
+  /* Tab pergantian satuan: harian / mingguan / bulanan */
+  if (tabsSatuan.length) {
+    tabsSatuan.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        tabsSatuan.forEach(function (b) { b.classList.remove('aktif'); b.setAttribute('aria-selected', 'false'); });
+        btn.classList.add('aktif');
+        btn.setAttribute('aria-selected', 'true');
+        satuanAktif = btn.dataset.satuan;
+
+        if (boxHarian) boxHarian.hidden = satuanAktif !== 'harian';
+        if (boxMingguan) boxMingguan.hidden = satuanAktif !== 'mingguan';
+        if (boxBulanan) boxBulanan.hidden = satuanAktif !== 'bulanan';
+
+        jadwalkan();
+      });
+    });
+  }
+
+  /* Slider & radio durasi harian */
+  if (sliderHari) {
+    sliderHari.addEventListener('input', function () {
+      var val = sliderHari.value;
+      if (sliderHariNilai) sliderHariNilai.textContent = val + ' hari';
+      var rad = d.querySelector('input[name="durasi_hari"][value="' + val + '"]');
+      if (rad) {
+        rad.checked = true;
+      } else {
+        d.querySelectorAll('input[name="durasi_hari"]').forEach(function (r) { r.checked = false; });
+      }
+      jadwalkan();
+    });
+  }
+  d.querySelectorAll('input[name="durasi_hari"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      if (sliderHari) {
+        sliderHari.value = r.value;
+        if (sliderHariNilai) sliderHariNilai.textContent = r.value + ' hari';
+      }
+      jadwalkan();
+    });
+  });
+
+  /* Radio durasi mingguan & bulanan */
+  d.querySelectorAll('input[name="durasi_minggu"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
+  d.querySelectorAll('input[name="periode"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
 
   pilih.addEventListener('change', function () { aturRentang(); jadwalkan(); });
   taksir.addEventListener('input', function () {
@@ -179,6 +250,14 @@
       if (p) { pilih.value = String(p.id); aturRentang(); jadwalkan(); }
     });
   });
+
+  /* dukung parameter URL misal ?produk=gadai-laptop atau ?produk=2 */
+  var urlParams = new URLSearchParams(window.location.search);
+  var paramProduk = urlParams.get('produk');
+  if (paramProduk) {
+    var cocok = produk.filter(function (x) { return x.slug === paramProduk || String(x.id) === paramProduk; })[0];
+    if (cocok) { pilih.value = String(cocok.id); }
+  }
 
   aturRentang();
   taksir.value = rupiah.format(3000000);
