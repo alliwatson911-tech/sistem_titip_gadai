@@ -1,3 +1,8 @@
+@php
+    $pusatModel = isset($pusat) ? $pusat : null;
+    $cabangList = isset($cabang) ? $cabang->except('PUSAT')->filter(fn ($c) => $c->alamat || $c->telepon) : collect();
+    $tagline = (isset($konten) && isset($konten['tagline'])) ? $konten['tagline'] : 'Titip hari ini, tenang sampai tebus.';
+@endphp
 <footer class="kaki-modern">
     <div class="wrap">
         <div class="kaki-grid">
@@ -10,9 +15,9 @@
                         <span class="merek-sub" style="color: var(--kuningan);">Titip Gadai Elektronik</span>
                     </div>
                 </a>
-                <p style="margin:.85rem 0 .6rem; font-size: .95rem; line-height: 1.6; opacity: .85;">{{ $konten['tagline'] ?? 'Titip hari ini, tenang sampai tebus.' }}</p>
-                @if ($pusat?->jam_buka)
-                    <p style="font-size: .88rem; color: var(--kuningan); font-family: var(--f-mono); margin: 0;">Jam Layanan: {{ $pusat->jam_buka }}</p>
+                <p style="margin:.85rem 0 .6rem; font-size: .95rem; line-height: 1.6; opacity: .85;">{{ $tagline }}</p>
+                @if ($pusatModel?->jam_buka)
+                    <p style="font-size: .88rem; color: var(--kuningan); font-family: var(--f-mono); margin: 0;">Jam Layanan: {{ $pusatModel->jam_buka }}</p>
                 @endif
             </div>
 
@@ -34,9 +39,6 @@
             <div class="kaki-kolom">
                 <h4>Cabang & Kontak</h4>
                 <ul>
-                    @php
-                        $cabangList = $cabang->except('PUSAT')->filter(fn ($c) => $c->alamat || $c->telepon);
-                    @endphp
                     @foreach ($cabangList as $c)
                         <li style="font-size: .92rem; line-height: 1.4; opacity: .85;">
                             <strong style="color: #fff;">{{ $c->nama }}</strong><br>
@@ -44,8 +46,8 @@
                             @if ($c->telepon)<br><span style="font-family: var(--f-mono); font-size: .85rem; color: var(--kuningan);">Telp: {{ $c->telepon }}</span>@endif
                         </li>
                     @endforeach
-                    @if ($pusat?->email)
-                        <li><a href="mailto:{{ $pusat->email }}">Email: {{ $pusat->email }}</a></li>
+                    @if ($pusatModel?->email)
+                        <li><a href="mailto:{{ $pusatModel->email }}">Email: {{ $pusatModel->email }}</a></li>
                     @endif
                 </ul>
             </div>
@@ -57,7 +59,7 @@
                     @auth
                         <li><a href="{{ route('panel') }}">Panel Saya</a></li>
                         <li>
-                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                            <form action="{{ route('keluar') }}" method="POST" style="display:inline;">
                                 @csrf
                                 <button type="submit" style="background:none; border:none; padding:0; color:inherit; font:inherit; cursor:pointer; opacity:.85;">Keluar</button>
                             </form>

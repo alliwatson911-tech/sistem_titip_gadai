@@ -1,16 +1,23 @@
 @php
-    $rawHp = $pusat?->telepon ?? '08114400223';
-    $cleanHp = preg_replace('/[^0-9]/', '', $rawHp);
-    if (str_starts_with($cleanHp, '0')) {
-        $waNumber = '62' . substr($cleanHp, 1);
-    } elseif (str_starts_with($cleanHp, '62')) {
-        $waNumber = $cleanHp;
-    } else {
-        $waNumber = '628114400223';
+    $pusatModel = isset($pusat) ? $pusat : null;
+    $rawHp = $pusatModel ? ($pusatModel->whatsapp ?: $pusatModel->telepon) : null;
+    $waNumber = null;
+    if ($rawHp) {
+        $cleanHp = preg_replace('/[^0-9]/', '', (string) $rawHp);
+        if ($cleanHp !== '') {
+            if (str_starts_with($cleanHp, '0')) {
+                $waNumber = '62' . substr($cleanHp, 1);
+            } elseif (str_starts_with($cleanHp, '62')) {
+                $waNumber = $cleanHp;
+            } else {
+                $waNumber = '62' . $cleanHp;
+            }
+        }
     }
     $waText = rawurlencode('Halo linygadai, saya ingin konsultasi atau tanya syarat titip gadai elektronik.');
 @endphp
 
+@if ($waNumber)
 <!-- Tombol WhatsApp Melayang -->
 <a href="https://wa.me/{{ $waNumber }}?text={{ $waText }}"
    target="_blank"
@@ -22,6 +29,7 @@
     </svg>
     <span>Konsultasi CS</span>
 </a>
+@endif
 
 <!-- Tombol Kembali ke Atas (Back to Top) -->
 <button type="button" class="back-to-top" id="back-to-top" aria-label="Kembali ke atas halaman">
