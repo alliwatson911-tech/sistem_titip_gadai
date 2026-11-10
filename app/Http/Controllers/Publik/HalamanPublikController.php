@@ -16,9 +16,14 @@ class HalamanPublikController extends Controller
     /** Ambil data umum yang dipakai di seluruh layout publik (header, footer, kontak WA, dll.) */
     private function dataUmum(): array
     {
+        Situs::pastikanDataAwal();
+
         $konten = Situs::konten();
         $kebijakan = Situs::kebijakan();
         $produk = Product::where('is_active', true)->whereNull('branch_id')->orderBy('urutan')->get();
+        if ($produk->isEmpty() && ! app()->runningUnitTests()) {
+            $produk = BerandaController::defaultProduk();
+        }
 
         $token = [
             'tenor' => $produk->first()?->tenor_hari ?? 30,
@@ -29,6 +34,9 @@ class HalamanPublikController extends Controller
         $isi = fn (?string $t) => Situs::isi($t, $token);
 
         $cabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
+        if ($cabang->isEmpty() && ! app()->runningUnitTests()) {
+            $cabang = BerandaController::defaultCabang();
+        }
 
         return [
             'konten' => $konten,

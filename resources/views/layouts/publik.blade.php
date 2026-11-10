@@ -29,7 +29,6 @@
 </head>
 <body @if ($errors->any()) data-ke="akun" @endif>
     <a class="lompat" href="#isi">Lewati ke isi halaman</a>
-    @include('partials.banner-uji')
     @yield('badan')
     @include('publik.partials.floating-cta')
     <script src="{{ asset('js/situs.js') }}?v={{ filemtime(public_path('js/situs.js')) }}" defer></script>

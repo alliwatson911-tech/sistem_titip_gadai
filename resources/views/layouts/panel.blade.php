@@ -18,7 +18,6 @@
     $lokasi = $u->branch?->nama ?? ($u->role === \App\Enums\Role::Owner ? 'Semua cabang' : 'linygadai');
 @endphp
 <a class="lompat" href="#isi">Lewati ke isi halaman</a>
-@include('partials.banner-uji')
 <div class="p-kerangka">
     <aside class="p-samping">
         <a class="p-merek" href="{{ route('panel') }}">

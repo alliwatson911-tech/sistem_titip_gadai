@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Console\Commands\CadangkanSistem;
 use App\Enums\Role;
 use App\Models\Application;
 use App\Models\User;
@@ -405,9 +406,9 @@ class FiturLanjutanTest extends PanelTestCase
 
     public function test_cadangan_membuat_zip_berisi_dump(): void
     {
-        $cari = new \ReflectionMethod(\App\Console\Commands\CadangkanSistem::class, 'cariMysqldump');
+        $cari = new \ReflectionMethod(CadangkanSistem::class, 'cariMysqldump');
         $cari->setAccessible(true);
-        if (! $cari->invoke(new \App\Console\Commands\CadangkanSistem)) {
+        if (! $cari->invoke(new CadangkanSistem)) {
             $this->markTestSkipped('mysqldump tidak tersedia di mesin ini');
         }
 
@@ -440,9 +441,9 @@ class FiturLanjutanTest extends PanelTestCase
                 file_put_contents($f, 'x');
                 touch($f, now()->subDays(40)->timestamp + $i);
             }
-            $m = new \ReflectionMethod(\App\Console\Commands\CadangkanSistem::class, 'bersihkan');
+            $m = new \ReflectionMethod(CadangkanSistem::class, 'bersihkan');
             $m->setAccessible(true);
-            $m->invoke(new \App\Console\Commands\CadangkanSistem, $dir, 14);
+            $m->invoke(new CadangkanSistem, $dir, 14);
             $this->assertCount(3, glob("$dir/linygadai-*.zip"));
         } finally {
             File::deleteDirectory($dir);
@@ -457,12 +458,10 @@ class FiturLanjutanTest extends PanelTestCase
             ->expectsOutputToContain('Mode uji coba');
     }
 
-    public function test_banner_uji_coba_tampil_hanya_saat_mode_uji(): void
+    public function test_banner_uji_coba_tidak_tampil_di_situs_siap_deploy(): void
     {
-        config(['linygadai.mode_uji' => true]);
-        $this->get('/')->assertOk()->assertSee('VERSI UJI COBA', false)->assertSee('fiktif', false);
-
-        config(['linygadai.mode_uji' => false]);
-        $this->get('/')->assertOk()->assertDontSee('VERSI UJI COBA', false);
+        $this->get('/')->assertOk()
+            ->assertDontSee('VERSI UJI COBA', false)
+            ->assertDontSee('fiktif', false);
     }
 }
