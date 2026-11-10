@@ -17,6 +17,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         if (Branch::count() === 0) {
             (new BranchSeeder)->run();
         }
