@@ -4,6 +4,7 @@
     $jumlahCabang = $cabang->except('PUSAT')->count();
 @endphp
 <section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
+    @include('publik.partials.hero-background')
     <div class="wrap">
         <div>
             <div class="eyebrow-pill">
@@ -35,45 +36,55 @@
             </div>
         </div>
 
-        <div class="hero-showcase">
-            <div class="hero-dot-matrix top-dots" aria-hidden="true"></div>
-
-            <div class="hero-visual-card">
-                <img src="{{ asset('images/hero-gadai.jpg') }}" 
-                     alt="Layanan Titip Gadai Elektronik Resmi Makassar - Smartphone dan Laptop" 
-                     class="hero-img-utama" 
-                     loading="eager" 
-                     width="640" 
-                     height="480">
-
-                <div class="hero-floating-badge badge-cair">
-                    <div class="floating-badge-icon icon-cair">
-                        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="floating-badge-text">
-                        <b>15 Menit Cair</b>
-                        <span>Pencairan cepat langsung</span>
-                    </div>
+        <div class="hero-offset-frame">
+            {{-- Kartu Mengambang Atas (Brankas Bersegel) --}}
+            <div class="hero-float-badge hero-float-badge--top" aria-hidden="true">
+                <span class="hero-badge-icon hero-badge-icon--lumut">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 2L3 5v5c0 4.5 3 8 7 9 4-1 7-4.5 7-9V5l-7-3z"/>
+                        <path d="M7 10l2 2 4-4"/>
+                    </svg>
+                </span>
+                <div class="hero-badge-text">
+                    <strong>Brankas Bersegel</strong>
+                    <small>Aman &amp; Terlindungi</small>
                 </div>
+            </div>
 
-                <div class="hero-floating-badge badge-brankas">
-                    <div class="floating-badge-icon icon-brankas">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        </svg>
-                    </div>
-                    <div class="floating-badge-text">
-                        <b>Brankas Bersegel</b>
-                        <span>Penyimpanan aman khusus</span>
-                    </div>
+            <svg class="label-barang" viewBox="0 0 320 430" role="img" aria-label="Ilustrasi label barang bernomor segel dengan keterangan jatuh tempo {{ $token['tenor'] }} hari">
+                <path d="M160 -4 C160 34 118 40 126 74" fill="none" stroke="#1B2A2F" stroke-width="2.5"/>
+                <path class="kertas-tag" d="M92 62h136l34 34v296a12 12 0 0 1-12 12H70a12 12 0 0 1-12-12V96z"/>
+                <circle cx="160" cy="92" r="10" fill="#F4EFE6" stroke="#1B2A2F" stroke-width="2.5"/>
+                <text x="82" y="152" font-family="IBM Plex Mono, monospace" font-size="13" letter-spacing="2.4">NOTA GADAI</text>
+                <text x="82" y="174" font-family="IBM Plex Mono, monospace" font-size="12" opacity=".7">No. LG-0000 (resmi)</text>
+                <path d="M82 190h156" stroke="#1B2A2F" stroke-width="1.5" stroke-dasharray="4 5"/>
+                <text x="82" y="272" font-family="Fraunces, Georgia, serif" font-size="92" font-weight="600" letter-spacing="-3">{{ $token['tenor'] }}</text>
+                <text x="86" y="300" font-family="IBM Plex Mono, monospace" font-size="14" letter-spacing="2">HARI · JATUH TEMPO</text>
+                <path d="M82 322h156" stroke="#1B2A2F" stroke-width="1.5" stroke-dasharray="4 5"/>
+                <text x="82" y="352" font-family="IBM Plex Mono, monospace" font-size="12">Segel Brankas No. ___</text>
+                <text x="82" y="376" font-family="IBM Plex Mono, monospace" font-size="11" opacity=".7">Perpanjang / Cicil / Tebus</text>
+                <g transform="rotate(-12 212 244)">
+                    <circle cx="212" cy="244" r="30" fill="#B8862B" stroke="#1B2A2F" stroke-width="2.5"/>
+                    <circle cx="212" cy="244" r="24" fill="none" stroke="#1B2A2F" stroke-width="1.5" stroke-dasharray="3 4"/>
+                    <path d="M205 233v22h16" fill="none" stroke="#1B2A2F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+            </svg>
+
+            {{-- Kartu Mengambang Bawah (Cair 15 Menit) --}}
+            <div class="hero-float-badge hero-float-badge--bottom" aria-hidden="true">
+                <span class="hero-badge-icon hero-badge-icon--kuningan">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="10" cy="10" r="7"/>
+                        <path d="M10 6v4l2.5 2.5"/>
+                    </svg>
+                </span>
+                <div class="hero-badge-text">
+                    <strong>Cair 15 Menit</strong>
+                    <small>Biaya Jelas di Muka</small>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="hero-bg-accent" aria-hidden="true"></div>
 
     <div class="wrap hero-bawah">
         <div class="hero-stats" data-muncul>
