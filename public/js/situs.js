@@ -20,6 +20,20 @@
     d.addEventListener('keydown', function (e) { if (e.key === 'Escape') { menu.classList.remove('buka'); tmb.setAttribute('aria-expanded', 'false'); } });
   }
 
+  /* ---- efek header saat digulir ---- */
+  var kepala = d.querySelector('.kepala');
+  if (kepala) {
+    var aturKepala = function () {
+      if (window.scrollY > 8) {
+        kepala.classList.add('tergulir');
+      } else {
+        kepala.classList.remove('tergulir');
+      }
+    };
+    window.addEventListener('scroll', aturKepala, { passive: true });
+    aturKepala();
+  }
+
   /* ---- penanda bagian aktif di menu ---- */
   var tautan = {};
   d.querySelectorAll('#menu a[href^="#"]').forEach(function (a) { tautan[a.getAttribute('href').slice(1)] = a; });

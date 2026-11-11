@@ -40,8 +40,6 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--tinggi-kepala) + 12px);
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
-  max-width: 100%;
 }
 body {
   margin: 0;
@@ -49,8 +47,7 @@ body {
   color: var(--tinta);
   font: 400 1.0625rem/1.6 var(--f-isi);
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: clip;
   position: relative;
 }
 .ikon { width: 1.15rem; height: 1.15rem; flex: none; display: inline-block; vertical-align: middle; }
@@ -80,7 +77,8 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .btn--bulat { border-radius: 9999px; }
 
 /* ---------- kepala (navbar) ---------- */
-.kepala { position: sticky; top: 0; z-index: 100; background: rgba(248, 245, 240, .96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--garis); box-shadow: 0 2px 12px rgba(15, 76, 58, .05); transition: background-color .2s; }
+.kepala { position: -webkit-sticky; position: sticky; top: 0; z-index: 1000; background: rgba(248, 245, 240, .96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--garis); box-shadow: 0 2px 12px rgba(15, 76, 58, .05); transition: background-color .2s, box-shadow .2s; }
+.kepala.tergulir { box-shadow: 0 4px 20px rgba(15, 76, 58, .12); background: rgba(248, 245, 240, .98); }
 .kepala .wrap { display: flex; align-items: center; justify-content: space-between; height: var(--tinggi-kepala); gap: 1.5rem; }
 .merek { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--tinta); flex-shrink: 0; }
 .merek svg { width: 34px; height: 34px; flex-shrink: 0; }
