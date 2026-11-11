@@ -3,7 +3,7 @@
     $judulHero = preg_replace('/\b(tenang)\b/iu', '<em>$1</em>', e($tagline));
     $jumlahCabang = $cabang->except('PUSAT')->count();
 @endphp
-<section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
+<section class="hero hero--berlatar" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
     @include('publik.partials.hero-background')
     <div class="wrap">
         <div>
@@ -37,20 +37,6 @@
         </div>
 
         <div class="hero-offset-frame">
-            {{-- Kartu Mengambang Atas (Brankas Bersegel) --}}
-            <div class="hero-float-badge hero-float-badge--top" aria-hidden="true">
-                <span class="hero-badge-icon hero-badge-icon--lumut">
-                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M10 2L3 5v5c0 4.5 3 8 7 9 4-1 7-4.5 7-9V5l-7-3z"/>
-                        <path d="M7 10l2 2 4-4"/>
-                    </svg>
-                </span>
-                <div class="hero-badge-text">
-                    <strong>Brankas Bersegel</strong>
-                    <small>Aman &amp; Terlindungi</small>
-                </div>
-            </div>
-
             <svg class="label-barang" viewBox="0 0 320 430" role="img" aria-label="Ilustrasi label barang bernomor segel dengan keterangan jatuh tempo {{ $token['tenor'] }} hari">
                 <path d="M160 -4 C160 34 118 40 126 74" fill="none" stroke="#1B2A2F" stroke-width="2.5"/>
                 <path class="kertas-tag" d="M92 62h136l34 34v296a12 12 0 0 1-12 12H70a12 12 0 0 1-12-12V96z"/>
@@ -69,20 +55,6 @@
                     <path d="M205 233v22h16" fill="none" stroke="#1B2A2F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
                 </g>
             </svg>
-
-            {{-- Kartu Mengambang Bawah (Cair 15 Menit) --}}
-            <div class="hero-float-badge hero-float-badge--bottom" aria-hidden="true">
-                <span class="hero-badge-icon hero-badge-icon--kuningan">
-                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="10" cy="10" r="7"/>
-                        <path d="M10 6v4l2.5 2.5"/>
-                    </svg>
-                </span>
-                <div class="hero-badge-text">
-                    <strong>Cair 15 Menit</strong>
-                    <small>Biaya Jelas di Muka</small>
-                </div>
-            </div>
         </div>
     </div>
 
