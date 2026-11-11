@@ -370,10 +370,6 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .hero-perks li { display: flex; align-items: center; gap: .7rem; font-size: 1.02rem; font-weight: 500; color: var(--tinta); }
 .hero-perks svg { width: 20px; height: 20px; color: var(--lumut); flex-shrink: 0; }
 .hero-offset-frame { position: relative; width: 100%; max-width: 420px; margin-inline: auto; }
-.hero-offset-frame::before { content: ""; position: absolute; inset: -8px -8px 8px 8px; border: 2px dashed rgba(184, 134, 43, .45); border-radius: var(--radius-md); z-index: 0; pointer-events: none; }
-@media (max-width: 48rem) {
-  .hero-offset-frame::before { inset: -4px 0 4px 0; }
-}
 .hero-preview-card { position: relative; z-index: 1; background: var(--putih); border: 2px solid var(--tinta); border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 1.2rem; }
 .hero-preview-badge { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--garis); padding-bottom: .85rem; font: 600 .78rem/1 var(--f-mono); text-transform: uppercase; color: var(--kuningan-tua); }
 .hero-stats { margin-top: clamp(2.5rem, 6vw, 4rem); display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; border-top: 2px solid var(--tinta); padding-top: 2rem; }
