@@ -3,7 +3,7 @@
 @section('deskripsi', 'Masukkan kode verifikasi untuk melanjutkan masuk.')
 @section('robots', 'noindex,nofollow')
 @section('badan')
-    <header class="kepala"><div class="wrap"><a class="merek" href="{{ route('beranda') }}"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#B8862B" stroke="#1B2A2F" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#1B2A2F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>linygadai</a></div></header>
+    <header class="kepala"><div class="wrap"><a class="merek" href="{{ route('beranda') }}"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#D4AF37" stroke="#0F4C3A" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#0F4C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>linygadai</a></div></header>
     <main id="isi" class="bagian"><div class="wrap" style="max-width:34rem">
         <p class="nomor">Keamanan</p>
         <h1 style="font-size:2.2rem;margin:1rem 0">Verifikasi dua langkah</h1>

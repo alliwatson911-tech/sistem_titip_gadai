@@ -7,7 +7,7 @@
     <meta name="description" content="@yield('deskripsi')">
     <meta name="robots" content="@yield('robots', 'index,follow')">
     <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="theme-color" content="#1B2A2F">
+    <meta name="theme-color" content="#0F4C3A">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">

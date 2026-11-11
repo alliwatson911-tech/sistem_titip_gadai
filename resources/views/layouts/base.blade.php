@@ -7,7 +7,7 @@
     <meta name="robots" content="@yield('robots', 'noindex')">
     {{-- Gaya sementara Tahap 1. Sistem desain penuh (font, komponen) dibangun di Tahap 2. --}}
     <style>
-        :root { --tinta:#1B2A2F; --kertas:#F4EFE6; --kuningan:#B8862B; --lumut:#3E5C4A; --terakota:#B5472E; --garis:#d8cfbf; }
+        :root { --tinta:#0F4C3A; --kertas:#F8F5F0; --kuningan:#D4AF37; --lumut:#1B4332; --terakota:#B5472E; --garis:rgba(15, 76, 58, .16); }
         * { box-sizing: border-box; }
         body { margin:0; background:var(--kertas); color:var(--tinta); font:16px/1.55 system-ui, "Segoe UI", sans-serif; }
         a { color:var(--tinta); }

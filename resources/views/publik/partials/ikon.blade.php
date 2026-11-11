@@ -24,16 +24,16 @@
         @case('sertifikat-rumah')
             <!-- Rumah & Sertifikat Bersegel -->
             <path d="M6 22L20 9l10 9v18H6zM15 36V26h8v10"/>
-            <rect x="24" y="8" width="18" height="26" rx="2" fill="var(--kertas, #F4EFE6)"/>
+            <rect x="24" y="8" width="18" height="26" rx="2" fill="var(--kertas, #F8F5F0)"/>
             <path d="M28 14h10M28 18h10M28 22h6"/>
-            <circle cx="33" cy="28" r="3" fill="var(--kuningan, #B8862B)"/>
+            <circle cx="33" cy="28" r="3" fill="var(--kuningan, #D4AF37)"/>
             @break
         @case('sertifikat-tanah')
             <!-- Kavling Tanah & Sertifikat SHM -->
             <path d="M6 34l12-8 14 6 10-6v8l-10 6-14-6-12 8z"/>
-            <rect x="14" y="6" width="20" height="26" rx="2" fill="var(--kertas, #F4EFE6)"/>
+            <rect x="14" y="6" width="20" height="26" rx="2" fill="var(--kertas, #F8F5F0)"/>
             <path d="M18 12h12M18 16h12M18 20h8"/>
-            <circle cx="24" cy="26" r="3" fill="var(--kuningan, #B8862B)"/>
+            <circle cx="24" cy="26" r="3" fill="var(--kuningan, #D4AF37)"/>
             @break
         @case('lainnya')
             <!-- Logam Mulia / Emas Batangan & Surat Berharga -->

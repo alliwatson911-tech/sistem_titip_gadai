@@ -55,9 +55,9 @@
                                 <span class="chip">Tenor {{ $p->tenor_hari }} hari</span>
                                 <span class="chip">Sewa {{ rtrim(rtrim(number_format($p->sewa_modal_per_hari_bp / 100, 2, ',', ''), '0'), ',') }}%/hari</span>
                                 @if(str_contains(strtolower($p->kategori_barang), 'bpkb'))
-                                    <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(62,92,74,.3);">Unit Tetap Dipakai</span>
+                                    <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(15, 76, 58, .25);">Unit Tetap Dipakai</span>
                                 @elseif(str_contains(strtolower($p->kategori_barang), 'sertifikat'))
-                                    <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(62,92,74,.3);">Properti Dihuni</span>
+                                    <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(15, 76, 58, .25);">Properti Dihuni</span>
                                 @else
                                     <span class="chip">Brankas Segel</span>
                                 @endif

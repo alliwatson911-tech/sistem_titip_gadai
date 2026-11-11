@@ -21,7 +21,7 @@
 <div class="p-kerangka">
     <aside class="p-samping">
         <a class="p-merek" href="{{ route('panel') }}">
-            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#B8862B" stroke="#F4EFE6" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#1B2A2F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#D4AF37" stroke="#F8F5F0" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#0F4C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span><b>linygadai</b><small>Sistem operasional</small></span>
         </a>
         <div class="p-peran" aria-label="Peran dan lokasi">
