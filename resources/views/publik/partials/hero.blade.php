@@ -3,7 +3,7 @@
     $judulHero = preg_replace('/\b(tenang)\b/iu', '<em>$1</em>', e($tagline));
     $jumlahCabang = $cabang->except('PUSAT')->count();
 @endphp
-<section class="hero hero--berlatar" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
+<section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
     @include('publik.partials.hero-background')
     <div class="wrap">
         <div>

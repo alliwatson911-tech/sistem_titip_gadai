@@ -116,10 +116,21 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .pengantar { max-width: 56ch; font-size: 1.12rem; }
 
 /* ---------- hero ---------- */
-.hero { padding-top: clamp(3.5rem, 7vw, 5.5rem); padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
-.hero .wrap { display: grid; gap: 2.5rem; align-items: center; }
-@media (min-width: 56rem) { .hero .wrap { grid-template-columns: 7fr 5fr; gap: 3.5rem; } }
-.hero .wrap.hero-bawah { display: block; }
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+.hero > .wrap {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 56rem) { .hero > .wrap { grid-template-columns: 7fr 5fr; gap: 3.5rem; } }
+.hero > .wrap.hero-bawah { display: block; }
 .kicker { font: 500 .82rem/1.2 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--kuningan-tua); margin-bottom: 1.2rem; }
 .hero h1 { font-size: clamp(2.7rem, 7.4vw, 5.6rem); line-height: .96; letter-spacing: -.03em; margin-bottom: 1.5rem; }
 .hero h1 em { font-style: normal; background: linear-gradient(transparent 68%, var(--kuningan) 68%, var(--kuningan) 90%, transparent 90%); }
@@ -372,235 +383,250 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .hero-offset-frame { position: relative; width: 100%; max-width: 420px; margin-inline: auto; }
 .hero-preview-card { position: relative; z-index: 1; background: var(--putih); border: 2px solid var(--tinta); border-radius: var(--radius-md); padding: 1.75rem; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 1.2rem; }
 .hero-preview-badge { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--garis); padding-bottom: .85rem; font: 600 .78rem/1 var(--f-mono); text-transform: uppercase; color: var(--kuningan-tua); }
-.hero-stats { margin-top: clamp(2.5rem, 6vw, 4rem); display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; border-top: 2px solid var(--tinta); padding-top: 2rem; }
+.hero-stats {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  background: rgba(255, 252, 245, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--garis);
+  border-top: 3px solid var(--kuningan);
+  border-radius: var(--radius-md);
+  padding: 1.6rem 2rem;
+  box-shadow: 0 4px 18px rgba(27, 42, 47, 0.06);
+}
 @media (min-width: 52rem) { .hero-stats { grid-template-columns: repeat(4, 1fr); gap: 2rem; } .stat-item + .stat-item { border-left: 1px solid var(--garis); padding-left: 1.5rem; } }
 .stat-item b { display: block; font: 700 clamp(2rem, 3.8vw, 2.8rem)/1 var(--f-judul); color: var(--tinta); }
 .stat-item span { font: 500 .82rem/1.4 var(--f-mono); color: var(--tinta-2); text-transform: uppercase; letter-spacing: .04em; margin-top: .4rem; display: block; }
 
-/* ---------- hero background layer (full-width) ---------- */
-.hero--berlatar {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(180deg, #FDFBF7 0%, var(--kertas) 65%, #EDE4D3 100%);
-}
-
-.hero-bg-layer {
+/* ---------- hero background visual layer (full-width) ---------- */
+.hero-bg-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
 }
 
-.hero-bg-svg {
+.hero-bg-gradient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(125deg, #FAF6EE 0%, #F4EFE6 45%, #EBE2D0 100%);
+}
+
+.hero-bg-shapes {
   position: absolute;
   top: 0;
   right: 0;
-  width: 100%;
+  width: 65%;
   height: 100%;
-  object-fit: cover;
-  object-position: right top;
-  z-index: 0;
+  overflow: hidden;
   pointer-events: none;
+  z-index: 1;
 }
 
-.hero-bg-emblems {
+.hero-bg-decor-wrap {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: min(100% - 2 * var(--gutter), 78rem);
-  height: 100%;
-  margin-inline: auto;
   pointer-events: none;
-  z-index: 1;
-}
-
-/* Memastikan konten hero lama tetap di atas dan dapat berinteraksi */
-.hero--berlatar .wrap {
-  position: relative;
   z-index: 2;
 }
 
-/* Emblem Vektor Titip Gadai (Emas & Elektronik) */
-.hero-emblem {
+/* Floating Badges & Emblems */
+.hero-floating-badge {
   position: absolute;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  gap: .35rem;
-  z-index: 1;
-  pointer-events: auto;
-  transition: transform .35s ease, filter .35s ease;
-}
-
-.hero-emblem--emas {
-  top: 6rem;
-  right: .5rem;
-}
-
-.hero-emblem--elektronik {
-  top: 44.5rem;
-  right: 2rem;
-}
-
-.hero-emblem:hover {
-  transform: translateY(-4px) scale(1.02);
-}
-
-.emblem-svg {
-  width: clamp(85px, 8.5vw, 120px);
-  height: auto;
-  display: block;
-}
-
-.emblem-label {
-  font: 600 .68rem/1 var(--f-mono);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--kuningan-tua);
-  background: rgba(255, 252, 245, 0.94);
-  border: 1px solid rgba(184, 134, 43, 0.35);
-  padding: .3rem .65rem;
-  border-radius: 9999px;
-  box-shadow: 0 2px 8px rgba(27, 42, 47, 0.06);
-  white-space: nowrap;
-}
-
-/* Kartu Info Mengambang Mikro (Floating Badges) */
-.hero-float-card {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: .65rem;
+  gap: .7rem;
   background: rgba(255, 252, 245, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(184, 134, 43, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(184, 134, 43, 0.35);
   border-radius: var(--radius-md);
-  padding: .55rem .9rem;
-  box-shadow: 0 8px 24px rgba(27, 42, 47, 0.08), 0 2px 6px rgba(184, 134, 43, 0.05);
-  z-index: 2;
+  padding: .55rem .95rem;
+  box-shadow: 0 8px 24px rgba(27, 42, 47, 0.12), 0 2px 6px rgba(27, 42, 47, 0.06);
   pointer-events: auto;
+  user-select: none;
   transition: transform .25s ease, box-shadow .25s ease;
+  z-index: 3;
 }
-
-.hero-float-card--atas {
-  top: 1.5rem;
-  right: 0;
-  animation: hero-melayang-atas 6s ease-in-out infinite alternate;
+.hero-floating-badge:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(27, 42, 47, 0.18);
 }
-
-.hero-float-card--bawah {
-  top: 46.5rem;
-  right: 13rem;
-  animation: hero-melayang-bawah 7s ease-in-out infinite alternate;
-}
-
-.hero-float-card:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 28px rgba(27, 42, 47, 0.12);
-  border-color: var(--kuningan);
-}
-
-.float-card-icon {
-  width: 30px;
-  height: 30px;
+.hero-floating-badge .badge-icon-wrap {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
-
-.float-card-icon--hijau {
+.hero-floating-badge .icon-hijau {
   background: var(--lumut-muda);
   color: var(--lumut);
-  border: 1px solid rgba(62, 92, 74, 0.25);
 }
-
-.float-card-icon--emas {
+.hero-floating-badge .icon-kuningan {
   background: var(--kuningan-muda);
   color: var(--kuningan-tua);
-  border: 1px solid rgba(184, 134, 43, 0.35);
+}
+.hero-floating-badge .badge-icon-wrap svg {
+  width: 18px;
+  height: 18px;
+}
+.hero-floating-badge .badge-text-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.hero-floating-badge .badge-text-wrap b {
+  font: 700 .84rem/1.2 var(--f-isi);
+  color: var(--tinta);
+}
+.hero-floating-badge .badge-text-wrap span {
+  font: 500 .72rem/1.2 var(--f-mono);
+  color: var(--tinta-2);
 }
 
-.float-card-content {
+/* Floating Emblems (Emas & Gadget) */
+.hero-floating-emblem {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+  background: rgba(255, 252, 245, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(184, 134, 43, 0.4);
+  border-radius: var(--radius-md);
+  padding: .5rem .85rem .5rem .5rem;
+  box-shadow: 0 10px 26px rgba(27, 42, 47, 0.14);
+  pointer-events: auto;
+  user-select: none;
+  transition: transform .25s ease;
+  z-index: 3;
+}
+.hero-floating-emblem:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--kuningan);
+}
+.hero-floating-emblem .emblem-svg {
+  width: 48px;
+  height: 44px;
+  flex-shrink: 0;
+  display: block;
+}
+.hero-floating-emblem .emblem-label {
   display: flex;
   flex-direction: column;
   line-height: 1.25;
 }
-
-.float-card-title {
-  font-family: var(--f-isi);
-  font-weight: 700;
-  font-size: .82rem;
+.hero-floating-emblem .emblem-label b {
+  font: 700 .85rem/1.2 var(--f-isi);
   color: var(--tinta);
-  white-space: nowrap;
+}
+.hero-floating-emblem .emblem-label span {
+  font: 500 .7rem/1.2 var(--f-mono);
+  color: var(--kuningan-tua);
+  letter-spacing: .02em;
 }
 
-.float-card-sub {
-  font-family: var(--f-mono);
-  font-size: .7rem;
-  color: var(--tinta-2);
-  opacity: .85;
-  white-space: nowrap;
-}
-
-/* Animasi Melayang Halus */
-@keyframes hero-melayang-atas {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
-}
-
-@keyframes hero-melayang-bawah {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(8px); }
-}
-
-/* Penyesuaian Pita Statistik di bawah hero */
-.hero--berlatar .hero-stats {
-  background: rgba(255, 252, 245, 0.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(27, 42, 47, 0.14);
-  border-top: 3px solid var(--kuningan);
-  border-radius: var(--radius-md);
-  padding: 1.6rem 2rem;
-  box-shadow: 0 4px 20px rgba(27, 42, 47, 0.05);
-  margin-top: clamp(2.5rem, 6vw, 4rem);
-}
-
-/* Penyesuaian Responsif Layar */
-@media (max-width: 72rem) {
-  .hero-float-card--bawah {
-    display: none; /* Sembunyikan badge kedua di layar medium agar tidak berdesakan dengan kolom teks */
+/* Penempatan Posisi di Layar Desktop (min-width: 64rem) */
+@media (min-width: 64rem) {
+  .hero-floating-badge.badge-cair {
+    top: 2rem;
+    right: 15rem;
+    animation: heroFloatBadge 6.5s ease-in-out infinite;
+  }
+  .hero-floating-emblem.emblem-emas {
+    top: 6rem;
+    right: -0.5rem;
+    animation: heroFloatEmas 7s ease-in-out infinite;
+  }
+  .hero-floating-badge.badge-brankas {
+    top: 15.5rem;
+    right: 19rem;
+    animation: heroFloatBadgeRev 7.5s ease-in-out infinite;
+  }
+  .hero-floating-emblem.emblem-gadget {
+    top: 26rem;
+    right: 0rem;
+    animation: heroFloatGadget 8s ease-in-out infinite;
   }
 }
 
-@media (max-width: 56rem) {
-  .hero-bg-emblems {
-    display: none; /* Sembunyikan emblem di layar kecil agar teks hero tetap fokus dan tidak padat */
+/* Layar Sedang / Tablet (48rem - 64rem) */
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .hero-bg-shapes {
+    width: 68%;
   }
-  .hero-bg-svg {
-    opacity: 0.6;
-    object-position: 85% center;
+  .hero-floating-badge.badge-cair {
+    top: 1.5rem;
+    right: 12rem;
+    transform: scale(0.85);
+  }
+  .hero-floating-emblem.emblem-emas {
+    top: 5.5rem;
+    right: 0rem;
+    transform: scale(0.85);
+  }
+  .hero-floating-badge.badge-brankas {
+    top: 14rem;
+    right: 15rem;
+    transform: scale(0.85);
+  }
+  .hero-floating-emblem.emblem-gadget {
+    top: 22rem;
+    right: 0rem;
+    transform: scale(0.85);
   }
 }
 
-@media (max-width: 38rem) {
-  .hero--berlatar .hero-stats {
-    padding: 1.25rem 1rem;
-    gap: 1rem;
+/* Layar Mobile (max-width: 48rem) */
+@media (max-width: 47.99rem) {
+  .hero-bg-shapes {
+    width: 100%;
+    opacity: 0.82;
+  }
+  .hero-bg-decor-wrap {
+    display: none;
   }
 }
 
-/* Aksesibilitas: Hormati prefers-reduced-motion */
+/* Keyframe Animasi Mengambang Halus */
+@keyframes heroFloatEmas {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(1deg); }
+}
+@keyframes heroFloatGadget {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(6px) rotate(-1deg); }
+}
+@keyframes heroFloatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes heroFloatBadgeRev {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+/* Hormati Preferensi Kurangi Gerakan */
 @media (prefers-reduced-motion: reduce) {
-  .hero-float-card,
-  .hero-emblem {
+  .hero-floating-emblem,
+  .hero-floating-badge {
     animation: none !important;
     transition: none !important;
-    transform: none !important;
   }
 }
 
