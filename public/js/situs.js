@@ -78,21 +78,43 @@
   var tabs = d.querySelectorAll('.tab-pill');
   var kartuList = d.querySelectorAll('.kartu-modern');
   if (tabs.length && kartuList.length) {
+    var terapkanFilter = function (kat, gantiUrl) {
+      tabs.forEach(function (t) {
+        var cocok = t.dataset.filter === kat;
+        t.classList.toggle('aktif', cocok);
+        t.setAttribute('aria-selected', cocok ? 'true' : 'false');
+      });
+      kartuList.forEach(function (k) {
+        if (kat === 'semua' || k.dataset.kategori === kat) {
+          k.style.display = '';
+        } else {
+          k.style.display = 'none';
+        }
+      });
+      if (gantiUrl && window.history && window.history.replaceState) {
+        var url = new URL(window.location.href);
+        if (kat === 'semua') {
+          url.searchParams.delete('kategori');
+        } else {
+          url.searchParams.set('kategori', kat);
+        }
+        window.history.replaceState(null, '', url.toString());
+      }
+    };
+
     tabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
-        tabs.forEach(function (t) { t.classList.remove('aktif'); t.setAttribute('aria-selected', 'false'); });
-        tab.classList.add('aktif');
-        tab.setAttribute('aria-selected', 'true');
-        var kat = tab.dataset.filter;
-        kartuList.forEach(function (k) {
-          if (kat === 'semua' || k.dataset.kategori === kat) {
-            k.style.display = '';
-          } else {
-            k.style.display = 'none';
-          }
-        });
+        terapkanFilter(tab.dataset.filter, true);
       });
     });
+
+    // Cek jika ada URL param ?kategori=... saat halaman dimuat
+    try {
+      var paramKat = new URLSearchParams(window.location.search).get('kategori');
+      if (paramKat && d.querySelector('.tab-pill[data-filter="' + paramKat + '"]')) {
+        terapkanFilter(paramKat, false);
+      }
+    } catch (e) {}
   }
 
   /* ---- tombol kembali ke atas (back-to-top) ---- */

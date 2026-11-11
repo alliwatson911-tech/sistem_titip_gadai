@@ -1,7 +1,9 @@
 @use('App\Support\Rupiah')
 @php
+    $kategoriAktif = request('kategori', $kategoriAktif ?? 'semua');
     $kelompokList = [
         'semua' => 'Semua Jaminan',
+        'emas' => 'Gadai Emas',
         'elektronik' => 'Elektronik',
         'kendaraan' => 'BPKB Kendaraan',
         'properti' => 'Sertifikat Properti',
@@ -10,6 +12,7 @@
 @endphp
 <section class="bagian" id="produk" data-spy="produk" aria-labelledby="judul-produk">
     <span id="layanan"></span>
+    <span id="katalog"></span>
     <div class="wrap">
         <div class="kepala-bagian">
             <p class="nomor">Katalog Jaminan</p>
@@ -25,14 +28,14 @@
             <!-- Filter Kelompok Agunan Tabs -->
             <div class="filter-tabs" role="tablist" aria-label="Filter kategori jaminan yang diterima">
                 @foreach ($kelompokList as $key => $label)
-                    <button type="button" class="tab-pill {{ $key === 'semua' ? 'aktif' : '' }}" data-filter="{{ $key }}" role="tab" aria-selected="{{ $key === 'semua' ? 'true' : 'false' }}">{{ $label }}</button>
+                    <button type="button" class="tab-pill {{ $key === $kategoriAktif ? 'aktif' : '' }}" data-filter="{{ $key }}" role="tab" aria-selected="{{ $key === $kategoriAktif ? 'true' : 'false' }}">{{ $label }}</button>
                 @endforeach
             </div>
 
             <!-- Grid Kartu Jaminan Seragam & Orisinal -->
             <div class="produk-grid" id="produk-katalog">
                 @foreach ($produk as $p)
-                    <article class="kartu-modern" data-kategori="{{ strtolower($p->kelompok_agunan ?? 'elektronik') }}" data-muncul>
+                    <article class="kartu-modern" data-kategori="{{ strtolower($p->kelompok_agunan ?? 'elektronik') }}" style="{{ $kategoriAktif === 'semua' || strtolower($p->kelompok_agunan ?? 'elektronik') === $kategoriAktif ? '' : 'display:none;' }}" data-muncul>
                         <!-- Area Visual Ikon Orisinal (Gaya Linygadai) -->
                         <div class="kartu-modern-visual" aria-hidden="true">
                             @include('publik.partials.ikon', ['k' => $p->kategori_barang])
@@ -54,9 +57,12 @@
                             <div class="kartu-chips">
                                 <span class="chip">Tenor {{ $p->tenor_hari }} hari</span>
                                 <span class="chip">Sewa {{ rtrim(rtrim(number_format($p->sewa_modal_per_hari_bp / 100, 2, ',', ''), '0'), ',') }}%/hari</span>
-                                @if(str_contains(strtolower($p->kategori_barang), 'bpkb'))
+                                @if(strtolower($p->kelompok_agunan) === 'emas' || strtolower($p->kategori_barang) === 'emas')
+                                    <span class="chip" style="color: var(--kuningan-tua); background: var(--kuningan-muda); border-color: rgba(184, 134, 43, .35);">Uji Karat Akurat</span>
+                                    <span class="chip">Safe Deposit Box</span>
+                                @elseif(str_contains(strtolower($p->kategori_barang), 'bpkb') || strtolower($p->kelompok_agunan) === 'kendaraan')
                                     <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(15, 76, 58, .25);">Unit Tetap Dipakai</span>
-                                @elseif(str_contains(strtolower($p->kategori_barang), 'sertifikat'))
+                                @elseif(str_contains(strtolower($p->kategori_barang), 'sertifikat') || strtolower($p->kelompok_agunan) === 'properti')
                                     <span class="chip" style="color: var(--lumut); background: var(--lumut-muda); border-color: rgba(15, 76, 58, .25);">Properti Dihuni</span>
                                 @else
                                     <span class="chip">Brankas Segel</span>

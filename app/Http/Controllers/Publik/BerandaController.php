@@ -66,12 +66,18 @@ class BerandaController extends Controller
     public static function defaultProduk(): Collection
     {
         $items = [
-            ['nama' => 'Gadai Smartphone', 'kategori_barang' => 'smartphone', 'ltv_max_bp' => 8000, 'deskripsi' => 'Ponsel pintar berbagai merek dalam kondisi menyala dan terbebas dari kunci akun.'],
-            ['nama' => 'Gadai Laptop', 'kategori_barang' => 'laptop', 'ltv_max_bp' => 8000, 'deskripsi' => 'Laptop dan notebook lengkap dengan adaptor pengisi daya.'],
-            ['nama' => 'Gadai Kamera', 'kategori_barang' => 'kamera', 'ltv_max_bp' => 7500, 'deskripsi' => 'Kamera mirrorless dan DSLR beserta lensa dan baterai.'],
-            ['nama' => 'Gadai Konsol Game', 'kategori_barang' => 'konsol', 'ltv_max_bp' => 7500, 'deskripsi' => 'Konsol game dengan kontroler dan kabel bawaan.'],
-            ['nama' => 'Gadai Televisi', 'kategori_barang' => 'televisi', 'ltv_max_bp' => 7000, 'deskripsi' => 'Televisi layar datar dengan remote asli.'],
-            ['nama' => 'Gadai Smartwatch', 'kategori_barang' => 'smartwatch', 'ltv_max_bp' => 7000, 'deskripsi' => 'Jam tangan pintar dengan pengisi daya asli.'],
+            ['nama' => 'Gadai Emas & Perhiasan', 'kategori_barang' => 'emas', 'kelompok_agunan' => 'emas', 'ltv_max_bp' => 8800, 'deskripsi' => 'Emas batangan (Antam, UBS) dan perhiasan emas dengan uji kadar karat akurat.'],
+            ['nama' => 'Gadai Smartphone', 'kategori_barang' => 'smartphone', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 8000, 'deskripsi' => 'Ponsel pintar berbagai merek dalam kondisi menyala dan terbebas dari kunci akun.'],
+            ['nama' => 'Gadai Laptop', 'kategori_barang' => 'laptop', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 8000, 'deskripsi' => 'Laptop dan notebook lengkap dengan adaptor pengisi daya.'],
+            ['nama' => 'Gadai Kamera', 'kategori_barang' => 'kamera', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 7500, 'deskripsi' => 'Kamera mirrorless dan DSLR beserta lensa dan baterai.'],
+            ['nama' => 'Gadai Konsol Game', 'kategori_barang' => 'konsol', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 7500, 'deskripsi' => 'Konsol game dengan kontroler dan kabel bawaan.'],
+            ['nama' => 'Gadai Televisi', 'kategori_barang' => 'televisi', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 7000, 'deskripsi' => 'Televisi layar datar dengan remote asli.'],
+            ['nama' => 'Gadai Smartwatch', 'kategori_barang' => 'smartwatch', 'kelompok_agunan' => 'elektronik', 'ltv_max_bp' => 7000, 'deskripsi' => 'Jam tangan pintar dengan pengisi daya asli.'],
+            ['nama' => 'Gadai BPKB Mobil', 'kategori_barang' => 'bpkb-mobil', 'kelompok_agunan' => 'kendaraan', 'ltv_max_bp' => 8500, 'deskripsi' => 'BPKB mobil pribadi atau niaga. Dokumen disimpan aman, mobil tetap Anda pakai.'],
+            ['nama' => 'Gadai BPKB Motor', 'kategori_barang' => 'bpkb-motor', 'kelompok_agunan' => 'kendaraan', 'ltv_max_bp' => 8500, 'deskripsi' => 'BPKB motor seluruh merek Jepang dan Eropa. Motor tetap dapat dikendarai.'],
+            ['nama' => 'Gadai Sertifikat Rumah', 'kategori_barang' => 'sertifikat-rumah', 'kelompok_agunan' => 'properti', 'ltv_max_bp' => 7000, 'deskripsi' => 'Sertifikat Hak Milik (SHM) dan SHGB rumah tinggal dengan plafon tinggi.'],
+            ['nama' => 'Gadai Sertifikat Tanah', 'kategori_barang' => 'sertifikat-tanah', 'kelompok_agunan' => 'properti', 'ltv_max_bp' => 6500, 'deskripsi' => 'Sertifikat tanah kavling produktif. Verifikasi warkah resmi di BPN.'],
+            ['nama' => 'Gadai Barang dan Surat Berharga Lainnya', 'kategori_barang' => 'lainnya', 'kelompok_agunan' => 'berharga', 'ltv_max_bp' => 8000, 'deskripsi' => 'Obligasi, deposito berjangka, dan agunan berharga bernilai tinggi.'],
         ];
 
         return collect($items)->map(function ($item, $i) {

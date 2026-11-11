@@ -833,6 +833,180 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .syarat-card h3 { font: 700 1.18rem/1.3 var(--f-judul); color: var(--tinta); margin: 0 0 .75rem; letter-spacing: -.01em; }
 .syarat-card p { font-size: .95rem; line-height: 1.6; color: var(--muted); margin: 0; }
 
+/* ---------- Showcase Kategori Jaminan (Dashboard Utama & Layanan) ---------- */
+.bagian--kategori { background: var(--kertas); padding-block: 4rem; }
+.kategori-showcase-grid {
+  display: grid;
+  gap: 1.75rem;
+  grid-template-columns: 1fr;
+  margin-top: 2rem;
+}
+@media (min-width: 44rem) {
+  .kategori-showcase-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem;
+  }
+}
+@media (min-width: 64rem) {
+  .kategori-showcase-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .kategori-showcase-grid .kartu-kategori:nth-child(4) {
+    grid-column: span 1;
+  }
+  .kategori-showcase-grid .kartu-kategori:nth-child(5) {
+    grid-column: span 1;
+  }
+}
+
+.kartu-kategori {
+  display: flex;
+  flex-direction: column;
+  background: var(--putih);
+  border: 1.5px solid var(--garis);
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--tinta);
+  box-shadow: 0 4px 16px rgba(15, 76, 58, .06);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  position: relative;
+  cursor: pointer;
+}
+.kartu-kategori:hover {
+  transform: translateY(-6px);
+  border-color: var(--kuningan);
+  box-shadow: 0 14px 32px rgba(15, 76, 58, .14);
+}
+.kartu-kategori-visual {
+  position: relative;
+  background: linear-gradient(180deg, #FAF7F2 0%, #EDE7DC 100%);
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--garis);
+}
+.kartu-kategori-visual svg {
+  width: 100%;
+  max-width: 290px;
+  height: 100%;
+  display: block;
+  transition: transform .3s ease;
+}
+.kartu-kategori:hover .kartu-kategori-visual svg {
+  transform: scale(1.05);
+}
+.kartu-kategori-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  font: 700 .72rem/1 var(--f-mono);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: .35rem .7rem;
+  background: rgba(248, 245, 240, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--kuningan-tua);
+  border: 1px solid rgba(184, 134, 43, .35);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .05);
+}
+.kartu-kategori-body {
+  padding: 1.6rem 1.6rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.kartu-kategori-body h3 {
+  font: 700 1.45rem/1.2 var(--f-judul);
+  color: var(--tinta);
+  margin: 0 0 .5rem;
+  letter-spacing: -.01em;
+}
+.kartu-kategori-body p {
+  font-size: .95rem;
+  line-height: 1.55;
+  color: var(--tinta-2);
+  margin: 0 0 1.1rem;
+}
+.kartu-kategori-meta {
+  margin-top: auto;
+  padding-top: .85rem;
+  border-top: 1px dashed var(--garis);
+}
+.kategori-subfitur {
+  font: 600 .78rem/1.3 var(--f-mono);
+  color: var(--kuningan-tua);
+  background: var(--kuningan-muda);
+  padding: .3rem .6rem;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid rgba(184, 134, 43, .25);
+}
+.kartu-kategori-cta {
+  margin-top: 1.1rem;
+}
+.link-kategori-selengkapnya {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font: 700 .88rem/1 var(--f-isi);
+  color: var(--tinta);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  transition: all .2s ease;
+}
+.link-kategori-selengkapnya svg {
+  transition: transform .2s ease;
+  color: var(--kuningan-tua);
+}
+.kartu-kategori:hover .link-kategori-selengkapnya {
+  color: var(--kuningan-tua);
+}
+.kartu-kategori:hover .link-kategori-selengkapnya svg {
+  transform: translateX(4px);
+}
+.kategori-showcase-bawah {
+  margin-top: 2.75rem;
+  padding: 1.5rem 2rem;
+  background: var(--putih);
+  border: 1.5px solid var(--garis);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+@media (min-width: 52rem) {
+  .kategori-showcase-bawah {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.showcase-bawah-info strong {
+  display: block;
+  font: 700 1.1rem/1.3 var(--f-judul);
+  color: var(--tinta);
+  margin-bottom: .25rem;
+}
+.showcase-bawah-info span {
+  font-size: .92rem;
+  color: var(--tinta-2);
+}
+.showcase-bawah-tombol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  flex-shrink: 0;
+}
+
 /* ---------- gerak halus saat muncul (hanya bila JS aktif) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-muncul] { opacity: 0; transform: translateY(14px); transition: opacity .5s ease-out, transform .5s ease-out; }

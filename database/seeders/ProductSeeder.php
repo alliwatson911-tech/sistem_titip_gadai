@@ -15,6 +15,44 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         $produk = [
+            // Emas & Perhiasan
+            [
+                'nama' => 'Gadai Emas & Perhiasan',
+                'slug' => 'gadai-emas-perhiasan',
+                'kategori_barang' => 'emas',
+                'kelompok_agunan' => 'emas',
+                'deskripsi' => 'Terima jaminan emas batangan (Antam, UBS, Lotus Archi) dan perhiasan emas (kalung, cincin, gelang, anting) dengan uji kadar karat akurat, timbangan digital tersertifikasi, dan sewa modal ringan.',
+                'pinjaman_min' => 500_000,
+                'pinjaman_max' => 250_000_000,
+                'ltv_max_bp' => 8800, // 88%
+                'tenor_hari' => 30,
+                'sewa_modal_per_hari_bp' => 10, // 0,10%/hari (~3%/bulan)
+                'blok_hari' => 15,
+                'admin_bp' => 100, // 1%
+                'admin_min' => 10_000,
+                'admin_max' => 250_000,
+                'badge_label' => 'Plafon s.d. 88%',
+                'dokumen_wajib' => [
+                    'KTP asli pemohon / pemilik',
+                    'Nota pembelian toko emas / sertifikat Antam/UBS asli (jika ada)',
+                ],
+                'atribut_khusus' => [
+                    ['name' => 'jenis_emas', 'label' => 'Bentuk & Jenis Emas', 'type' => 'select', 'options' => ['Logam Mulia Batangan (Antam/UBS/Galeri 24)', 'Perhiasan Cincin Emas', 'Perhiasan Kalung Emas', 'Perhiasan Gelang Emas', 'Perhiasan Anting / Liontin', 'Koin Dinar / Emas Koleksi'], 'required' => true],
+                    ['name' => 'kadar_karat', 'label' => 'Perkiraan Kadar Karat', 'type' => 'select', 'options' => ['24 Karat / 99.9% (Fine Gold)', '22 Karat / 91.6%', '20 Karat / 83.3%', '18 Karat / 75.0% (Emas Tua)', '16 Karat / 66.7%', '9 Karat - 14 Karat (Emas Muda)', 'Belum Tahu (Dicek Analis Cabang)'], 'required' => true],
+                    ['name' => 'berat_gram', 'label' => 'Perkiraan Berat Bersih (Gram)', 'type' => 'number', 'placeholder' => 'Contoh: 10.5 (gram)', 'required' => true],
+                    ['name' => 'sertifikat_kelengkapan', 'label' => 'Kelengkapan / Dokumen', 'type' => 'select', 'options' => ['Ada Sertifikat Resmi (Antam CertiEye / UBS)', 'Ada Nota Pembelian Toko Emas Asli', 'Tanpa Surat Toko / Surat Hilang (Uji Karat Cabang)'], 'required' => true],
+                    ['name' => 'kondisi', 'label' => 'Kondisi Fisik Emas', 'type' => 'textarea', 'placeholder' => 'Mulus tanpa cacat, batu permata utuh, atau ada sambungan/patah', 'required' => false],
+                ],
+                'syarat_ketentuan' => [
+                    'Emas asli milik sendiri secara sah dan tidak dalam sengketa.',
+                    'Bersedia dilakukan pengujian keaslian kadar karat dan penimbangan digital presisi di hadapan nasabah.',
+                    'Emas batangan berkemasan CertiEye tidak dirusak segel kemasannya.',
+                    'Disimpan dalam brankas besi khasanah tahan api berlapis ganda (fireproof safe vault) dengan nomor segel brankas khusus.',
+                ],
+                'proses_taksiran' => 'Pemeriksaan fisik visual, penimbangan digital tersertifikasi metrologi, pengujian berat jenis / densitas dan uji karatase (uji gores batu uji atau alat ukur karat presisi), serta validasi keaslian sertifikat cetak/aplikasi.',
+                'ketentuan_penyimpanan' => 'Emas dimasukkan ke kantong beludru pelindung anti-gores, dimasukkan ke boks bersegel tamper-evident bernomor seri unik di depan nasabah, lalu disimpan di safe deposit box brankas khasanah terpusat berstandar keamanan tinggi.',
+            ],
+
             // 1) Laptop
             [
                 'nama' => 'Gadai Laptop',

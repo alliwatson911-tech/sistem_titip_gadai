@@ -67,6 +67,7 @@ class HalamanPublikController extends Controller
     public function layanan(): View
     {
         $data = $this->dataUmum();
+        $data['kategoriAktif'] = request('kategori', 'semua');
 
         return view('publik.pages.layanan', $data);
     }

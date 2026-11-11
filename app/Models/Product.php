@@ -24,6 +24,7 @@ class Product extends Model
     public function labelKelompok(): string
     {
         return match ($this->kelompok_agunan) {
+            'emas' => 'Emas & Logam Mulia',
             'kendaraan' => 'Kendaraan Bermotor (BPKB)',
             'properti' => 'Sertifikat Properti',
             'berharga' => 'Barang & Surat Berharga',
