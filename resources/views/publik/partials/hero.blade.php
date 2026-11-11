@@ -4,7 +4,6 @@
     $jumlahCabang = $cabang->except('PUSAT')->count();
 @endphp
 <section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
-    @include('publik.partials.hero-background')
     <div class="wrap">
         <div>
             <div class="eyebrow-pill">

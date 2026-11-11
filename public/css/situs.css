@@ -53,6 +53,7 @@ body {
   max-width: 100%;
   position: relative;
 }
+.ikon { width: 1.15rem; height: 1.15rem; flex: none; display: inline-block; vertical-align: middle; }
 img, svg { max-width: 100%; height: auto; display: block; }
 h1, h2, h3 { font-family: var(--f-judul); font-weight: 600; line-height: 1.08; letter-spacing: -.015em; margin: 0; }
 p { margin: 0 0 1em; }
@@ -390,7 +391,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .kartu-modern { display: flex; flex-direction: column; background: var(--putih); border: 1px solid var(--garis); border-radius: var(--radius-md); overflow: hidden; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; position: relative; box-shadow: var(--shadow-sm); }
 .kartu-modern:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--kuningan); }
 .kartu-modern-visual { background: linear-gradient(180deg, var(--kertas-2) 0%, rgba(244, 239, 230, .45) 100%); padding: 1.4rem 1.25rem 1rem; display: flex; align-items: center; justify-content: center; border-bottom: 1px dashed var(--garis); min-height: 105px; }
-.kartu-modern-visual svg { width: 52px; height: 52px; color: var(--tinta); transition: transform .2s ease; }
+.kartu-modern-visual svg, .ikon-agunan { width: 52px; height: 52px; max-width: 100%; color: var(--tinta); transition: transform .2s ease; display: inline-block; }
 .kartu-modern:hover .kartu-modern-visual svg { transform: scale(1.08); }
 .link-selengkapnya { display: inline-flex; align-items: center; gap: .35rem; font: 700 .82rem/1 var(--f-mono); color: var(--kuningan-tua); text-decoration: none; text-transform: uppercase; letter-spacing: .04em; transition: transform .15s ease, color .15s ease; }
 .link-selengkapnya:hover { color: var(--tinta); transform: translateX(3px); }

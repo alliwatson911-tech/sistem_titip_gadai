@@ -1,5 +1,5 @@
 {{-- Ikon garis orisinal per kategori barang & agunan. Variabel: $k --}}
-<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<svg class="ikon-agunan" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     @switch($k)
         @case('smartphone')
             <rect x="14" y="5" width="20" height="38" rx="3.5"/><path d="M21 37h6"/><circle cx="24" cy="9" r="1"/>
