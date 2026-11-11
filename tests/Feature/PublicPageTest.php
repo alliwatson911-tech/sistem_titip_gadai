@@ -49,11 +49,11 @@ class PublicPageTest extends TestCase
 
     public function test_produk_berasal_dari_database_dan_nonaktif_tidak_tampil(): void
     {
-        $this->get('/')->assertSee('Gadai Smartphone')->assertSee('Gadai Smartwatch')->assertSee('Rp 100 rb');
+        $this->get('/layanan')->assertSee('Gadai Smartphone')->assertSee('Gadai Smartwatch')->assertSee('Rp 100 rb');
 
         Product::where('slug', 'gadai-televisi')->update(['is_active' => false]);
 
-        $this->get('/')->assertDontSee('Gadai Televisi')->assertSee('Gadai Laptop');
+        $this->get('/layanan')->assertDontSee('Gadai Televisi')->assertSee('Gadai Laptop');
     }
 
     public function test_token_kebijakan_diganti_dengan_nilai_sebenarnya(): void

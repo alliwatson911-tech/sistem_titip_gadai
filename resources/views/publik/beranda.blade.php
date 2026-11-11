@@ -40,7 +40,6 @@
         @include('publik.partials.standar')
         @include('publik.partials.faq')
         @include('publik.partials.kategori-showcase')
-        @include('publik.partials.produk')
         @include('publik.partials.banner-member')
         @include('publik.partials.panduan')
         @include('publik.partials.simulasi')
