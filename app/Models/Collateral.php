@@ -19,7 +19,18 @@ class Collateral extends Model
 
     protected function casts(): array
     {
-        return ['imei_serial_enc' => 'encrypted', 'diterima_at' => 'datetime'];
+        return [
+            'imei_serial_enc' => 'encrypted',
+            'diterima_at' => 'datetime',
+            'dokumen_dikembalikan_at' => 'datetime',
+            'atribut_data' => 'array',
+            'dokumen_diterima' => 'array',
+        ];
+    }
+
+    public function penyerah()
+    {
+        return $this->belongsTo(User::class, 'diserahkan_oleh');
     }
 
     public function application()

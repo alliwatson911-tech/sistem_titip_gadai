@@ -72,7 +72,7 @@ class PengajuanController extends Controller
 
         $aturan = [
             'product_id' => ['required', 'integer', 'exists:products,id'],
-            'pinjaman_diminta' => ['required', 'integer', 'min:1', 'max:1000000000'],
+            'pinjaman_diminta' => ['required', 'integer', 'min:1', 'max:10000000000'],
             'catatan_member' => ['nullable', 'string', 'max:500'],
         ];
         if ($user->role === Role::Teller) {
@@ -126,6 +126,8 @@ class PengajuanController extends Controller
             'kondisi' => ['nullable', 'string', 'max:1000'],
             'no_segel' => ['required', 'string', 'max:40'],
             'lokasi_simpan' => ['nullable', 'string', 'max:60'],
+            'atribut_data' => ['nullable', 'array'],
+            'dokumen_diterima' => ['nullable', 'array'],
             'foto' => ['nullable', 'array'],
             'foto.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
         ], [
@@ -144,8 +146,8 @@ class PengajuanController extends Controller
         Gate::authorize('taksiran.buat');
         $r->merge(['nilai_pasar' => Rupiah::digit($r->input('nilai_pasar')), 'nilai_taksiran' => Rupiah::digit($r->input('nilai_taksiran'))]);
         $d = $r->validate([
-            'nilai_pasar' => ['required', 'integer', 'min:1', 'max:1000000000'],
-            'nilai_taksiran' => ['required', 'integer', 'min:1', 'max:1000000000'],
+            'nilai_pasar' => ['required', 'integer', 'min:1', 'max:10000000000'],
+            'nilai_taksiran' => ['required', 'integer', 'min:1', 'max:10000000000'],
             'periksa' => ['nullable', 'array'],
             'periksa.*' => ['in:1'],
             'rekomendasi' => ['required', 'in:setuju,tolak'],

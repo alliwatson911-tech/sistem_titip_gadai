@@ -16,7 +16,7 @@ class SimulasiController extends Controller
     {
         $aturan = [
             'produk' => ['required', 'integer'],
-            'taksiran' => ['required', 'integer', 'min:1', 'max:1000000000'],
+            'taksiran' => ['required', 'integer', 'min:1', 'max:10000000000'],
             'ltv_bp' => ['required', 'integer', 'min:1', 'max:10000'],
             'hari' => ['nullable', 'integer', 'min:1', 'max:120'],
         ];

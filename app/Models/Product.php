@@ -13,6 +13,21 @@ class Product extends Model
 
     protected function casts(): array
     {
-        return ['is_active' => 'boolean'];
+        return [
+            'is_active' => 'boolean',
+            'dokumen_wajib' => 'array',
+            'atribut_khusus' => 'array',
+            'syarat_ketentuan' => 'array',
+        ];
+    }
+
+    public function labelKelompok(): string
+    {
+        return match ($this->kelompok_agunan) {
+            'kendaraan' => 'Kendaraan Bermotor (BPKB)',
+            'properti' => 'Sertifikat Properti',
+            'berharga' => 'Barang & Surat Berharga',
+            default => 'Barang Elektronik',
+        };
     }
 }

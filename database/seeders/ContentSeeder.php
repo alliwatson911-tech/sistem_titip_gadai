@@ -19,15 +19,15 @@ class ContentSeeder extends Seeder
     {
         $konten = [
             'tagline' => 'Titip hari ini, tenang sampai tebus.',
-            'sambutan' => 'Selamat datang di linygadai. Kami membantu Anda mendapatkan dana tunai dengan menitipkan barang elektronik yang Anda miliki. Sejak awal kami jelaskan semuanya: berapa pinjaman yang bisa Anda terima, berapa biayanya, kapan jatuh tempo, dan bagaimana cara menebus barang Anda kembali.',
-            'ringkasan' => 'linygadai melayani titip gadai barang elektronik lewat dua cabang, Cabang A dan Cabang B, yang dikelola dari satu kantor pusat. Setiap barang diperiksa, ditaksir oleh analis, disegel, lalu disimpan tanpa dipakai selama masa titip. Anggota dapat mengajukan lewat situs ini, memantau jatuh tempo, dan melihat riwayat pembayaran dari akunnya.',
+            'sambutan' => 'Selamat datang di linygadai. Kami membantu Anda mendapatkan dana tunai dengan menjaminkan laptop, smartphone, BPKB kendaraan bermotor, sertifikat properti, dan barang/surat berharga resmi. Sejak awal kami jelaskan semuanya: berapa pinjaman yang bisa Anda terima, berapa biayanya, kapan jatuh tempo, dan bagaimana cara menebus jaminan Anda kembali.',
+            'ringkasan' => 'linygadai melayani titip gadai multi-agunan (elektronik, BPKB mobil & motor, sertifikat tanah & rumah, dan surat berharga) lewat dua cabang resmi di Makassar (Cabang A dan Cabang B) yang dikoordinasikan kantor pusat. Setiap agunan diperiksa, ditaksir oleh analis bersertifikat, diamankan sesuai standar legalitas dan khasanah tahan api, serta dicatat di sistem terintegrasi. Anggota dapat mengajukan lewat situs ini, memantau status jatuh tempo, dan mencicil atau menebus dengan mudah.',
             'standar_layanan' => [
-                ['judul' => 'Taksiran yang dijelaskan', 'isi' => 'Analis menyampaikan dasar penilaian barang Anda sebelum Anda memutuskan setuju atau tidak.'],
-                ['judul' => 'Biaya dirinci dari awal', 'isi' => 'Pokok pinjaman, sewa modal, dan biaya administrasi ditulis terpisah di nota. Tidak ada biaya yang muncul belakangan.'],
-                ['judul' => 'Barang disegel dan tidak dipakai', 'isi' => 'Barang jaminan diberi nomor segel, disimpan di cabang, dan tidak digunakan selama masa titip.'],
-                ['judul' => 'Identitas diperiksa', 'isi' => 'Kami memeriksa KTP setiap penggadai. Ini melindungi Anda dan melindungi barang yang bukan milik penitip.'],
-                ['judul' => 'Jatuh tempo yang jelas', 'isi' => 'Tenor {tenor} hari dan dapat diperpanjang. Tanggal jatuh tempo tercantum di nota dan di akun anggota.'],
-                ['judul' => 'Tiga pilihan bayar', 'isi' => 'Perpanjang, cicil sebagian pokok, atau tebus. Anda memilih sesuai kemampuan, dan setiap pembayaran ada kwitansinya.'],
+                ['judul' => 'Taksiran yang dijelaskan', 'isi' => 'Analis menyampaikan dasar penilaian barang atau dokumen legal Anda sebelum Anda memutuskan setuju atau tidak.'],
+                ['judul' => 'Biaya dirinci dari awal', 'isi' => 'Pokok pinjaman, sewa modal, dan biaya administrasi ditulis terpisah di nota. Tidak ada potongan tersembunyi yang muncul belakangan.'],
+                ['judul' => 'Agunan aman & unit kendaraan tetap dipakai', 'isi' => 'Barang elektronik disimpan bersegel di brankas. Pada gadai BPKB kendaraan dan sertifikat properti, hanya dokumen sah yang disimpan di khasanah kantor, unit fisik tetap digunakan nasabah.'],
+                ['judul' => 'Identitas & legalitas diperiksa', 'isi' => 'Kami memeriksa KTP, keabsahan kepemilikan, dan validitas dokumen jaminan demi melindungi hak kepemilikan nasabah.'],
+                ['judul' => 'Jatuh tempo yang jelas', 'isi' => 'Tenor {tenor} hari dan dapat diperpanjang. Tanggal jatuh tempo tercantum di nota fisik dan di akun anggota secara real-time.'],
+                ['judul' => 'Tiga pilihan bayar fleksibel', 'isi' => 'Perpanjang, cicil sebagian pokok, atau tebus lunas. Anda memilih sesuai kesiapan dana, dan setiap pembayaran diterbitkan kwitansi resmi.'],
             ],
             'panduan_anggota' => [
                 ['judul' => 'Daftar akun', 'isi' => 'Isi nama, NIK, nomor telepon, dan email sesuai KTP, lalu pilih cabang yang paling dekat dengan Anda.'],
@@ -69,31 +69,34 @@ class ContentSeeder extends Seeder
         }
 
         $faq = [
-            ['Barang apa saja yang diterima?', 'Barang elektronik: ponsel, laptop, kamera, televisi, smartwatch, dan konsol game. Barang harus milik Anda sendiri, dapat dinyalakan, dan bebas dari kunci akun.'],
-            ['Apa saja syarat menitipkan barang?', 'KTP asli yang masih berlaku, barang beserta kelengkapannya, dan akun anggota yang sudah terverifikasi bila Anda mengajukan lewat situs.'],
-            ['Berapa lama jatuh tempo?', 'Tenor {tenor} hari sejak tanggal akad. Sebelum jatuh tempo, Anda dapat memperpanjang sampai {maks_perpanjangan} kali berturut-turut.'],
-            ['Bagaimana dengan legalitas linygadai?', 'Informasi perizinan resmi ditampilkan di bagian Tentang Kami setelah diverifikasi dan dilengkapi pengelola. Anda berhak meminta penjelasan dan dokumen perizinan kepada petugas di cabang mana pun.'],
-            ['Bagaimana cara memperpanjang?', 'Datang ke cabang sebelum jatuh tempo membawa nota gadai dan KTP, lalu bayar sewa modal dan biaya administrasi periode berjalan. Pokok pinjaman tidak berubah dan jatuh tempo bergeser {tenor} hari.'],
-            ['Bolehkah orang lain menebus barang saya?', 'Boleh, dengan surat kuasa bermaterai. Penebus membawa nota gadai asli, KTP asli penggadai, dan KTP asli penebus.'],
-            ['Di mana lokasi cabangnya?', 'Kami memiliki Cabang A, Cabang B, dan kantor pusat. Alamat serta jam layanan ada di bagian Tentang Kami.'],
-            ['Bagaimana mengetahui perkiraan taksiran?', 'Gunakan simulasi di halaman ini untuk memperkirakan pinjaman dan biaya. Nilai taksiran pasti hanya ditetapkan analis setelah barang diperiksa langsung.'],
-            ['Apakah barang saya aman?', 'Barang diberi nomor segel, disimpan di cabang, dan tidak digunakan selama masa titip. Barang hanya keluar saat ditebus dengan nota asli dan identitas yang cocok.'],
+            ['Jaminan apa saja yang bisa digadai di linygadai?', 'Kami menerima 7 kelompok agunan: (1) Laptop, (2) Smartphone & tablet, (3) BPKB Mobil, (4) BPKB Motor, (5) Sertifikat Rumah (SHM/SHGB), (6) Sertifikat Tanah (SHM), serta (7) Barang & Surat Berharga Lainnya (seperti emas/logam mulia atau instrumen berharga resmi).'],
+            ['Apakah pada Gadai BPKB kendaraan (mobil/motor) fisik kendaraan ikut ditahan?', 'Tidak. Pada pinjaman Gadai BPKB Mobil dan Motor, fisik kendaraan TETAP BISA DIGUNAKAN untuk mendukung mobilitas dan usaha Anda. Yang disimpan di khasanah kantor cabang kami hanyalah buku BPKB asli dan faktur pembelian, setelah dilakukan cek fisik kesesuaian nomor rangka dan nomor mesin.'],
+            ['Apakah dokumen asli BPKB atau Sertifikat aman disimpan di kantor cabang?', 'Sangat aman. Seluruh dokumen kepemilikan berharga (BPKB, STNK jika dititipkan, Sertifikat Hak Milik/SHGB) disimpan di dalam khasanah brankas tahan api (fireproof vault) dengan akses ganda bersandi dan pengawasan CCTV 24 jam.'],
+            ['Bagaimana proses gadai Sertifikat Rumah atau Tanah?', 'Pengajuan sertifikat memerlukan survei on-site lokasi objek properti oleh tim penaksir dan verifikasi keabsahan warkah di Kantor Pertanahan (BPN). Properti tetap ditempati atau dikelola pemilik seperti biasa tanpa pengosongan.'],
+            ['Bagaimana cara pengambilan dan pengembalian dokumen jaminan setelah pelunasan?', 'Setelah seluruh pinjaman pokok dan sewa modal dilunasi di loket teller, teller akan mencetak Berita Acara Serah Terima (BAST) pengembalian dokumen. Dokumen jaminan asli (BPKB/Sertifikat/Surat Berharga) diserahkan seketika di hadapan Anda dan tercatat lengkap pada audit trail sistem linygadai.'],
+            ['Apa syarat menggadaikan smartphone atau laptop?', 'Barang harus berfungsi normal (dapat dinyalakan), layar dan tombol bekerja baik, membawa kelengkapan charger asli bila ada, dan wajib bebas dari segala kunci akun (iCloud, Google Account, Samsung Account, pola/sandi).'],
+            ['Berapa lama jangka waktu titip gadai (tenor)?', 'Tenor {tenor} hari sejak tanggal akad. Sebelum jatuh tempo, Anda dapat memperpanjang sampai {maks_perpanjangan} kali berturut-turut cukup dengan melunasi sewa modal dan biaya administrasi.'],
+            ['Bolehkah orang lain menebus jaminan atau mengambil dokumen saya?', 'Boleh, dengan syarat membawa Surat Kuasa bermeterai Rp 10.000 asli bertandatangan pemilik sah, fisik Nota Gadai asli, KTP asli pemilik jaminan, serta KTP asli penerima kuasa.'],
+            ['Bagaimana cara mengetahui perkiraan nilai pinjaman?', 'Anda dapat memanfaatkan kalkulator Simulasi Gadai interaktif di website ini untuk menghitung taksiran, biaya sewa modal per hari, dan total pelunasan sesuai parameter jenis agunan yang dipilih.'],
         ];
         $info = [
-            ['Apa itu sewa modal?', 'Sewa modal adalah biaya untuk menggunakan dana pinjaman selama masa titip. Besarnya dihitung dari pokok pinjaman dan lama titip, dan tercantum di nota.'],
-            ['Apa beda perpanjang, cicil, dan tebus?', 'Perpanjang: bayar sewa modal dan administrasi, pokok tetap, jatuh tempo bergeser. Cicil: bayar sewa modal, administrasi, dan sebagian pokok sehingga pinjaman berkurang. Tebus: lunasi seluruhnya lalu barang diserahkan.'],
-            ['Bagaimana bila lewat jatuh tempo?', 'Ada masa tenggang {tenggang} hari kalender; sewa modal tetap berjalan. Jika tidak ada pembayaran sampai masa itu berakhir, kami memberi pemberitahuan lebih dulu, minimal {lelang_hari} hari sebelum barang masuk proses lelang.'],
-            ['Apa yang terjadi bila barang dilelang?', 'Hasil lelang dipakai untuk melunasi pokok, sewa modal, dan biaya lelang. Jika masih ada sisa, sisanya menjadi hak Anda dan dikembalikan.'],
-            ['Apakah taksiran bisa dinilai ulang?', 'Bisa. Saat perpanjangan, analis dapat menaksir ulang barang. Bila nilainya turun di bawah pinjaman, Anda diminta menyetor sebagian pokok.'],
+            ['Apa itu sewa modal?', 'Sewa modal adalah imbal jasa legal atas pemanfaatan fasilitas pinjaman selama masa titip. Di linygadai, sewa modal dihitung harian secara transparan tanpa denda siluman.'],
+            ['Apa beda perpanjang, cicil pokok, dan tebus?', 'Perpanjang: membayar sewa modal & administrasi, pokok tetap, jatuh tempo diperpanjang. Cicil: membayar sewa modal ditambah sebagian pokok pinjaman untuk memperingan tanggungan. Tebus: melunasi sisa pinjaman secara utuh dan mengambil kembali barang/dokumen jaminan.'],
+            ['Bagaimana jika terlambat melewati tanggal jatuh tempo?', 'Ada masa tenggang {tenggang} hari kalender; sewa modal tetap berjalan. Tim kami akan mengirimkan pengingat ramah sebelum batas akhir, dan pemberitahuan tertulis sekurang-kurangnya {lelang_hari} hari sebelum langkah tindak lanjut sesuai kesepakatan akad.'],
+            ['Apakah nilai taksiran bisa ditinjau kembali?', 'Ya. Saat pengajuan perpanjangan atau perubahan kondisi pasar, analis bersertifikasi dapat melakukan penaksiran ulang secara objektif dan transparan.'],
         ];
 
-        if (Faq::count() === 0) {
-            foreach ($faq as $i => [$q, $a]) {
-                Faq::create(['kelompok' => 'faq', 'pertanyaan' => $q, 'jawaban' => $a, 'urutan' => $i + 1, 'is_published' => true]);
-            }
-            foreach ($info as $i => [$q, $a]) {
-                Faq::create(['kelompok' => 'informasi', 'pertanyaan' => $q, 'jawaban' => $a, 'urutan' => $i + 1, 'is_published' => true]);
-            }
+        foreach ($faq as $i => [$q, $a]) {
+            Faq::updateOrCreate(
+                ['kelompok' => 'faq', 'pertanyaan' => $q],
+                ['jawaban' => $a, 'urutan' => $i + 1, 'is_published' => true]
+            );
+        }
+        foreach ($info as $i => [$q, $a]) {
+            Faq::updateOrCreate(
+                ['kelompok' => 'informasi', 'pertanyaan' => $q],
+                ['jawaban' => $a, 'urutan' => $i + 1, 'is_published' => true]
+            );
         }
 
         if (Announcement::count() === 0) {

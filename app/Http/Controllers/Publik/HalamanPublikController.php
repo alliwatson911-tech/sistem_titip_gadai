@@ -71,6 +71,18 @@ class HalamanPublikController extends Controller
         return view('publik.pages.layanan', $data);
     }
 
+    /** Halaman Detail Khusus per Jenis Jaminan */
+    public function layananDetail(string $slug): View
+    {
+        $data = $this->dataUmum();
+        $detailProduk = Product::where('is_active', true)->where('slug', $slug)->firstOrFail();
+        $data['p'] = $detailProduk;
+        $data['dataProduk'] = $this->dataKalkulator($data['produk']);
+        $data['maksPeriode'] = LoanCalculator::MAKS_PERIODE;
+
+        return view('publik.pages.layanan-detail', $data);
+    }
+
     /** Halaman Khusus: Standar Layanan */
     public function standar(): View
     {

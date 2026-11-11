@@ -22,21 +22,67 @@
             </div>
         @endif
         <div class="bidang">
-            <label for="f-product_id">Jenis barang</label>
+            <label for="f-product_id">Jenis jaminan</label>
             <select id="f-product_id" name="product_id" required>
-                <option value="">Pilih jenis barang</option>
+                <option value="">Pilih jenis jaminan</option>
                 @foreach ($produk as $p)
-                    <option value="{{ $p->id }}" @selected(old('product_id', $pilihan) == $p->id || $pilihan === $p->slug)>{{ $p->nama }} ({{ Rupiah::ringkas($p->pinjaman_min) }} – {{ Rupiah::ringkas($p->pinjaman_max) }})</option>
+                    <option value="{{ $p->id }}" data-kelompok="{{ $p->kelompok_agunan }}" data-dokumen='@json($p->dokumen_wajib)' data-atribut='@json($p->atribut_khusus)' @selected(old('product_id', $pilihan) == $p->id || $pilihan === $p->slug)>{{ $p->nama }} ({{ Rupiah::ringkas($p->pinjaman_min) }} – {{ Rupiah::ringkas($p->pinjaman_max) }})</option>
                 @endforeach
             </select>
             @error('product_id')<p class="galat" role="alert">{{ $message }}</p>@enderror
         </div>
-        <x-bidang nama="pinjaman_diminta" label="Jumlah pinjaman yang diinginkan (Rp)" inputmode="numeric" autocomplete="off" :wajib="true" bantuan="Angka pasti ditetapkan analis setelah barang ditaksir. Anda boleh meminta lebih rendah dari plafon." />
+
+        <div id="kotak-info-produk" style="display:none; background:var(--kertas-2); border:1px solid var(--garis); padding:1.25rem; border-radius:var(--radius-sm); margin-bottom:1.5rem;">
+            <h3 style="font-size:1.1rem; margin:0 0 .5rem; color:var(--tinta);">Kelengkapan Dokumen &amp; Data Agunan</h3>
+            <div id="info-dokumen" style="font-size:.9rem; line-height:1.5; color:var(--tinta-2); margin-bottom:.75rem;"></div>
+            <div id="info-atribut" style="font-size:.85rem; line-height:1.5; color:var(--tinta-2);"></div>
+        </div>
+
+        <x-bidang nama="pinjaman_diminta" label="Jumlah pinjaman yang diinginkan (Rp)" inputmode="numeric" autocomplete="off" :wajib="true" bantuan="Angka pasti ditetapkan analis setelah barang/dokumen ditaksir. Anda boleh meminta lebih rendah dari plafon." />
         <div class="bidang">
-            <label for="f-catatan_member">Catatan (opsional)</label>
-            <textarea id="f-catatan_member" name="catatan_member" maxlength="500">{{ old('catatan_member') }}</textarea>
+            <label for="f-catatan_member">Catatan / Rincian Agunan (opsional)</label>
+            <textarea id="f-catatan_member" name="catatan_member" maxlength="500" placeholder="Contoh: Merek HP/Laptop, plat nomor kendaraan, atau nomor SHM">{{ old('catatan_member') }}</textarea>
             @error('catatan_member')<p class="galat" role="alert">{{ $message }}</p>@enderror
         </div>
         <button class="btn btn--utama" type="submit">Kirim pengajuan</button>
     </form>
+
+    <script>
+        (function() {
+            var sel = document.getElementById('f-product_id');
+            var box = document.getElementById('kotak-info-produk');
+            var dokEl = document.getElementById('info-dokumen');
+            var atrEl = document.getElementById('info-atribut');
+            if (!sel || !box) return;
+
+            function updateInfo() {
+                var opt = sel.options[sel.selectedIndex];
+                if (!opt || !opt.value) {
+                    box.style.display = 'none';
+                    return;
+                }
+                var doks = JSON.parse(opt.dataset.dokumen || '[]');
+                var atrs = JSON.parse(opt.dataset.atribut || '[]');
+                var htmlDok = '<strong>Dokumen yang wajib dibawa ke cabang:</strong><ul style="margin:.3rem 0 0; padding-left:1.2rem;">';
+                if (doks.length) {
+                    doks.forEach(function(d) { htmlDok += '<li>' + d + '</li>'; });
+                } else {
+                    htmlDok += '<li>KTP Asli dan kelengkapan unit jaminan.</li>';
+                }
+                htmlDok += '</ul>';
+
+                var htmlAtr = '';
+                if (atrs.length) {
+                    htmlAtr = '<strong>Parameter data yang akan diperiksa petugas:</strong> ' + atrs.join(', ');
+                }
+
+                dokEl.innerHTML = htmlDok;
+                atrEl.innerHTML = htmlAtr;
+                box.style.display = 'block';
+            }
+
+            sel.addEventListener('change', updateInfo);
+            updateInfo();
+        })();
+    </script>
 @endsection

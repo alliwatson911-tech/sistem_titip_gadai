@@ -37,6 +37,7 @@ Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 // Halaman publik khusus tiap panel navigasi
 Route::get('/layanan', [HalamanPublikController::class, 'layanan'])->name('publik.layanan');
+Route::get('/layanan/{slug}', [HalamanPublikController::class, 'layananDetail'])->name('publik.layanan.detail');
 Route::get('/standar', [HalamanPublikController::class, 'standar'])->name('publik.standar');
 Route::get('/panduan', [HalamanPublikController::class, 'panduan'])->name('publik.panduan');
 Route::get('/syarat', [HalamanPublikController::class, 'syarat'])->name('publik.syarat');

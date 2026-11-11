@@ -94,12 +94,15 @@ class ApplicationFlow
                 'application_id' => $a->id,
                 'branch_id' => $a->branch_id,
                 'jenis' => $a->product->kategori_barang,
+                'kelompok_agunan' => $a->product->kelompok_agunan ?? 'elektronik',
                 'merek' => $d['merek'],
                 'model' => $d['model'],
                 'imei_serial_enc' => $d['imei_serial'] ?? null,
                 'imei_serial_hash' => $hash,
                 'kelengkapan' => $d['kelengkapan'] ?? null,
                 'kondisi' => $d['kondisi'] ?? null,
+                'atribut_data' => $d['atribut_data'] ?? null,
+                'dokumen_diterima' => $d['dokumen_diterima'] ?? null,
                 'no_segel' => $d['no_segel'],
                 'lokasi_simpan' => $d['lokasi_simpan'] ?? null,
                 'diterima_oleh' => $teller->id,
@@ -217,7 +220,13 @@ class ApplicationFlow
             $a = $this->kunci($a, S::Ditolak);
             $n = 0;
             foreach ($a->collaterals()->where('status', 'diterima')->get() as $c) {
-                $c->forceFill(['status' => 'dikeluarkan'])->save();
+                $c->forceFill([
+                    'status' => 'dikeluarkan',
+                    'dokumen_dikembalikan_at' => now(),
+                    'diserahkan_oleh' => $teller->id,
+                    'diserahkan_kepada' => $a->member->nama_lengkap ?? 'Penggadai',
+                    'catatan_serah_terima' => 'Agunan/dokumen dikembalikan karena pengajuan dibatalkan atau ditolak.',
+                ])->save();
                 $n++;
             }
             if ($n === 0) {

@@ -307,7 +307,13 @@ class LoanService
                 'nota_asli_diperiksa' => true, 'dikeluarkan_oleh' => $teller->id, 'dikeluarkan_at' => now(),
             ]);
             foreach ($l->collaterals()->where('status', 'tersimpan')->get() as $c) {
-                $c->forceFill(['status' => 'dikeluarkan'])->save();
+                $c->forceFill([
+                    'status' => 'dikeluarkan',
+                    'dokumen_dikembalikan_at' => now(),
+                    'diserahkan_oleh' => $teller->id,
+                    'diserahkan_kepada' => $d['nama_penebus'],
+                    'catatan_serah_terima' => 'Agunan dan dokumen diserahkan kembali setelah pelunasan tebus.',
+                ])->save();
             }
 
             return $r;

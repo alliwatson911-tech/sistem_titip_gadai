@@ -234,9 +234,17 @@
   d.querySelectorAll('input[name="durasi_minggu"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
   d.querySelectorAll('input[name="periode"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
 
-  pilih.addEventListener('change', function () { aturRentang(); jadwalkan(); });
+  pilih.addEventListener('change', function () {
+    var p = produkAktif(), tak = angkaTaksiran();
+    var minTak = Math.round(p.min / (p.ltvMaxBp / 10000));
+    if (tak < minTak) {
+      taksir.value = rupiah.format(Math.round(minTak * 1.2));
+    }
+    aturRentang();
+    jadwalkan();
+  });
   taksir.addEventListener('input', function () {
-    var angka = taksir.value.replace(/\D/g, '').slice(0, 11);
+    var angka = taksir.value.replace(/\D/g, '').slice(0, 13);
     taksir.value = angka ? rupiah.format(parseInt(angka, 10)) : '';
     jadwalkan();
   });
@@ -247,7 +255,16 @@
   d.querySelectorAll('[data-pilih]').forEach(function (a) {
     a.addEventListener('click', function () {
       var p = produk.filter(function (x) { return x.slug === a.dataset.pilih; })[0];
-      if (p) { pilih.value = String(p.id); aturRentang(); jadwalkan(); }
+      if (p) {
+        pilih.value = String(p.id);
+        var tak = angkaTaksiran();
+        var minTak = Math.round(p.min / (p.ltvMaxBp / 10000));
+        if (tak < minTak) {
+          taksir.value = rupiah.format(Math.round(minTak * 1.2));
+        }
+        aturRentang();
+        jadwalkan();
+      }
     });
   });
 
@@ -256,7 +273,11 @@
   var paramProduk = urlParams.get('produk');
   if (paramProduk) {
     var cocok = produk.filter(function (x) { return x.slug === paramProduk || String(x.id) === paramProduk; })[0];
-    if (cocok) { pilih.value = String(cocok.id); }
+    if (cocok) {
+      pilih.value = String(cocok.id);
+      var minTak = Math.round(cocok.min / (cocok.ltvMaxBp / 10000));
+      taksir.value = rupiah.format(Math.max(minTak, 3000000));
+    }
   }
 
   aturRentang();

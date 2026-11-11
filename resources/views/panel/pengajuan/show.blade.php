@@ -51,11 +51,36 @@
         @foreach ($a->collaterals as $c)
             <dl class="ringkasan">
                 <div><dt>Barang</dt><dd>{{ $c->merek }} {{ $c->model }}</dd></div>
+                <div><dt>Kelompok Agunan</dt><dd>{{ ucfirst($c->kelompok_agunan ?? 'elektronik') }}</dd></div>
                 <div><dt>No. segel</dt><dd class="mono">{{ $c->no_segel }}</dd></div>
                 <div><dt>Lokasi simpan</dt><dd>{{ $c->lokasi_simpan ?: '—' }}</dd></div>
-                <div><dt>IMEI / serial</dt><dd class="mono">{{ $c->imei_serial_enc ? '••••'.substr($c->imei_serial_enc, -4) : '—' }}</dd></div>
+                <div><dt>IMEI / Serial / No. Dok</dt><dd class="mono">{{ $c->imei_serial_enc ? '••••'.substr($c->imei_serial_enc, -4) : '—' }}</dd></div>
                 <div><dt>Kelengkapan</dt><dd>{{ $c->kelengkapan ?: '—' }}</dd></div>
                 <div><dt>Status barang</dt><dd>{{ $c->status }}</dd></div>
+                @if (!empty($c->atribut_data))
+                    <div style="grid-column:1/-1">
+                        <dt>Atribut Agunan</dt>
+                        <dd>
+                            <ul style="margin:0; padding-left:1.2rem;">
+                                @foreach ($c->atribut_data as $k => $v)
+                                    <li><strong>{{ $k }}:</strong> {{ $v }}</li>
+                                @endforeach
+                            </ul>
+                        </dd>
+                    </div>
+                @endif
+                @if (!empty($c->dokumen_diterima))
+                    <div style="grid-column:1/-1">
+                        <dt>Dokumen Fisik Diterima</dt>
+                        <dd>{{ is_array($c->dokumen_diterima) ? implode(', ', $c->dokumen_diterima) : $c->dokumen_diterima }}</dd>
+                    </div>
+                @endif
+                @if ($c->dokumen_dikembalikan_at)
+                    <div style="grid-column:1/-1">
+                        <dt>Serah Terima Pengembalian</dt>
+                        <dd>Dikembalikan pada {{ $c->dokumen_dikembalikan_at->translatedFormat('j F Y H:i') }} kepada {{ $c->diserahkan_kepada }} oleh {{ $c->penyerah?->name ?? 'Petugas' }} ({{ $c->catatan_serah_terima }})</dd>
+                    </div>
+                @endif
                 <div style="grid-column:1/-1"><dt>Kondisi</dt><dd>{{ $c->kondisi ?: '—' }}</dd></div>
             </dl>
             @if ($c->photos->isNotEmpty())
@@ -101,26 +126,60 @@
         @can('jaminan.terima')
             <form class="form" method="post" action="{{ route('panel.pengajuan.terima', $a) }}" enctype="multipart/form-data" style="margin-top:1.5rem">
                 @csrf
-                <h2>Terima barang jaminan</h2>
+                <h2>Terima &amp; Periksa Jaminan ({{ $a->product->nama }})</h2>
                 <label class="centang"><input type="checkbox" name="identitas_dicocokkan" value="1" @checked(old('identitas_dicocokkan'))> Identitas penggadai sudah dicocokkan dengan KTP asli.</label>
                 @error('identitas_dicocokkan')<p class="galat" role="alert">{{ $message }}</p>@enderror
+
+                @if (!empty($a->product->dokumen_wajib))
+                    <fieldset class="bidang" style="border:1px solid var(--garis); padding:.9rem 1rem; margin-top:1rem; border-radius:4px; background:var(--kertas-2);">
+                        <legend style="font-weight:600; font-size:.9rem; color:var(--tinta);">Pemeriksaan Dokumen Wajib Diterima</legend>
+                        <p class="catatan-kecil" style="margin:0 0 .5rem;">Centang dokumen fisik asli yang diterima dari nasabah:</p>
+                        @foreach ($a->product->dokumen_wajib as $dok)
+                            <label class="centang" style="margin-top:.35rem;">
+                                <input type="checkbox" name="dokumen_diterima[]" value="{{ $dok }}" @checked(is_array(old('dokumen_diterima')) && in_array($dok, old('dokumen_diterima')))> {{ $dok }}
+                            </label>
+                        @endforeach
+                    </fieldset>
+                @endif
+
                 <div class="baris-2">
-                    <x-bidang nama="merek" label="Merek" :wajib="true" />
-                    <x-bidang nama="model" label="Model" :wajib="true" />
-                    <x-bidang nama="imei_serial" label="IMEI / nomor seri" autocomplete="off" bantuan="Dipakai untuk mendeteksi barang yang sama dititipkan dua kali." />
-                    <x-bidang nama="no_segel" label="Nomor segel" :wajib="true" />
-                    <x-bidang nama="kelengkapan" label="Kelengkapan" bantuan="Dus, pengisi daya, kabel, aksesori." />
-                    <x-bidang nama="lokasi_simpan" label="Lokasi simpan" bantuan="Mis. brankas 2, rak C." />
+                    <x-bidang nama="merek" label="Merek / Nama Objek" :wajib="true" />
+                    <x-bidang nama="model" label="Tipe / Model / Peruntukan" :wajib="true" />
+                    <x-bidang nama="imei_serial" label="IMEI / No. Rangka / No. Sertifikat" autocomplete="off" bantuan="Nomor pengenal unik objek atau dokumen jaminan." />
+                    <x-bidang nama="no_segel" label="Nomor segel / Kode Pengaman" :wajib="true" />
+                    <x-bidang nama="kelengkapan" label="Kelengkapan Fisik" bantuan="Mis. dus, adaptor, faktur pembelian, STNK." />
+                    <x-bidang nama="lokasi_simpan" label="Lokasi simpan khasanah" bantuan="Mis. Brankas A-1, Khasanah Dokumen 2." />
                 </div>
-                <div class="bidang"><label for="f-kondisi">Kondisi fisik</label><textarea id="f-kondisi" name="kondisi" maxlength="1000">{{ old('kondisi') }}</textarea>@error('kondisi')<p class="galat" role="alert">{{ $message }}</p>@enderror</div>
-                <fieldset class="bidang" style="border:0;padding:0"><legend>Foto barang (JPG/PNG/WebP, maks. 4 MB)</legend>
+
+                @if (!empty($a->product->atribut_khusus))
+                    <fieldset class="bidang" style="border:1px solid var(--garis); padding:.9rem 1rem; margin-top:1rem; border-radius:4px; background:var(--kertas-2);">
+                        <legend style="font-weight:600; font-size:.9rem; color:var(--tinta);">Atribut Spesifik ({{ $a->product->nama }})</legend>
+                        <div class="baris-2">
+                            @foreach ($a->product->atribut_khusus as $atr)
+                                @php
+                                    $labelAtr = is_array($atr) ? ($atr['label'] ?? $atr['name']) : $atr;
+                                    $slugAtr = \Illuminate\Support\Str::slug(is_array($atr) ? $atr['name'] : $atr);
+                                    $kunciAtr = is_array($atr) ? $atr['name'] : $atr;
+                                    $phAtr = is_array($atr) ? ($atr['placeholder'] ?? $labelAtr) : $atr;
+                                @endphp
+                                <div>
+                                    <label for="atr-{{ $slugAtr }}" style="font-size:.85rem;">{{ $labelAtr }}</label>
+                                    <input id="atr-{{ $slugAtr }}" type="text" name="atribut_data[{{ $kunciAtr }}]" value="{{ old('atribut_data.'.$kunciAtr) }}" placeholder="{{ $phAtr }}">
+                                </div>
+                            @endforeach
+                        </div>
+                    </fieldset>
+                @endif
+
+                <div class="bidang"><label for="f-kondisi">Kondisi fisik / Catatan pemeriksaan</label><textarea id="f-kondisi" name="kondisi" maxlength="1000">{{ old('kondisi') }}</textarea>@error('kondisi')<p class="galat" role="alert">{{ $message }}</p>@enderror</div>
+                <fieldset class="bidang" style="border:0;padding:0"><legend>Foto barang / dokumen jaminan (JPG/PNG/WebP, maks. 4 MB)</legend>
                     <div class="baris-2">
-                        @foreach (['depan' => 'Depan', 'belakang' => 'Belakang', 'serial' => 'Nomor seri', 'segel' => 'Segel terpasang'] as $k => $l)
+                        @foreach (['depan' => 'Foto Objek / Dokumen Depan', 'belakang' => 'Foto Objek / Dokumen Belakang', 'serial' => 'Foto No. Seri / Nomor Dokumen', 'segel' => 'Foto Segel / Penempatan Khasanah'] as $k => $l)
                             <div><label for="foto-{{ $k }}">{{ $l }}</label><input id="foto-{{ $k }}" type="file" name="foto[{{ $k }}]" accept="image/jpeg,image/png,image/webp">@error("foto.$k")<p class="galat" role="alert">{{ $message }}</p>@enderror</div>
                         @endforeach
                     </div>
                 </fieldset>
-                <button class="btn btn--utama" type="submit">Terima dan segel barang</button>
+                <button class="btn btn--utama" type="submit">Terima dan amankan jaminan</button>
             </form>
         @endcan
         @can('pengajuan.buat')

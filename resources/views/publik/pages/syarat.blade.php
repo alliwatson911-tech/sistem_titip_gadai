@@ -18,26 +18,92 @@
             <!-- Kotak Syarat Kelengkapan Dokumen & Barang (Pindahan dari Panduan) -->
             <div class="syarat-highlight-box" data-muncul>
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
-                    <h2 style="margin: 0; padding: 0; border: 0; font-size: 1.4rem;">Syarat Kelengkapan Dokumen &amp; Barang Gadai</h2>
+                    <h2 style="margin: 0; padding: 0; border: 0; font-size: 1.4rem;">Syarat Umum Kelengkapan Dokumen &amp; Penggadai</h2>
                     <span style="font: 600 .75rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .08em; background: rgba(30, 90, 60, .12); color: var(--lumut); padding: .4rem .75rem; border-radius: 9999px; border: 1px solid rgba(30, 90, 60, .3);">Wajib Dipenuhi</span>
                 </div>
                 <p style="margin: 0 0 1.25rem; font-size: .98rem; line-height: 1.6; color: var(--muted);">
-                    Pastikan Anda dan barang elektronik yang akan dititipkan memenuhi kriteria kelengkapan di bawah ini sebelum datang ke loket cabang kami:
+                    Pastikan Anda dan jaminan yang diajukan memenuhi kriteria dasar di bawah ini sebelum datang ke loket kantor cabang linygadai:
                 </p>
-                @php $syaratList = $konten['syarat_online'] ?? []; @endphp
                 <ul class="syarat" style="gap: 1.1rem;">
-                    @foreach ($syaratList as $s)
-                        <li style="font-size: 1rem; line-height: 1.5; color: var(--tinta);">
-                            {{ $isi($s) }}
-                        </li>
-                    @endforeach
                     <li style="font-size: 1rem; line-height: 1.5; color: var(--tinta);">
-                        Pemilik barang berusia minimal 18 tahun atau telah cakap hukum menurut peraturan perundang-undangan.
+                        <strong>Identitas Asli:</strong> Membawa e-KTP fisik asli yang masih berlaku dan data terdaftar resmi di Disdukcapil.
                     </li>
                     <li style="font-size: 1rem; line-height: 1.5; color: var(--tinta);">
-                        Barang elektronik bukan merupakan objek sengketa, sitaan, atau hasil tindak pidana.
+                        <strong>Kecakapan Hukum:</strong> Pemohon berusia minimal 18 tahun atau telah cakap hukum menurut peraturan perundang-undangan Republik Indonesia.
+                    </li>
+                    <li style="font-size: 1rem; line-height: 1.5; color: var(--tinta);">
+                        <strong>Kepemilikan Sah:</strong> Agunan merupakan milik pribadi sah pemohon. Apabila atas nama orang lain/keluarga, wajib menyertakan surat kuasa bermeterai dan identitas pemilik asal.
+                    </li>
+                    <li style="font-size: 1rem; line-height: 1.5; color: var(--tinta);">
+                        <strong>Bebas Sengketa:</strong> Agunan bukan merupakan objek sitaan peradilan, sengketa hak waris/pihak ketiga, atau hasil tindak pidana kejahatan.
                     </li>
                 </ul>
+            </div>
+
+            <!-- Persyaratan Spesifik Berdasarkan 4 Kelompok Jaminan -->
+            <div style="margin: 3rem 0 1.5rem;">
+                <p class="nomor" style="margin-bottom: .4rem;">Kategori Agunan</p>
+                <h2 style="font: 700 clamp(1.5rem, 3vw, 2rem)/1.2 var(--f-judul); color: var(--tinta); margin: 0 0 .75rem;">Persyaratan Spesifik per Jenis Jaminan</h2>
+                <p style="color: var(--muted); font-size: 1rem; max-width: 65ch; margin: 0 0 1.5rem;">
+                    Setiap jenis agunan memiliki standar pemeriksaan teknis, dokumen wajib, dan mekanisme penyimpanan yang disesuaikan:
+                </p>
+            </div>
+
+            <div class="syarat-grid" style="margin-bottom: 3.5rem;">
+                <article class="syarat-card" data-muncul>
+                    <div class="syarat-card-top">
+                        <span class="syarat-card-num" style="background: var(--kuningan-muda); color: var(--kuningan-tua);">01. ELEKTRONIK</span>
+                    </div>
+                    <h3>Laptop &amp; Smartphone</h3>
+                    <ul style="padding-left: 1.2rem; margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--tinta-2);">
+                        <li>Unit dapat dinyalakan dan fungsi perangkat normal (layar, audio, kamera, baterai).</li>
+                        <li>Wajib logout seluruh kunci akun (iCloud, Apple ID, Akun Google/Gmail, Mi/Samsung Account).</li>
+                        <li>Membawa charger/adaptor pengisi daya asli dan perlengkapan dus jika ada.</li>
+                        <li><strong>Penyimpanan:</strong> Unit fisik disimpan di brankas ber-AC dengan segel bernomor seri khusus.</li>
+                    </ul>
+                </article>
+
+                <article class="syarat-card" data-muncul>
+                    <div class="syarat-card-top">
+                        <span class="syarat-card-num" style="background: var(--lumut-muda); color: var(--lumut);">02. KENDARAAN</span>
+                    </div>
+                    <h3>BPKB Mobil &amp; BPKB Motor</h3>
+                    <ul style="padding-left: 1.2rem; margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--tinta-2);">
+                        <li>BPKB asli dan faktur pembelian sah.</li>
+                        <li>STNK asli yang masih aktif masa berlakunya.</li>
+                        <li>Kuitansi jual beli bermeterai dan KTP pemilik awal bila belum balik nama.</li>
+                        <li>Cek fisik kendaraan (nomor rangka &amp; nomor mesin) di kantor cabang linygadai.</li>
+                        <li><strong>Penyimpanan:</strong> BPKB disimpan di brankas khasanah. <em>Fisik kendaraan tetap Anda gunakan.</em></li>
+                    </ul>
+                </article>
+
+                <article class="syarat-card" data-muncul>
+                    <div class="syarat-card-top">
+                        <span class="syarat-card-num" style="background: rgba(184, 134, 43, .15); color: var(--kuningan-tua);">03. PROPERTI</span>
+                    </div>
+                    <h3>Sertifikat Rumah &amp; Tanah</h3>
+                    <ul style="padding-left: 1.2rem; margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--tinta-2);">
+                        <li>Sertifikat Asli: Sertifikat Hak Milik (SHM) atau Hak Guna Bangunan (SHGB) aktif.</li>
+                        <li>Bukti lunas PBB (Surat Tanda Terima Setoran) tahun berjalan.</li>
+                        <li>Kartu Keluarga (KK) dan persetujuan tertulis pasangan (suami/istri).</li>
+                        <li>Pengecekan keabsahan warkah di Kantor Pertanahan (BPN) dan survei lokasi lapangan.</li>
+                        <li><strong>Penyimpanan:</strong> Sertifikat disimpan di khasanah tahan api. <em>Properti tetap Anda huni/kelola.</em></li>
+                    </ul>
+                </article>
+
+                <article class="syarat-card" data-muncul>
+                    <div class="syarat-card-top">
+                        <span class="syarat-card-num" style="background: var(--kertas-2); color: var(--tinta);">04. SURAT BERHARGA</span>
+                    </div>
+                    <h3>Barang &amp; Surat Berharga Lainnya</h3>
+                    <ul style="padding-left: 1.2rem; margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--tinta-2);">
+                        <li>Sertifikat resmi keaslian/kadar untuk logam mulia atau perhiasan berharga.</li>
+                        <li>Nota/faktur pembelian resmi dari toko atau lembaga penerbit sah.</li>
+                        <li>Dokumen instrumen berharga legal yang dapat diverifikasi keabsahannya.</li>
+                        <li>Uji karatase/keaslian di hadapan pemilik sebelum penetapan taksiran.</li>
+                        <li><strong>Penyimpanan:</strong> Disimpan dalam safety deposit box / khasanah berkeamanan tinggi.</li>
+                    </ul>
+                </article>
             </div>
 
             <!-- Grid Ketentuan Umum Sistem Titip Gadai -->
