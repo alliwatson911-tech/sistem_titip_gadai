@@ -26,7 +26,7 @@
 
             <div class="lembar panel-form" style="padding: 1.8rem;" data-muncul>
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 02</div>
-                <h3 style="border-bottom: 2px solid var(--tinta); padding-bottom: .6rem; margin-bottom: 1.25rem;">Titip Gadai Agunan</h3>
+                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Titip Gadai Agunan</h3>
                 <ol class="langkah">
                     @foreach ($gadai as $s)
                         <li><div><b>{{ $s['judul'] }}</b><span>{{ $isi($s['isi']) }}</span></div></li>
@@ -36,7 +36,7 @@
 
             <div class="lembar panel-form" style="padding: 1.8rem;" data-muncul>
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 03</div>
-                <h3 style="border-bottom: 2px solid var(--lumut); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pelunasan &amp; Tebus</h3>
+                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pelunasan &amp; Tebus</h3>
                 <ol class="langkah">
                     <li><div><b>Perpanjang Masa Titip</b><span>Sebelum jatuh tempo, Anda dapat memperpanjang masa simpan dengan melunasi sewa modal dan administrasi berjalan.</span></div></li>
                     <li><div><b>Cicil Pokok Pinjaman</b><span>Kurangi beban kewajiban dengan mencicil pokok pinjaman bertahap sesuai kesiapan dana Anda.</span></div></li>
