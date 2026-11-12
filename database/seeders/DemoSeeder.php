@@ -81,14 +81,15 @@ class DemoSeeder extends Seeder
         $a = Branch::where('kode', 'A')->value('id');
         $b = Branch::where('kode', 'B')->value('id');
         foreach ([
-            [$a, 'Antrean lebih singkat di pagi hari', 'Cabang A melayani penaksiran paling cepat pukul 08.00–10.00. Bawa KTP asli dan kelengkapan barang untuk mempercepat proses. (Pengumuman contoh untuk uji coba.)'],
-            [$b, 'Loket penebusan dipisah', 'Cabang B kini memisahkan loket penebusan dan pencairan agar antrean tidak bercampur. (Pengumuman contoh untuk uji coba.)'],
-            [null, 'Cek tanggal jatuh tempo di akun Anda', 'Masuk ke akun anggota untuk melihat jatuh tempo, tagihan perpanjang, dan riwayat pembayaran. Kami juga mengirim email pengingat sebelum jatuh tempo. (Pengumuman contoh.)'],
-            [null, 'Waspada penipuan', 'Petugas linygadai tidak pernah meminta kata sandi, kode verifikasi, atau transfer ke rekening pribadi. Pembayaran hanya melalui teller cabang. (Pengumuman contoh.)'],
+            [$a, 'Antrean lebih singkat di pagi hari', 'Cabang A melayani penaksiran paling cepat pukul 08.00–10.00. Bawa KTP asli dan kelengkapan barang untuk mempercepat proses.'],
+            [$b, 'Loket penebusan dipisah', 'Cabang B kini memisahkan loket penebusan dan pencairan agar antrean tidak bercampur.'],
+            [null, 'Cek tanggal jatuh tempo di akun Anda', 'Masuk ke akun anggota untuk melihat jatuh tempo, tagihan perpanjang, dan riwayat pembayaran. Kami juga mengirim email pengingat sebelum jatuh tempo.'],
+            [null, 'Waspada penipuan', 'Petugas linygadai tidak pernah meminta kata sandi, kode verifikasi, atau transfer ke rekening pribadi. Pembayaran hanya melalui teller cabang.'],
         ] as [$cabang, $judul, $isi]) {
-            $p = new Announcement(['judul' => $judul, 'isi' => $isi, 'is_published' => true]);
-            $p->branch_id = $cabang;
-            $p->save();
+            Announcement::firstOrCreate(
+                ['judul' => $judul],
+                ['isi' => $isi, 'is_published' => true, 'branch_id' => $cabang]
+            );
         }
 
         foreach ([

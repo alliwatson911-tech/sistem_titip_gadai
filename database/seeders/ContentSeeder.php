@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Announcement;
+use App\Models\Branch;
 use App\Models\Faq;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -99,17 +100,56 @@ class ContentSeeder extends Seeder
             );
         }
 
-        if (Announcement::count() === 0) {
-            Announcement::create([
+        $cabangA = Branch::where('kode', 'A')->value('id');
+        $cabangB = Branch::where('kode', 'B')->value('id');
+
+        $pengumuman = [
+            [
                 'judul' => 'Pengajuan online sudah dibuka',
-                'isi' => 'Daftar dan ajukan titip gadai dari akun anggota, lalu bawa barang Anda ke cabang. Antrean di cabang jadi lebih singkat karena data Anda sudah kami terima.',
-                'is_published' => true,
-            ]);
-            Announcement::create([
+                'isi' => 'Daftar dan ajukan titip gadai dari akun anggota, lalu bawa barang atau dokumen Anda ke cabang. Antrean di cabang jadi lebih singkat karena data Anda sudah kami terima.',
+                'branch_id' => null,
+            ],
+            [
                 'judul' => 'Perpanjang sebelum jatuh tempo',
-                'isi' => 'Barang yang diperpanjang atau ditebus tepat waktu tidak masuk proses lelang. Cek tanggal jatuh tempo Anda di nota atau di akun anggota.',
-                'is_published' => true,
-            ]);
+                'isi' => 'Barang yang diperpanjang atau ditebus tepat waktu tidak masuk proses lelang. Cek tanggal jatuh tempo Anda di nota fisik atau di akun anggota.',
+                'branch_id' => null,
+            ],
+            [
+                'judul' => 'Cek tanggal jatuh tempo di akun Anda',
+                'isi' => 'Masuk ke akun anggota untuk melihat jatuh tempo, tagihan perpanjang, dan riwayat pembayaran. Kami juga mengirim email pengingat sebelum jatuh tempo.',
+                'branch_id' => null,
+            ],
+            [
+                'judul' => 'Waspada penipuan',
+                'isi' => 'Petugas linygadai tidak pernah meminta kata sandi, kode verifikasi, atau transfer ke rekening pribadi. Pembayaran transaksi hanya sah melalui teller resmi cabang.',
+                'branch_id' => null,
+            ],
+            [
+                'judul' => 'Layanan Gadai Emas & Perhiasan Resmi',
+                'isi' => 'Kini linygadai melayani titip gadai emas batangan (Antam, UBS) dan perhiasan emas dengan uji kadar karat akurat, timbangan digital tersertifikasi, dan perlindungan brankas tahan api.',
+                'branch_id' => null,
+            ],
+            [
+                'judul' => 'Antrean lebih singkat di pagi hari',
+                'isi' => 'Cabang Veteran Selatan melayani penaksiran paling cepat pukul 08.30–10.00 WITA. Bawa KTP asli dan kelengkapan agunan untuk mempercepat proses pencairan dana Anda.',
+                'branch_id' => $cabangA,
+            ],
+            [
+                'judul' => 'Loket penebusan dan pencairan dipisah',
+                'isi' => 'Cabang Perintis Kemerdekaan kini memisahkan loket penebusan dan pencairan agar alur pelayanan nasabah lebih tertib, cepat, dan nyaman tanpa antre panjang.',
+                'branch_id' => $cabangB,
+            ],
+        ];
+
+        foreach ($pengumuman as $p) {
+            Announcement::firstOrCreate(
+                ['judul' => $p['judul']],
+                [
+                    'isi' => $p['isi'],
+                    'branch_id' => $p['branch_id'],
+                    'is_published' => true,
+                ]
+            );
         }
     }
 }
