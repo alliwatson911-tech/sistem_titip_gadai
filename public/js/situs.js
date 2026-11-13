@@ -133,6 +133,98 @@
     });
   }
 
+  /* ---- selector akun demo uji coba (CSP safe) ---- */
+  d.addEventListener('click', function (e) {
+    var card = e.target.closest('.demo-akun-card');
+    if (!card) return;
+
+    var email = card.getAttribute('data-email');
+    var password = card.getAttribute('data-password');
+    var role = card.getAttribute('data-role');
+    var emailTargetId = card.getAttribute('data-target-email');
+    var passwordTargetId = card.getAttribute('data-target-password');
+    var boxUid = card.getAttribute('data-box-uid');
+
+    // Cari elemen input target atau fallback ke input akun login
+    var emailInput = (emailTargetId ? d.getElementById(emailTargetId) : null) || d.getElementById('email') || d.getElementById('m-email');
+    var passwordInput = (passwordTargetId ? d.getElementById(passwordTargetId) : null) || d.getElementById('password') || d.getElementById('m-sandi');
+
+    if (!emailInput || !passwordInput) return;
+
+    // Bersihkan status error jika ada sebelumnya
+    [emailInput, passwordInput].forEach(function (el) {
+      el.classList.remove('input-error-shake');
+      if (el.parentElement) {
+        var err = el.parentElement.querySelector('.galat');
+        if (err) err.style.display = 'none';
+      }
+    });
+
+    // Masukkan data ke input
+    emailInput.value = email;
+    passwordInput.value = password;
+    emailInput.setAttribute('value', email);
+    passwordInput.setAttribute('value', password);
+
+    // Trigger input & change events
+    emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+    emailInput.dispatchEvent(new Event('change', { bubbles: true }));
+    passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
+    passwordInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+    // Efek visual highlight pada input
+    [emailInput, passwordInput].forEach(function (el) {
+      el.style.transition = 'all 0.3s ease';
+      el.style.borderColor = 'var(--kuningan)';
+      el.style.backgroundColor = '#FFFDF5';
+      el.style.boxShadow = '0 0 0 4px rgba(212, 175, 55, 0.28)';
+      setTimeout(function () {
+        el.style.borderColor = '';
+        el.style.backgroundColor = '';
+        el.style.boxShadow = '';
+      }, 1600);
+    });
+
+    // Tandai kartu aktif
+    var box = d.getElementById('demo-box-' + boxUid);
+    if (box) {
+      box.querySelectorAll('.demo-akun-card').forEach(function (c) { c.classList.remove('aktif'); });
+    }
+    card.classList.add('aktif');
+
+    // Tampilkan notifikasi status
+    var statusEl = d.getElementById('demo-status-' + boxUid);
+    if (statusEl) {
+      statusEl.innerHTML = '&#10003; Akun <strong>' + role + ' (' + email + ')</strong> tertempel! Siap login.';
+      statusEl.style.display = 'block';
+    }
+
+    // Arahkan fokus ke password
+    passwordInput.focus();
+  });
+
+  // Aksesibilitas keyboard (Enter / Spasi) pada kartu akun demo
+  d.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var card = e.target.closest('.demo-akun-card');
+      if (card && d.activeElement === card) {
+        e.preventDefault();
+        card.click();
+      }
+    }
+  });
+
+  // Hapus class error getar saat user mulai mengetik
+  d.addEventListener('input', function (e) {
+    if (e.target && e.target.classList && e.target.classList.contains('input-error-shake')) {
+      e.target.classList.remove('input-error-shake');
+      if (e.target.parentElement) {
+        var err = e.target.parentElement.querySelector('.galat');
+        if (err) err.style.display = 'none';
+      }
+    }
+  });
+
   /* ---- simulasi ---- */
   var dataEl = d.getElementById('data-produk');
   var pilih = d.getElementById('sim-produk');

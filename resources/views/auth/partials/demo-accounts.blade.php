@@ -89,8 +89,6 @@
                  data-target-email="{{ $emailTarget }}"
                  data-target-password="{{ $passwordTarget }}"
                  data-box-uid="{{ $uid }}"
-                 onclick="isiAkunDemo(this)"
-                 onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();isiAkunDemo(this);}"
                  title="Klik untuk memilih akun {{ $ak['judul'] }}">
                 <div class="demo-akun-left">
                     <span class="demo-akun-dot" style="background-color: {{ $ak['dot'] }};" aria-hidden="true"></span>
@@ -108,67 +106,4 @@
 
     <div class="demo-akun-status" id="demo-status-{{ $uid }}" role="status" aria-live="polite"></div>
 </div>
-
-@once
-<script>
-function isiAkunDemo(cardEl) {
-    const email = cardEl.getAttribute('data-email');
-    const password = cardEl.getAttribute('data-password');
-    const role = cardEl.getAttribute('data-role');
-    const emailTargetId = cardEl.getAttribute('data-target-email');
-    const passwordTargetId = cardEl.getAttribute('data-target-password');
-    const boxUid = cardEl.getAttribute('data-box-uid');
-
-    const emailInput = document.getElementById(emailTargetId);
-    const passwordInput = document.getElementById(passwordTargetId);
-
-    if (!emailInput || !passwordInput) return;
-
-    // Bersihkan status error jika ada sebelumnya
-    [emailInput, passwordInput].forEach(el => {
-        el.classList.remove('input-error-shake');
-        const err = el.parentElement ? el.parentElement.querySelector('.galat') : null;
-        if (err) err.style.display = 'none';
-    });
-
-    // Masukkan data ke input
-    emailInput.value = email;
-    passwordInput.value = password;
-
-    // Trigger input event
-    emailInput.dispatchEvent(new Event('input', { bubbles: true }));
-    passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
-
-    // Efek visual highlight pada input
-    [emailInput, passwordInput].forEach(el => {
-        el.style.transition = 'all 0.3s ease';
-        el.style.borderColor = 'var(--kuningan)';
-        el.style.backgroundColor = '#FFFDF5';
-        el.style.boxShadow = '0 0 0 4px rgba(212, 175, 55, 0.28)';
-        setTimeout(() => {
-            el.style.borderColor = '';
-            el.style.backgroundColor = '';
-            el.style.boxShadow = '';
-        }, 1600);
-    });
-
-    // Tandai kartu aktif
-    const box = document.getElementById('demo-box-' + boxUid);
-    if (box) {
-        box.querySelectorAll('.demo-akun-card').forEach(c => c.classList.remove('aktif'));
-    }
-    cardEl.classList.add('aktif');
-
-    // Tampilkan notifikasi status
-    const statusEl = document.getElementById('demo-status-' + boxUid);
-    if (statusEl) {
-        statusEl.innerHTML = '&#10003; Akun <strong>' + role + ' (' + email + ')</strong> tertempel! Siap login.';
-        statusEl.style.display = 'block';
-    }
-
-    // Arahkan fokus ke tombol submit atau input password
-    passwordInput.focus();
-}
-</script>
-@endonce
 
