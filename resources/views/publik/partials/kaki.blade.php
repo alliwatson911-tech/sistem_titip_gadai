@@ -78,10 +78,16 @@
 
         <!-- Bagian Bawah Footer -->
         <div class="kaki-bawah">
-            <div>
+            <div class="kaki-hakcipta">
                 &copy; {{ date('Y') }} <strong>linygadai</strong> &mdash; Titip Gadai Elektronik Resmi Makassar. Hak cipta dilindungi.
             </div>
-            <div>
+            <div class="kaki-dev">
+                <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener noreferrer" class="kaki-dev-link" title="Kunjungi PT Linijayainformatika">
+                    Developed by PT Linijayainformatika
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:inline-block; vertical-align:middle; margin-left:3px; opacity:.85;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
+            </div>
+            <div class="kaki-kembali">
                 <a href="#beranda" style="color: var(--kuningan); text-decoration: none; font-weight: 600;">Kembali ke Atas &uarr;</a>
             </div>
         </div>

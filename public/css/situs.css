@@ -765,8 +765,10 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .kaki-kolom ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
 .kaki-kolom a { color: var(--kertas); opacity: .85; text-decoration: none; font-size: .95rem; transition: opacity .15s, color .15s; }
 .kaki-kolom a:hover { opacity: 1; color: var(--kuningan); }
-.kaki-bawah { border-top: 1px solid var(--garis-terang); padding-top: 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center; text-align: center; font-size: .88rem; opacity: .8; }
-@media (min-width: 48rem) { .kaki-bawah { flex-direction: row; justify-content: space-between; text-align: left; } }
+.kaki-bawah { border-top: 1px solid var(--garis-terang); padding-top: 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center; text-align: center; font-size: .88rem; opacity: .9; }
+@media (min-width: 48rem) { .kaki-bawah { flex-direction: row; justify-content: space-between; align-items: center; text-align: left; } }
+.kaki-dev-link { color: var(--kuningan); text-decoration: none; font-weight: 600; font-size: .88rem; display: inline-flex; align-items: center; gap: .35rem; transition: color .15s ease, transform .15s ease; padding: .2rem .4rem; border-radius: var(--radius-sm); }
+.kaki-dev-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; transform: translateY(-1px); }
 
 /* ---------- akun ---------- */
 .akun { display: grid; gap: 2.5rem; }
