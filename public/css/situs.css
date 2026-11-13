@@ -770,6 +770,23 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .kaki-dev-link { color: var(--kuningan); text-decoration: none; font-weight: 600; font-size: .88rem; display: inline-flex; align-items: center; gap: .35rem; transition: color .15s ease, transform .15s ease; padding: .2rem .4rem; border-radius: var(--radius-sm); }
 .kaki-dev-link:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; transform: translateY(-1px); }
 
+/* ---------- demo akun selector ---------- */
+.demo-akun-box { background: #FAF8F5; border: 1.5px dashed rgba(15, 76, 58, 0.28); border-radius: 16px; padding: 1.25rem 1.35rem; margin-bottom: 1.75rem; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02); }
+.demo-akun-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: .5rem; }
+.demo-akun-header-title { display: flex; align-items: center; gap: .5rem; font-weight: 700; font-size: .84rem; color: #1E293B; letter-spacing: .04em; text-transform: uppercase; }
+.demo-akun-pw-pill { background: #FFFFFF; border: 1px solid #CBD5E1; border-radius: 6px; padding: .25rem .65rem; font-family: var(--f-mono); font-size: .8rem; color: #475569; font-weight: 600; box-shadow: 0 1px 2px rgba(0, 0, 0, .04); }
+.demo-akun-list { display: flex; flex-direction: column; gap: .65rem; }
+.demo-akun-card { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: .75rem 1rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all .18s ease; text-decoration: none; user-select: none; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); }
+.demo-akun-card:hover { border-color: var(--kuningan); box-shadow: 0 4px 14px rgba(15, 76, 58, .12); transform: translateY(-2px); }
+.demo-akun-card:active { transform: scale(0.99); }
+.demo-akun-card.aktif { border-color: var(--kuningan); background: #FFFDF8; box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.35); }
+.demo-akun-left { display: flex; align-items: center; gap: .85rem; text-align: left; }
+.demo-akun-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.demo-akun-nama { font-size: .93rem; font-weight: 700; color: #0F172A; line-height: 1.25; margin: 0; }
+.demo-akun-email { font-size: .82rem; color: #64748B; font-family: var(--f-mono); margin: .15rem 0 0; }
+.demo-akun-badge { font-size: .72rem; font-weight: 800; padding: .3rem .9rem; border-radius: 9999px; letter-spacing: .05em; text-transform: uppercase; flex-shrink: 0; }
+.demo-akun-status { display: none; margin-top: .85rem; padding: .55rem .85rem; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px; font-size: .84rem; color: #065F46; text-align: center; }
+
 /* ---------- akun ---------- */
 .akun { display: grid; gap: 2.5rem; }
 @media (min-width: 60rem) { .akun { grid-template-columns: 5fr 7fr; gap: 3.5rem; } }

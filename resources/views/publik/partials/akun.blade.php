@@ -22,6 +22,7 @@
                     @csrf
                     <input type="hidden" name="form" value="masuk">
                     <h3>Masuk</h3>
+                    @include('auth.partials.demo-accounts', ['emailId' => 'm-email', 'passwordId' => 'm-sandi'])
                     <label for="m-email">Email</label>
                     <input id="m-email" name="email" type="email" value="{{ $dariMasuk ? old('email') : '' }}" autocomplete="username" required>
                     @if ($dariMasuk) @error('email')<p class="galat" role="alert">{{ $message }}</p>@enderror @endif

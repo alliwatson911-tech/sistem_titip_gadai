@@ -7,7 +7,7 @@
 @section('badan')
     @include('publik.partials.kepala')
     <main id="isi" class="halaman-khusus">
-        <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 32rem;">
+        <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 34rem;">
             <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Masuk' => '']" />
 
             <div class="halaman-header" style="text-align: center; border-bottom: none; margin-bottom: 1.5rem;">
@@ -19,6 +19,8 @@
             @if (session('status'))
                 <p class="sudah-masuk" role="status" style="margin-bottom: 1.5rem; text-align: center;">{{ session('status') }}</p>
             @endif
+
+            @include('auth.partials.demo-accounts', ['emailId' => 'email', 'passwordId' => 'password'])
 
             <form class="panel-form" method="post" action="{{ route('masuk') }}" novalidate style="padding: 2.2rem 2rem; box-shadow: var(--shadow-md);">
                 @csrf
