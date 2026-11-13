@@ -124,6 +124,13 @@ function isiAkunDemo(cardEl) {
 
     if (!emailInput || !passwordInput) return;
 
+    // Bersihkan status error jika ada sebelumnya
+    [emailInput, passwordInput].forEach(el => {
+        el.classList.remove('input-error-shake');
+        const err = el.parentElement ? el.parentElement.querySelector('.galat') : null;
+        if (err) err.style.display = 'none';
+    });
+
     // Masukkan data ke input
     emailInput.value = email;
     passwordInput.value = password;
@@ -164,3 +171,4 @@ function isiAkunDemo(cardEl) {
 }
 </script>
 @endonce
+

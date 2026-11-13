@@ -48,14 +48,36 @@ class LoginController extends Controller
             ]);
         }
 
-        // Pesan gagal sengaja tunggal agar tidak membocorkan apakah email terdaftar atau akun nonaktif.
         $user = User::where('email', $data['email'])->first();
-        $sah = $user && $user->isActive() && Hash::check($data['password'], $user->password);
-        if (! $sah) {
+
+        // 1. Akun tidak ditemukan / salah
+        if (! $user) {
             RateLimiter::hit($kunci, 60);
             Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
 
-            throw ValidationException::withMessages(['email' => 'Email atau kata sandi salah, atau akun tidak aktif.']);
+            throw ValidationException::withMessages([
+                'email' => 'Akun tidak terdaftar atau email salah.',
+            ]);
+        }
+
+        // 2. Akun nonaktif
+        if (! $user->isActive()) {
+            RateLimiter::hit($kunci, 60);
+            Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun dinonaktifkan. Silakan hubungi pengelola cabang.',
+            ]);
+        }
+
+        // 3. Kata sandi salah
+        if (! Hash::check($data['password'], $user->password)) {
+            RateLimiter::hit($kunci, 60);
+            Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
+
+            throw ValidationException::withMessages([
+                'password' => 'Kata sandi salah. Silakan periksa kembali.',
+            ]);
         }
 
         RateLimiter::clear($kunci);

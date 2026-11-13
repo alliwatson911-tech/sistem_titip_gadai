@@ -162,7 +162,7 @@ class PublicPageTest extends TestCase
     {
         $this->from('/')->followingRedirects()
             ->post('/masuk', ['form' => 'masuk', 'email' => 'tidak@ada.test', 'password' => 'salah-salah-1'])
-            ->assertSee('Email atau kata sandi salah')
+            ->assertSee('Akun tidak terdaftar atau email salah')
             ->assertSee('data-ke="akun"', false);
     }
 

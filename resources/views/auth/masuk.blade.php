@@ -28,9 +28,12 @@
 
                 <div class="bidang">
                     <label for="email" style="margin-top: 0;">Alamat Email</label>
-                    <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="username" placeholder="nama@email.com" required autofocus>
+                    <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="username" placeholder="nama@email.com" required autofocus class="@error('email') is-invalid input-error-shake @enderror">
                     @error('email')
-                        <p class="galat" role="alert">{{ $message }}</p>
+                        <p class="galat" role="alert">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>{{ $message }}</span>
+                        </p>
                     @enderror
                 </div>
 
@@ -39,9 +42,12 @@
                         <label for="password" style="margin-top: .8rem;">Kata Sandi</label>
                         <a href="{{ route('sandi.lupa') }}" style="font-size: .84rem; color: var(--kuningan-tua); text-decoration: none;">Lupa kata sandi?</a>
                     </div>
-                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required>
+                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" required class="@error('password') is-invalid input-error-shake @enderror">
                     @error('password')
-                        <p class="galat" role="alert">{{ $message }}</p>
+                        <p class="galat" role="alert">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>{{ $message }}</span>
+                        </p>
                     @enderror
                 </div>
 

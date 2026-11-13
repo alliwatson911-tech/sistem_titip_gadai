@@ -24,11 +24,21 @@
                     <h3>Masuk</h3>
                     @include('auth.partials.demo-accounts', ['emailId' => 'm-email', 'passwordId' => 'm-sandi'])
                     <label for="m-email">Email</label>
-                    <input id="m-email" name="email" type="email" value="{{ $dariMasuk ? old('email') : '' }}" autocomplete="username" required>
-                    @if ($dariMasuk) @error('email')<p class="galat" role="alert">{{ $message }}</p>@enderror @endif
+                    <input id="m-email" name="email" type="email" value="{{ $dariMasuk ? old('email') : '' }}" autocomplete="username" required class="@if ($dariMasuk) @error('email') is-invalid input-error-shake @enderror @endif">
+                    @if ($dariMasuk) @error('email')
+                        <p class="galat" role="alert">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>{{ $message }}</span>
+                        </p>
+                    @enderror @endif
                     <label for="m-sandi">Kata sandi</label>
-                    <input id="m-sandi" name="password" type="password" autocomplete="current-password" required>
-                    @if ($dariMasuk) @error('password')<p class="galat" role="alert">{{ $message }}</p>@enderror @endif
+                    <input id="m-sandi" name="password" type="password" autocomplete="current-password" required class="@if ($dariMasuk) @error('password') is-invalid input-error-shake @enderror @endif">
+                    @if ($dariMasuk) @error('password')
+                        <p class="galat" role="alert">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>{{ $message }}</span>
+                        </p>
+                    @enderror @endif
                     <label class="centang"><input type="checkbox" name="ingat" value="1"> Ingat saya di perangkat ini</label>
                     <button class="btn btn--gelap" type="submit">Masuk</button>
                     <p style="margin:1rem 0 0"><a href="{{ route('sandi.lupa') }}">Lupa kata sandi?</a></p>

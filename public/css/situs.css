@@ -802,7 +802,55 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
   #sim-form.panel-form { padding: 1.25rem 1rem !important; }
   .nota { padding: 1.35rem 1.15rem 1.8rem; }
 }
-.galat { color: var(--terakota); font-size: .88rem; margin: .3rem 0 0; }
+/* ---------- exaggerated motion error feedback (principles of UX) ---------- */
+@keyframes exaggeratedInputShake {
+  0% { transform: translateX(0) scale(1); }
+  12% { transform: translateX(-16px) scale(1.02); }
+  24% { transform: translateX(14px) scale(0.99); }
+  36% { transform: translateX(-12px) scale(1.015); }
+  48% { transform: translateX(10px) scale(0.995); }
+  60% { transform: translateX(-7px) scale(1.01); }
+  72% { transform: translateX(5px) scale(0.998); }
+  84% { transform: translateX(-3px) scale(1.002); }
+  92% { transform: translateX(1px) scale(1); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+@keyframes errorPulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.45); }
+  25% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0.25), 0 4px 14px rgba(220, 38, 38, 0.2); }
+  60% { box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+input.input-error-shake {
+  animation: exaggeratedInputShake 0.75s cubic-bezier(0.36, 0.07, 0.19, 0.97) both, errorPulseGlow 0.9s ease-out;
+  border-color: #DC2626 !important;
+  background-color: #FEF2F2 !important;
+}
+
+input.input-error-shake:focus {
+  outline: none;
+  border-color: #DC2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25) !important;
+}
+
+.galat {
+  color: #DC2626;
+  font-size: .88rem;
+  font-weight: 600;
+  margin: .4rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  animation: galatMuncul .25s ease-out;
+}
+
+@keyframes galatMuncul {
+  0% { opacity: 0; transform: translateY(-6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
 .grid-2 { display: grid; gap: 0 1rem; }
 @media (min-width: 40rem) { .grid-2 { grid-template-columns: 1fr 1fr; } }
 .sudah-masuk { padding: 1.6rem; border: 2px solid var(--tinta); background: var(--putih); border-radius: var(--radius-md); }

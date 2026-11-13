@@ -38,10 +38,14 @@ class AuthTest extends TestCase
 
         $this->from('/masuk')->post('/masuk', ['email' => $user->email, 'password' => 'salah-salah-1'])
             ->assertRedirect('/masuk')
-            ->assertSessionHasErrors(['email' => 'Email atau kata sandi salah, atau akun tidak aktif.']);
+            ->assertSessionHasErrors(['password' => 'Kata sandi salah. Silakan periksa kembali.']);
 
         $this->assertGuest();
         $this->assertDatabaseHas('audit_logs', ['aksi' => 'auth.gagal']);
+
+        $this->from('/masuk')->post('/masuk', ['email' => 'tidakada@linygadai.test', 'password' => 'salah-salah-1'])
+            ->assertRedirect('/masuk')
+            ->assertSessionHasErrors(['email' => 'Akun tidak terdaftar atau email salah.']);
     }
 
     public function test_akun_nonaktif_tidak_bisa_masuk_dengan_pesan_yang_sama(): void
@@ -49,7 +53,7 @@ class AuthTest extends TestCase
         $user = $this->akun(['status' => 'nonaktif']);
 
         $this->from('/masuk')->post('/masuk', ['email' => $user->email, 'password' => self::SANDI])
-            ->assertSessionHasErrors(['email' => 'Email atau kata sandi salah, atau akun tidak aktif.']);
+            ->assertSessionHasErrors(['email' => 'Akun dinonaktifkan. Silakan hubungi pengelola cabang.']);
         $this->assertGuest();
     }
 
