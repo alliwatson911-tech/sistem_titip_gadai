@@ -186,19 +186,32 @@ body.panel {
 .tugas b { display: block; font: 600 2.4rem/1 var(--f-judul); }
 .catatan-audit { font-size: .85rem; color: var(--tinta-2); }
 
-/* ---------- dashboard (Glassmorphism Deep Navy + Gold) ---------- */
+/* ---------- dashboard (Glassmorphism Deep Navy + Gold dengan Storefront Background) ---------- */
 .dash-hero {
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 90% 10%, rgba(244, 179, 1, 0.28), transparent 300px),
-    radial-gradient(circle at 10% 90%, rgba(250, 0, 1, 0.16), transparent 260px),
-    linear-gradient(135deg, #002665 0%, #001C48 100%);
+    linear-gradient(135deg, rgba(0, 38, 101, 0.88) 0%, rgba(0, 20, 55, 0.94) 100%),
+    url('../images/persiden-hp-storefront.jpg') center 35% / cover no-repeat;
   color: var(--kertas);
   border-radius: 22px;
   padding: clamp(1.2rem, 3vw, 2rem);
   box-shadow: 0 14px 40px rgba(0, 15, 45, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.dash-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(244, 179, 1, 0.35), transparent 300px),
+    radial-gradient(circle at 10% 90%, rgba(250, 0, 1, 0.20), transparent 260px);
+  pointer-events: none;
+  z-index: 0;
+}
+.dash-hero > * {
+  position: relative;
+  z-index: 1;
 }
 .dash-hero-atas { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem 1rem; padding-bottom: 1.1rem; border-bottom: 1px solid var(--garis-terang); }
 .dash-cari { position: relative; flex: 1 1 18rem; max-width: 30rem; display: flex; }

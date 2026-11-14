@@ -292,6 +292,16 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.65);
 }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../images/persiden-hp-storefront.jpg') center 28% / cover no-repeat;
+  opacity: 0.12;
+  filter: saturate(115%) contrast(105%);
+  pointer-events: none;
+  z-index: 0;
+}
 .hero .wrap { display: grid; gap: 2.5rem; align-items: center; position: relative; z-index: 1; }
 @media (min-width: 56rem) { .hero .wrap { grid-template-columns: 7fr 5fr; gap: 3.5rem; } }
 .hero .wrap.hero-bawah { display: block; }
