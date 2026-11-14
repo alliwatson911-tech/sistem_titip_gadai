@@ -40,6 +40,9 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--tinggi-kepala) + 12px);
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 body {
   margin: 0;
@@ -48,14 +51,23 @@ body {
   color: var(--tinta);
   font: 400 1.0625rem/1.6 var(--f-isi);
   text-rendering: optimizeLegibility;
-  overflow-x: clip;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
   position: relative;
+}
+main, #isi {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 body.panel {
   padding-top: 0;
 }
 .ikon { width: 1.15rem; height: 1.15rem; flex: none; display: inline-block; vertical-align: middle; }
 img, svg { max-width: 100%; height: auto; display: block; }
+canvas, iframe, video { max-width: 100%; }
 h1, h2, h3 { font-family: var(--f-judul); font-weight: 600; line-height: 1.08; letter-spacing: -.015em; margin: 0; }
 p { margin: 0 0 1em; }
 a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offset: .2em; text-decoration-thickness: 2px; }
@@ -63,7 +75,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .lompat { position: fixed; left: var(--gutter); top: -4rem; background: var(--tinta); color: var(--kertas); padding: .6rem 1rem; z-index: 1001; }
 .lompat:focus { top: .5rem; }
-.wrap { width: min(100% - 2 * var(--gutter), 78rem); margin-inline: auto; }
+.wrap { width: min(100% - 2 * var(--gutter), 78rem); max-width: 100%; box-sizing: border-box; margin-inline: auto; }
 .banner-uji { background: var(--terakota); color: #fff; text-align: center; padding: .45rem var(--gutter); font-size: .85rem; line-height: 1.35; }
 .mono { font-family: var(--f-mono); }
 
@@ -81,7 +93,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .btn--bulat { border-radius: 9999px; }
 
 /* ---------- kepala (navbar) ---------- */
-.kepala { position: fixed; top: 0; left: 0; right: 0; width: 100%; height: var(--tinggi-kepala); z-index: 1000; background: rgba(248, 245, 240, .96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--garis); box-shadow: 0 2px 12px rgba(15, 76, 58, .05); transition: background-color .2s, box-shadow .2s; }
+.kepala { position: fixed; top: 0; left: 0; right: 0; width: 100%; max-width: 100%; height: var(--tinggi-kepala); z-index: 1000; background: rgba(248, 245, 240, .96); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--garis); box-shadow: 0 2px 12px rgba(15, 76, 58, .05); transition: background-color .2s, box-shadow .2s; box-sizing: border-box; }
 .kepala.tergulir { box-shadow: 0 4px 20px rgba(15, 76, 58, .12); background: rgba(248, 245, 240, .98); }
 .kepala .wrap { display: flex; align-items: center; justify-content: space-between; height: var(--tinggi-kepala); gap: 1.5rem; }
 .merek { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--tinta); flex-shrink: 0; }
@@ -107,7 +119,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 }
 
 /* ---------- bagian ---------- */
-.bagian { padding-block: clamp(3.5rem, 8vw, 7rem); }
+.bagian { padding-block: clamp(3.5rem, 8vw, 7rem); max-width: 100%; width: 100%; box-sizing: border-box; overflow-x: hidden; }
 .bagian--gelap { background: var(--tinta); color: var(--kertas); }
 .bagian--gelap a { text-decoration-color: var(--kuningan); }
 .bagian--kertas2 { background: var(--kertas-2); }
@@ -124,6 +136,9 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .hero {
   position: relative;
   overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
   background-color: var(--kertas);
   background-image: 
     radial-gradient(circle at 82% 20%, rgba(212, 175, 55, .15) 0%, transparent 45%),
@@ -155,6 +170,20 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
   border: 1px solid rgba(15, 76, 58, .08);
   pointer-events: none;
   z-index: 0;
+}
+@media (max-width: 48rem) {
+  .hero::before {
+    width: min(340px, 85vw);
+    height: min(340px, 85vw);
+    top: -20px;
+    right: -20px;
+  }
+  .hero::after {
+    width: min(240px, 60vw);
+    height: min(240px, 60vw);
+    top: 20px;
+    right: 20px;
+  }
 }
 .hero .wrap { display: grid; gap: 2.5rem; align-items: center; position: relative; z-index: 1; }
 @media (min-width: 56rem) { .hero .wrap { grid-template-columns: 7fr 5fr; gap: 3.5rem; } }
@@ -200,7 +229,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .panah { display: flex; gap: .5rem; }
 .panah button { width: 46px; height: 46px; border: 2px solid var(--kuningan); background: transparent; color: var(--kuningan); border-radius: 50%; cursor: pointer; font-size: 1.2rem; transition: background-color .15s, color .15s, transform .15s; }
 .panah button:hover { background: var(--kuningan); color: var(--tinta); transform: scale(1.05); }
-.billboard { display: grid; grid-auto-flow: column; grid-auto-columns: min(34rem, 86%); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--kuningan) transparent; }
+.billboard { display: grid; grid-auto-flow: column; grid-auto-columns: min(34rem, 86%); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 1rem; scrollbar-width: thin; scrollbar-color: var(--kuningan) transparent; max-width: 100%; box-sizing: border-box; }
 .papan { scroll-snap-align: start; background: var(--kuningan); color: var(--tinta); border: 1px solid var(--kuningan); border-radius: var(--radius-md); padding: 1.75rem; display: flex; flex-direction: column; gap: .75rem; min-height: 13rem; box-shadow: 0 4px 16px rgba(0, 0, 0, .14); transition: transform .2s ease, box-shadow .2s ease; }
 .papan:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0, 0, 0, .22); }
 .papan time, .papan .tanda { font: 700 .78rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: #4A3502; background: rgba(255, 255, 255, .45); padding: .35rem .65rem; border-radius: 4px; display: inline-block; width: fit-content; opacity: 1; }
@@ -540,6 +569,8 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 .wm-ticker-container {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   margin-top: clamp(2rem, 4.5vw, 3.5rem);
   margin-bottom: clamp(1rem, 2.5vw, 2rem);
@@ -757,7 +788,7 @@ a { color: inherit; text-decoration-color: var(--kuningan); text-underline-offse
 }
 
 /* ---------- footer modern ---------- */
-.kaki-modern { background: linear-gradient(180deg, #0F4C3A 0%, #08291F 100%); color: var(--kertas); padding-block: 4.5rem 2rem; border-top: 4px solid var(--kuningan); }
+.kaki-modern { background: linear-gradient(180deg, #0F4C3A 0%, #08291F 100%); color: var(--kertas); padding-block: 4.5rem 2rem; border-top: 4px solid var(--kuningan); max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
 .kaki-grid { display: grid; gap: 2.5rem; grid-template-columns: 1fr; margin-bottom: 3.5rem; }
 @media (min-width: 44rem) { .kaki-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 66rem) { .kaki-grid { grid-template-columns: 4fr 2.5fr 3fr 2.5fr; gap: 3rem; } }
@@ -856,7 +887,7 @@ input.input-error-shake:focus {
 .sudah-masuk { padding: 1.6rem; border: 2px solid var(--tinta); background: var(--putih); border-radius: var(--radius-md); }
 
 /* ---------- kaki ---------- */
-.kaki { background: var(--tinta); color: var(--kertas); padding-block: 3rem 2rem; border-top: 4px solid var(--kuningan); }
+.kaki { background: var(--tinta); color: var(--kertas); padding-block: 3rem 2rem; border-top: 4px solid var(--kuningan); max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
 .kaki .wrap { display: grid; gap: 2rem; }
 @media (min-width: 52rem) { .kaki .wrap { grid-template-columns: 5fr 4fr 3fr; } }
 .kaki .merek { color: var(--kertas); }

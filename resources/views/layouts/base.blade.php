@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>@yield('judul', 'linygadai')</title>
     <meta name="robots" content="@yield('robots', 'noindex')">
     {{-- Gaya sementara Tahap 1. Sistem desain penuh (font, komponen) dibangun di Tahap 2. --}}
