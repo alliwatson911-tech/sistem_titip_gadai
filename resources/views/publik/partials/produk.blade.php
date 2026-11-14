@@ -54,7 +54,6 @@
                             <p>{{ $p->deskripsi }}</p>
 
                             <div class="kartu-chips">
-                                <span class="chip">Durasi 1 atau 2 Minggu</span>
                                 @if(str_contains(strtolower($p->kategori_barang), 'bpkb') || strtolower($p->kelompok_agunan) === 'kendaraan')
                                     <span class="chip" style="color: #1e5a3c; background: rgba(30,90,60,.12);">BPKB Disimpan Aman</span>
                                 @elseif(str_contains(strtolower($p->kategori_barang), 'sertifikat') || strtolower($p->kelompok_agunan) === 'properti')
@@ -75,7 +74,7 @@
                                     <a class="btn btn--kecil" href="{{ route('publik.cabang') }}">Loket Cabang</a>
                                 </div>
 
-                                <div style="text-align: center; margin-top: .75rem; padding-top: .65rem; border-top: 1px dashed var(--garis);">
+                                <div style="text-align: center; margin-top: .75rem; padding-top: .65rem; border-top: 1px solid var(--garis);">
                                     <a href="{{ route('publik.layanan.detail', $p->slug) }}" class="link-selengkapnya">
                                         Rincian &amp; Syarat Kelengkapan &rarr;
                                     </a>

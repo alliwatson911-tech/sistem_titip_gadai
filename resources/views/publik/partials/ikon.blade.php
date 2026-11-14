@@ -9,7 +9,12 @@
             <circle cx="37" cy="33" r="3.5" stroke="var(--kuningan, #D4AF37)" stroke-width="1.4"/>
             @break
         @case('smartphone')
+        @case('hp')
             <rect x="14" y="5" width="20" height="38" rx="3.5"/><path d="M21 37h6"/><circle cx="24" cy="9" r="1"/>
+            @break
+        @case('tablet')
+        @case('tab')
+            <rect x="9" y="5" width="30" height="38" rx="3"/><circle cx="24" cy="37" r="1.5"/><path d="M20 9h8"/>
             @break
         @case('laptop')
             <rect x="9" y="11" width="30" height="20" rx="2"/><path d="M4 36h40M19 36l1.5 2h7l1.5-2"/>
@@ -18,29 +23,38 @@
             <!-- Mobil & Dokumen BPKB -->
             <path d="M7 26l3-8h22l4 8M5 26h32a2 2 0 0 1 2 2v6H5v-6a2 2 0 0 1 2-2z"/>
             <circle cx="11" cy="34" r="3"/><circle cx="31" cy="34" r="3"/>
-            <rect x="26" y="6" width="16" height="18" rx="2" stroke-dasharray="2 2"/>
+            <rect x="26" y="6" width="16" height="18" rx="2"/>
             <path d="M30 11h8M30 15h5"/>
             @break
         @case('bpkb-motor')
             <!-- Sepeda Motor & BPKB -->
             <circle cx="11" cy="33" r="5"/><circle cx="37" cy="33" r="5"/>
             <path d="M11 33l7-12h8l5 12M18 21l3-7h5M23 14h5"/>
-            <rect x="25" y="5" width="15" height="13" rx="1.5" stroke-dasharray="2 2"/>
+            <rect x="25" y="5" width="15" height="13" rx="1.5"/>
             <path d="M28 9h9M28 12h6"/>
             @break
         @case('sertifikat-rumah')
             <!-- Rumah & Sertifikat Bersegel -->
             <path d="M6 22L20 9l10 9v18H6zM15 36V26h8v10"/>
-            <rect x="24" y="8" width="18" height="26" rx="2" fill="var(--kertas, #F8F5F0)"/>
+            <rect x="24" y="8" width="18" height="26" rx="2" fill="var(--kertas-2)"/>
             <path d="M28 14h10M28 18h10M28 22h6"/>
-            <circle cx="33" cy="28" r="3" fill="var(--kuningan, #D4AF37)"/>
+            <circle cx="33" cy="28" r="3" fill="var(--kuningan)"/>
             @break
         @case('sertifikat-tanah')
             <!-- Kavling Tanah & Sertifikat SHM -->
             <path d="M6 34l12-8 14 6 10-6v8l-10 6-14-6-12 8z"/>
-            <rect x="14" y="6" width="20" height="26" rx="2" fill="var(--kertas, #F8F5F0)"/>
+            <rect x="14" y="6" width="20" height="26" rx="2" fill="var(--kertas-2)"/>
             <path d="M18 12h12M18 16h12M18 20h8"/>
-            <circle cx="24" cy="26" r="3" fill="var(--kuningan, #D4AF37)"/>
+            <circle cx="24" cy="26" r="3" fill="var(--kuningan)"/>
+            @break
+        @case('surat-berharga')
+        @case('surat')
+            <!-- Surat Berharga / Efek / Dokumen Finansial -->
+            <path d="M12 4h18l10 10v26a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z"/>
+            <polyline points="30 4 30 14 40 14"/>
+            <line x1="16" y1="22" x2="32" y2="22"/>
+            <line x1="16" y1="28" x2="32" y2="28"/>
+            <line x1="16" y1="34" x2="24" y2="34"/>
             @break
         @case('lainnya')
             <!-- Logam Mulia / Emas Batangan & Surat Berharga -->

@@ -264,6 +264,8 @@
 
   function tampilkan(h) {
     nota.classList.remove('memuat'); pesan.textContent = '';
+    nota.classList.add('nilai-berubah');
+    setTimeout(function () { nota.classList.remove('nilai-berubah'); }, 350);
     tulis('n-produk', h.produk); tulis('n-taksiran', fmt(h.taksiran));
     tulis('n-ltv', (h.ltv_bp / 100).toLocaleString('id-ID') + '%');
     tulis('n-pokok', fmt(h.pokok));

@@ -1,18 +1,17 @@
 @php
-    $tagline = $konten['tagline'] ?? 'Titip Gadai Aman & Terpercaya di Makassar';
-    $judulHero = preg_replace('/\b(tenang|Aman)\b/iu', '<em>$1</em>', e($tagline));
+    $tagline = $konten['tagline'] ?? 'Layanan Titip Gadai Terpercaya di Makassar';
+    $judulHero = e($tagline);
     $jumlahCabang = max(7, $cabang->except('PUSAT')->count());
 @endphp
 <section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
     <div class="wrap">
         <div>
-            <div class="eyebrow-pill">
-                <span class="live-pulse-dot" aria-hidden="true"></span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>PERSIDEN HP · TITIP GADAI AMAN, CEPAT, TERPERCAYA</span>
+            <div class="brand-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>PERSIDEN HP · Titip Gadai Aman, Cepat, Terpercaya</span>
             </div>
 
-            <h1 id="judul-hero">{!! $judulHero !!}</h1>
+            <h1 id="judul-hero">{{ $judulHero }}</h1>
             <p class="lead">Layanan titip gadai terpercaya untuk laptop, smartphone, tablet, kamera, BPKB kendaraan bermotor, dan surat berharga dengan biaya jasa transparan dan proses langsung di loket cabang.</p>
 
             <ul class="hero-perks">
@@ -44,15 +43,6 @@
                          class="hero-teller-img"
                          style="max-width: 100%; height: auto; object-fit: contain; filter: drop-shadow(0 14px 28px rgba(0,38,101,0.22));"
                          fetchpriority="high">
-                </div>
-                <div class="hero-floating-card">
-                    <div class="floating-badge-seal" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <div class="floating-info">
-                        <b>PERSIDEN HP Makassar</b>
-                        <span>Durasi 1 - 2 Minggu · Buka 08.00 - 22.00 WITA</span>
-                    </div>
                 </div>
             </div>
         </div>
