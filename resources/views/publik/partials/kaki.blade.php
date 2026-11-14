@@ -18,6 +18,7 @@
                 </a>
                 <p style="margin:.85rem 0 .6rem; font-size: .95rem; line-height: 1.6; opacity: .85;">{{ $tagline }}</p>
                 <p style="font-size: .88rem; color: var(--kuningan); font-family: var(--f-mono); margin: 0;">Jam Layanan: {{ $jamLayanan }}</p>
+                <p style="font-size: .85rem; margin: .5rem 0 0;"><a href="https://www.instagram.com/persidenhp.official/" target="_blank" rel="noopener noreferrer" style="color: var(--kuningan); text-decoration: none;">📸 @persidenhp.official</a></p>
             </div>
 
             <!-- Kolom 2: Navigasi Cepat -->
@@ -25,13 +26,13 @@
                 <h4>Navigasi Pintas</h4>
                 <ul aria-label="Navigasi cepat situs">
                     <li><a href="{{ route('beranda') }}">Beranda</a></li>
-                    <li><a href="{{ route('publik.tentang') }}">Tentang Kami</a></li>
+                    <li><a href="{{ route('publik.tentang') }}">Tentang &amp; Kontak</a></li>
                     <li><a href="{{ route('publik.layanan') }}">Layanan Penitipan</a></li>
                     <li><a href="{{ route('publik.simulasi') }}">Simulasi Jasa</a></li>
                     <li><a href="{{ route('publik.cara-penitipan') }}">Cara Penitipan</a></li>
                     <li><a href="{{ route('publik.syarat') }}">Syarat &amp; Ketentuan</a></li>
                     <li><a href="{{ route('publik.promo') }}">Promo</a></li>
-                    <li><a href="{{ route('publik.kontak') }}">Kontak &amp; Cabang</a></li>
+                    <li><a href="{{ route('publik.kontak') }}">Kontak Cabang</a></li>
                 </ul>
             </div>
 

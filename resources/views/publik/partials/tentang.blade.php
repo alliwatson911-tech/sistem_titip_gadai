@@ -9,11 +9,19 @@
 <section class="bagian bagian--gelap" id="tentang" data-spy="tentang" aria-labelledby="judul-tentang">
     <div class="wrap">
         <div class="kepala-bagian">
-            <p class="nomor">Tentang Kami</p>
+            <p class="nomor">Tentang &amp; Kontak</p>
             <h2 id="judul-tentang">PERSIDEN HP Titip Gadai Makassar</h2>
-            <p class="pengantar" style="margin-top: .75rem; color: rgba(255,255,255,.8);">
-                Layanan penitipan barang berharga dan surat berharga dengan komitmen <strong>Aman · Cepat · Terpercaya</strong> di 7 cabang Makassar &amp; Gowa.
+            <p class="pengantar" style="margin-top: .75rem; color: rgba(255,255,255,.85);">
+                Terpercaya sejak tahun 2005 melayani masyarakat Makassar &amp; Gowa dengan komitmen <strong>Aman · Cepat · Terpercaya</strong> melalui jaringan 7 loket cabang strategis.
             </p>
+            <div style="margin-top: 1rem; display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap;">
+                <span style="display: inline-flex; align-items: center; gap: .4rem; background: rgba(244,179,1,.15); color: var(--kuningan); border: 1px solid rgba(244,179,1,.35); padding: .35rem .85rem; border-radius: 9999px; font-size: .82rem; font-weight: 700;">
+                    ★ Terpercaya Sejak Tahun 2005
+                </span>
+                <a href="https://www.instagram.com/persidenhp.official/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: .4rem; background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.25); padding: .35rem .85rem; border-radius: 9999px; font-size: .82rem; text-decoration: none; font-weight: 600;">
+                    📸 @persidenhp.official
+                </a>
+            </div>
         </div>
         <div class="tentang">
             <div>

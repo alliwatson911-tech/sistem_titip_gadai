@@ -10,9 +10,30 @@
             <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Kontak' => '']" />
             
             <div class="halaman-header">
-                <p class="kicker">Hubungi &amp; Kunjungi Kami</p>
+                <p class="kicker">Hubungi &amp; Profil Perusahaan</p>
                 <h1>Kontak Cabang PERSIDEN HP</h1>
-                <p class="pengantar">Temukan lokasi loket cabang terdekat di wilayah Kota Makassar dan Kabupaten Gowa. Seluruh cabang kami melayani transaksi titip gadai dan konsultasi taksiran setiap hari mulai pukul <strong>08.00 s.d. 22.00 WITA</strong>.</p>
+                <p class="pengantar">Temukan lokasi loket cabang terdekat di wilayah Kota Makassar dan Kabupaten Gowa. Melayani masyarakat sejak tahun 2005 dengan transaksi titip gadai dan konsultasi taksiran setiap hari mulai pukul <strong>08.00 s.d. 22.00 WITA</strong>.</p>
+            </div>
+
+            <!-- Banner Terpercaya Sejak 2005 & Akun Instagram Resmi -->
+            <div class="trust-ig-banner" data-muncul>
+                <div class="trust-ig-konten">
+                    <div class="trust-ig-badge-star">
+                        <span class="star-text">TRUSTED</span>
+                        <span class="star-icons">★★★★★</span>
+                        <span class="star-year">SEJAK 2005</span>
+                    </div>
+                    <div class="trust-ig-deskripsi">
+                        <strong>PERSIDEN HP · Terpercaya Sejak Tahun 2005</strong>
+                        <p>Lebih dari 20 tahun mendampingi masyarakat Makassar dalam layanan jual beli gawai &amp; titip gadai terpercaya. Ikuti informasi resmi, update promo, dan katalog kami di Instagram.</p>
+                    </div>
+                </div>
+                <div class="trust-ig-aksi">
+                    <a href="https://www.instagram.com/persidenhp.official/" target="_blank" rel="noopener noreferrer" class="btn-ig-official">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <span>@persidenhp.official</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Jam Layanan Seragam Box -->
@@ -109,6 +130,25 @@
                         </div>
                     </article>
                 @endforeach
+            </div>
+
+            <!-- Navigasi Terpadu ke Profil & Tentang Kami -->
+            <div class="syarat-highlight-box" style="margin-bottom: 3rem; border-left-color: var(--kuningan);" data-muncul>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: .75rem;">
+                    <h2 style="font-size: 1.25rem; color: var(--tinta); margin: 0;">Mengenal PERSIDEN HP Lebih Dekat</h2>
+                    <span style="font-size: .82rem; font-weight: 700; color: var(--kuningan-tua); background: var(--kuningan-muda); padding: .3rem .75rem; border-radius: 9999px;">
+                        Profil &amp; Legalitas
+                    </span>
+                </div>
+                <p style="font-size: .95rem; line-height: 1.6; color: var(--tinta-2); margin: 0 0 1.25rem;">
+                    PERSIDEN HP beroperasi sejak tahun 2005 dan terus berkomitmen memberikan layanan titip gadai yang menenangkan, berpegang pada nilai Aman, Cepat, dan Terpercaya bagi seluruh penitip.
+                </p>
+                <div style="display: flex; gap: .75rem; flex-wrap: wrap;">
+                    <a href="{{ route('publik.tentang') }}" class="tombol tombol--garis" style="text-decoration: none; font-size: .88rem;">Profil Lengkap Perusahaan &rarr;</a>
+                    <a href="{{ route('publik.sambutan') }}" class="tombol tombol--garis" style="text-decoration: none; font-size: .88rem;">Sambutan Pimpinan</a>
+                    <a href="{{ route('publik.visi-misi') }}" class="tombol tombol--garis" style="text-decoration: none; font-size: .88rem;">Visi &amp; Misi</a>
+                    <a href="{{ route('publik.legalitas') }}" class="tombol tombol--garis" style="text-decoration: none; font-size: .88rem;">Legalitas</a>
+                </div>
             </div>
 
             @include('publik.partials.banner-member')

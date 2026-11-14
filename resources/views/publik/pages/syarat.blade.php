@@ -12,7 +12,28 @@
             <div class="halaman-header">
                 <p class="kicker">Ketentuan Layanan</p>
                 <h1>Syarat &amp; Ketentuan Titip Gadai</h1>
-                <p class="pengantar">Ketentuan umum dan persyaratan kelengkapan yang berlaku dalam akad titip gadai barang berharga dan surat berharga di seluruh cabang PERSIDEN HP.</p>
+                <p class="pengantar">Ketentuan umum dan persyaratan kelengkapan yang berlaku dalam akad titip gadai barang berharga dan surat berharga di seluruh cabang PERSIDEN HP. Terpercaya melayani sejak tahun 2005.</p>
+            </div>
+
+            <!-- Banner Terpercaya Sejak 2005 & Instagram Resmi -->
+            <div class="trust-ig-banner" data-muncul>
+                <div class="trust-ig-konten">
+                    <div class="trust-ig-badge-star">
+                        <span class="star-text">TRUSTED</span>
+                        <span class="star-icons">★★★★★</span>
+                        <span class="star-year">SEJAK 2005</span>
+                    </div>
+                    <div class="trust-ig-deskripsi">
+                        <strong>PERSIDEN HP · Terpercaya Sejak Tahun 2005</strong>
+                        <p>Berpengalaman lebih dari 20 tahun melayani jual beli dan titip gadai handphone &amp; barang berharga di Makassar. Syarat transparan, taksiran adil di loket, dan barang tersimpan aman tanpa dipakai.</p>
+                    </div>
+                </div>
+                <div class="trust-ig-aksi">
+                    <a href="https://www.instagram.com/persidenhp.official/" target="_blank" rel="noopener noreferrer" class="btn-ig-official">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        <span>@persidenhp.official</span>
+                    </a>
+                </div>
             </div>
 
             <!-- Kotak Syarat Kelengkapan Dokumen & Penitip -->
@@ -56,10 +77,10 @@
                     </div>
                     <h3>Laptop, HP, Tab &amp; Kamera</h3>
                     <ul style="padding-left: 1.2rem; margin: .5rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--tinta-2);">
-                        <li>Unit dapat dinyalakan normal dan fungsi perangkat bekerja baik (layar sentuh, kamera, audio, baterai).</li>
-                        <li>Wajib logout seluruh kunci akun (iCloud, Apple ID, Akun Google, Mi/Samsung Account, password layar).</li>
-                        <li>Membawa charger/adaptor pengisi daya asli dan perlengkapan unit jika ada.</li>
-                        <li><strong>Penyimpanan:</strong> Unit fisik disimpan di tempat penyimpanan aman cabang tanpa dioperasikan.</li>
+                        <li>Unit dapat dinyalakan normal dan fungsi perangkat bekerja baik (layar sentuh, kamera depan/belakang, mikrofon/speaker, dan performa baterai).</li>
+                        <li>Wajib logout dan hapus seluruh kunci akun (iCloud/Apple ID, Akun Google, Mi/Samsung Account, pola/sandi layar) di hadapan petugas sebelum penaksiran akhir.</li>
+                        <li>Membawa charger atau adaptor pengisi daya asli dan kelengkapan unit (kotak/dus bila ada).</li>
+                        <li><strong>Penyimpanan &amp; Segel:</strong> Unit fisik disegel menggunakan stiker pengaman khusus berparaf penitip dan disimpan di tempat penyimpanan aman cabang tanpa pernah dioperasikan selama masa penitipan.</li>
                     </ul>
                 </article>
 
