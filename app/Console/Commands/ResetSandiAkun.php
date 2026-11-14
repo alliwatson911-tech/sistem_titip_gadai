@@ -14,14 +14,14 @@ class ResetSandiAkun extends Command
     protected $signature = 'akun:sandi
                             {email? : Alamat email akun yang ingin diubah kata sandinya}
                             {sandi? : Kata sandi baru (minimal 10 karakter)}
-                            {--standar : Setel seluruh akun uji/demo ke kata sandi standar (LinyGadai2026!)}';
+                            {--standar : Setel seluruh akun uji/demo ke kata sandi standar (PersidenHP2026!)}';
 
     protected $description = 'Lihat daftar akun terdaftar atau ubah kata sandi akun pengguna';
 
     public function handle(): int
     {
         if ($this->option('standar')) {
-            $sandiStandar = 'LinyGadai2026!';
+            $sandiStandar = 'PersidenHP2026!';
             /** @var Collection<int, User> $users */
             $users = User::all();
             if ($users->isEmpty()) {
@@ -55,7 +55,7 @@ class ResetSandiAkun extends Command
             $this->line('');
             $this->comment('Untuk mengubah kata sandi akun tertentu:');
             $this->line('  php artisan akun:sandi email@anda.com PasswordBaru123');
-            $this->comment('Untuk menyetel semua akun uji ke sandi standar (LinyGadai2026!):');
+            $this->comment('Untuk menyetel semua akun uji ke sandi standar (PersidenHP2026!):');
             $this->line('  php artisan akun:sandi --standar');
 
             return self::SUCCESS;
