@@ -288,19 +288,28 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   width: 100%;
   box-sizing: border-box;
   background: transparent;
-  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-top: 0;
   padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.65);
 }
-.hero::before {
-  content: "";
+.hero-main-area {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(1.8rem, 3.5vw, 3rem);
+}
+.hero-bg-backdrop {
   position: absolute;
   inset: 0;
-  background: url('../images/persiden-hp-storefront.jpg') center 28% / cover no-repeat;
-  opacity: 0.12;
+  background: url('../images/persiden-hp-storefront.jpg') center 24% / cover no-repeat;
+  opacity: 0.13;
   filter: saturate(115%) contrast(105%);
   pointer-events: none;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 75%, rgba(0, 0, 0, 0) 100%);
 }
 .hero .wrap { display: grid; gap: 2.5rem; align-items: center; position: relative; z-index: 1; }
 @media (min-width: 56rem) { .hero .wrap { grid-template-columns: 7fr 5fr; gap: 3.5rem; } }
@@ -316,6 +325,45 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
 @media (prefers-reduced-motion: no-preference) { .label-barang { animation: ayun 7s ease-in-out infinite; } }
 @keyframes ayun { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(1.5deg); } }
 @media (max-width: 48rem) {
+  .hero {
+    padding-bottom: clamp(1.8rem, 4vw, 3rem);
+  }
+  .hero-main-area {
+    padding-top: clamp(1.75rem, 5vw, 2.6rem);
+    padding-bottom: 1.25rem;
+  }
+  .hero-bg-backdrop {
+    background-position: center 12%;
+    opacity: 0.15;
+  }
+  .hero .wrap {
+    gap: 1.6rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.85rem, 6.8vw, 2.35rem);
+    line-height: 1.15;
+    letter-spacing: -.025em;
+    margin-bottom: .95rem;
+    text-wrap: balance;
+  }
+  .hero .lead {
+    font-size: .98rem;
+    line-height: 1.58;
+    margin-bottom: 1.25rem;
+  }
+  .hero .aksi {
+    flex-direction: column;
+    width: 100%;
+    gap: .65rem;
+  }
+  .hero .aksi .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: .85rem 1.25rem;
+    font-size: .95rem;
+    min-height: 48px;
+  }
   .label-barang { width: min(100%, 16.5rem); }
 }
 
@@ -381,6 +429,18 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   font: 700 .78rem/1 var(--f-isi);
   flex: none;
   box-shadow: 0 1px 3px rgba(0, 38, 101, 0.18);
+}
+@media (max-width: 48rem) {
+  .ringkas {
+    margin-top: 1.5rem;
+    padding: 1.25rem 1.1rem;
+    padding-left: 1.4rem;
+    gap: 1rem;
+    border-radius: 20px;
+  }
+  .ringkas h2 { font-size: 1.35rem; }
+  .ringkas-isi p { font-size: .95rem; line-height: 1.55; margin-bottom: 1rem; }
+  .ringkas-langkah { gap: .5rem .75rem; font-size: .78rem; padding-top: .85rem; }
 }
 
 /* ---------- pengumuman (billboard) ---------- */
@@ -941,21 +1001,100 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   height: 13px;
   stroke: currentColor;
 }
-.hero-preview-card {
-  position: relative;
-  z-index: 1;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1.5px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  padding: 1.75rem;
-  box-shadow: var(--glass-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.9);
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+@media (max-width: 48rem) {
+  .brand-pill, .eyebrow-pill {
+    font-size: .72rem;
+    padding: .38rem .85rem;
+    gap: .45rem;
+    margin-bottom: .95rem;
+  }
+  .brand-pill svg, .eyebrow-pill svg {
+    width: 13px;
+    height: 13px;
+  }
+  .hero-perks {
+    gap: .65rem;
+    margin-bottom: 1.4rem;
+  }
+  .hero-perks li {
+    font-size: .88rem;
+    line-height: 1.42;
+    gap: .65rem;
+  }
+  .hero-perks .perk-check {
+    width: 20px;
+    height: 20px;
+    margin-top: .12rem;
+  }
+  .hero-perks svg {
+    width: 11px;
+    height: 11px;
+  }
+  .hero-offset-frame {
+    margin-top: 1.5rem;
+    max-width: 100%;
+  }
+  .hero-glass-card {
+    padding: 1.25rem 1.1rem;
+    border-radius: 22px;
+    gap: 1rem;
+    box-shadow:
+      0 14px 32px -8px rgba(0, 38, 101, 0.12),
+      0 6px 16px -4px rgba(244, 179, 1, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.95);
+  }
+  .hero-glass-header {
+    gap: .4rem;
+  }
+  .live-status-pill {
+    font-size: .72rem;
+    padding: .3rem .65rem;
+    gap: .35rem;
+  }
+  .live-dot {
+    width: 6px;
+    height: 6px;
+  }
+  .jam-pill {
+    font-size: .72rem;
+    padding: .3rem .55rem;
+  }
+  .hero-glass-visual {
+    padding: 1rem .5rem;
+    border-radius: 16px;
+  }
+  .hero-glass-logo {
+    max-width: 210px;
+  }
+  .hero-glass-chips {
+    justify-content: center;
+    gap: .4rem;
+  }
+  .glass-chip {
+    font-size: .74rem;
+    padding: .35rem .65rem;
+    gap: .35rem;
+  }
+  .glass-chip svg {
+    width: 12px;
+    height: 12px;
+  }
+  .hero-glass-footer {
+    padding: .75rem .95rem;
+    border-radius: 14px;
+    gap: .6rem;
+  }
+  .glass-footer-text strong {
+    font-size: .84rem;
+  }
+  .glass-footer-text small {
+    font-size: .72rem;
+  }
+  .glass-footer-btn {
+    padding: .45rem .85rem;
+    font-size: .78rem;
+  }
 }
-.hero-preview-badge { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--garis); padding-bottom: .85rem; font: 700 .78rem/1 var(--f-isi); text-transform: uppercase; color: var(--kuningan-tua); }
 
 /* ---------- ticker / marquee barang jaminan (Glassmorphism) ---------- */
 .wm-ticker-container {
@@ -964,15 +1103,16 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
-  margin-top: clamp(2rem, 4.5vw, 3.5rem);
+  margin-top: 0;
   margin-bottom: clamp(1rem, 2.5vw, 2rem);
   padding-block: .85rem;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-block: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-block: 1px solid rgba(255, 255, 255, 0.75);
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
   mask-image: linear-gradient(90deg, transparent 0%, #000 5%, #000 95%, transparent 100%);
+  z-index: 2;
 }
 .wm-track {
   display: flex;
@@ -1094,6 +1234,29 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
   letter-spacing: .04em;
   margin-top: .4rem;
   display: block;
+}
+@media (max-width: 48rem) {
+  .hero-stats {
+    gap: .75rem;
+    margin-top: 1.35rem;
+  }
+  .stat-item {
+    padding: 1rem .85rem;
+    border-radius: 16px;
+  }
+  .stat-item b {
+    font-size: clamp(1.25rem, 4.8vw, 1.55rem);
+  }
+  .stat-item span {
+    font-size: .72rem;
+    margin-top: .25rem;
+  }
+}
+@media (max-width: 28rem) {
+  .hero-stats {
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
 }
 
 /* ---------- filter tabs & produk modern (Glassmorphism) ---------- */

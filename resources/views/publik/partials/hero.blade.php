@@ -4,75 +4,78 @@
     $jumlahCabang = max(7, $cabang->except('PUSAT')->count());
 @endphp
 <section class="hero" id="beranda" data-spy="beranda" aria-labelledby="judul-hero">
-    <div class="wrap">
-        <div>
-            <div class="brand-pill">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                <span>PERSIDEN HP · Titip Gadai Aman, Cepat, Terpercaya</span>
+    <div class="hero-main-area">
+        <div class="hero-bg-backdrop" aria-hidden="true"></div>
+        <div class="wrap">
+            <div>
+                <div class="brand-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <span>PERSIDEN HP · Titip Gadai Aman, Cepat, Terpercaya</span>
+                </div>
+
+                <h1 id="judul-hero">{{ $judulHero }}</h1>
+                <p class="lead">Layanan titip gadai terpercaya untuk laptop, smartphone, tablet, kamera, BPKB kendaraan bermotor, dan surat berharga dengan biaya jasa transparan dan proses langsung di loket cabang.</p>
+
+                <ul class="hero-perks">
+                    <li>
+                        <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span>Taksiran transparan dengan rincian jasa penitipan jelas di muka</span>
+                    </li>
+                    <li>
+                        <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span>Barang &amp; surat berharga disimpan aman dalam tempat khusus bersegel</span>
+                    </li>
+                    <li>
+                        <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+                        <span>Fleksibel: durasi mingguan dapat diperpanjang atau ditebus kapan saja</span>
+                    </li>
+                </ul>
+
+                <div class="aksi">
+                    <a class="btn btn--utama" href="{{ route('publik.simulasi') }}">Hitung Simulasi Jasa</a>
+                    <a class="btn" href="{{ route('publik.layanan') }}">Lihat Layanan Penitipan</a>
+                </div>
             </div>
 
-            <h1 id="judul-hero">{{ $judulHero }}</h1>
-            <p class="lead">Layanan titip gadai terpercaya untuk laptop, smartphone, tablet, kamera, BPKB kendaraan bermotor, dan surat berharga dengan biaya jasa transparan dan proses langsung di loket cabang.</p>
-
-            <ul class="hero-perks">
-                <li>
-                    <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
-                    <span>Taksiran transparan dengan rincian jasa penitipan jelas di muka</span>
-                </li>
-                <li>
-                    <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
-                    <span>Barang &amp; surat berharga disimpan aman dalam tempat khusus bersegel</span>
-                </li>
-                <li>
-                    <span class="perk-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
-                    <span>Fleksibel: durasi mingguan dapat diperpanjang atau ditebus kapan saja</span>
-                </li>
-            </ul>
-
-            <div class="aksi">
-                <a class="btn btn--utama" href="{{ route('publik.simulasi') }}">Hitung Simulasi Jasa</a>
-                <a class="btn" href="{{ route('publik.layanan') }}">Lihat Layanan Penitipan</a>
-            </div>
-        </div>
-
-        <div class="hero-offset-frame">
-            <div class="hero-glass-card">
-                <div class="hero-glass-header">
-                    <span class="live-status-pill">
-                        <span class="live-dot"></span>
-                        Loket {{ $jumlahCabang }} Cabang Makassar Buka
-                    </span>
-                    <span class="jam-pill">08.00 - 22.00 WITA</span>
-                </div>
-                <div class="hero-glass-visual">
-                    <img src="{{ asset('images/logo-persiden-hp.png') }}"
-                         alt="Logo Resmi PERSIDEN HP Titip Gadai Makassar"
-                         class="hero-glass-logo"
-                         fetchpriority="high">
-                </div>
-                <div class="hero-glass-chips">
-                    <span class="glass-chip">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        Disimpan Bersegel
-                    </span>
-                    <span class="glass-chip">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                        Durasi 1 &amp; 2 Minggu
-                    </span>
-                    <span class="glass-chip">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                        Petugas Loket Siap
-                    </span>
-                </div>
-                <div class="hero-glass-footer">
-                    <div class="glass-footer-text">
-                        <strong>Simulasi Jasa Penitipan</strong>
-                        <small>Laptop · HP · Tab · BPKB · Properti</small>
+            <div class="hero-offset-frame">
+                <div class="hero-glass-card">
+                    <div class="hero-glass-header">
+                        <span class="live-status-pill">
+                            <span class="live-dot"></span>
+                            Loket {{ $jumlahCabang }} Cabang Makassar Buka
+                        </span>
+                        <span class="jam-pill">08.00 - 22.00 WITA</span>
                     </div>
-                    <a href="{{ route('publik.simulasi') }}" class="glass-footer-btn" aria-label="Buka Simulasi Jasa Penitipan">
-                        Hitung
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
+                    <div class="hero-glass-visual">
+                        <img src="{{ asset('images/logo-persiden-hp.png') }}"
+                             alt="Logo Resmi PERSIDEN HP Titip Gadai Makassar"
+                             class="hero-glass-logo"
+                             fetchpriority="high">
+                    </div>
+                    <div class="hero-glass-chips">
+                        <span class="glass-chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            Disimpan Bersegel
+                        </span>
+                        <span class="glass-chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            Durasi 1 &amp; 2 Minggu
+                        </span>
+                        <span class="glass-chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Petugas Loket Siap
+                        </span>
+                    </div>
+                    <div class="hero-glass-footer">
+                        <div class="glass-footer-text">
+                            <strong>Simulasi Jasa Penitipan</strong>
+                            <small>Laptop · HP · Tab · BPKB · Properti</small>
+                        </div>
+                        <a href="{{ route('publik.simulasi') }}" class="glass-footer-btn" aria-label="Buka Simulasi Jasa Penitipan">
+                            Hitung
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
