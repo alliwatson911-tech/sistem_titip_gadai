@@ -7,7 +7,7 @@
     @include('publik.partials.kepala')
     <main id="isi" class="halaman-khusus">
         <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem);">
-            <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Tentang & Kontak' => '']" />
+            <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Tentang Kami' => '']" />
             
             <div class="halaman-header">
                 <p class="kicker">Profil Perusahaan &amp; Layanan Kontak</p>

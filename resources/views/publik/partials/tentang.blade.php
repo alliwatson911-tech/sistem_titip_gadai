@@ -9,7 +9,7 @@
 <section class="bagian bagian--gelap" id="tentang" data-spy="tentang" aria-labelledby="judul-tentang">
     <div class="wrap">
         <div class="kepala-bagian">
-            <p class="nomor">Tentang &amp; Kontak</p>
+            <p class="nomor">Tentang Kami</p>
             <h2 id="judul-tentang">PERSIDEN HP Titip Gadai Makassar</h2>
             <p class="pengantar" style="margin-top: .75rem; color: rgba(255,255,255,.85);">
                 Terpercaya sejak tahun 2005 melayani masyarakat Makassar &amp; Gowa dengan komitmen <strong>Aman · Cepat · Terpercaya</strong> melalui jaringan 7 loket cabang strategis.

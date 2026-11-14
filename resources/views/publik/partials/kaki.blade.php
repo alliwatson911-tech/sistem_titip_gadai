@@ -26,7 +26,7 @@
                 <h4>Navigasi Pintas</h4>
                 <ul aria-label="Navigasi cepat situs">
                     <li><a href="{{ route('beranda') }}">Beranda</a></li>
-                    <li><a href="{{ route('publik.tentang') }}">Tentang &amp; Kontak</a></li>
+                    <li><a href="{{ route('publik.tentang') }}">Tentang Kami</a></li>
                     <li><a href="{{ route('publik.layanan') }}">Layanan Penitipan</a></li>
                     <li><a href="{{ route('publik.simulasi') }}">Simulasi Jasa</a></li>
                     <li><a href="{{ route('publik.cara-penitipan') }}">Cara Penitipan</a></li>

@@ -14,7 +14,7 @@
 
         <nav class="menu" id="menu" aria-label="Menu utama">
             <a href="{{ route('beranda') }}" @if(request()->routeIs('beranda')) aria-current="page" @endif>Beranda</a>
-            <a href="{{ route('publik.tentang') }}" @if(request()->routeIs('publik.tentang*') || request()->routeIs('publik.kontak')) aria-current="page" @endif>Tentang &amp; Kontak</a>
+            <a href="{{ route('publik.tentang') }}" @if(request()->routeIs('publik.tentang*') || request()->routeIs('publik.kontak')) aria-current="page" @endif>Tentang Kami</a>
             <a href="{{ route('publik.layanan') }}" @if(request()->routeIs('publik.layanan*')) aria-current="page" @endif>Layanan</a>
             <a href="{{ route('publik.simulasi') }}" @if(request()->routeIs('publik.simulasi')) aria-current="page" @endif>Simulasi Jasa</a>
             <a href="{{ route('publik.cara-penitipan') }}" @if(request()->routeIs('publik.cara-penitipan')) aria-current="page" @endif>Cara Penitipan</a>
