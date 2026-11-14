@@ -333,8 +333,14 @@ input[type="number"], .rupiah-val, .mono, .badge-nominal, .stat-item b, .papan t
     padding-bottom: 1.25rem;
   }
   .hero-bg-backdrop {
-    background-position: center 12%;
-    opacity: 0.15;
+    background-image: url('../images/persiden-hp-storefront-mobile.jpg');
+    background-position: center top;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    opacity: 0.11;
+    filter: saturate(110%) contrast(102%);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 60%, rgba(0, 0, 0, 0.3) 88%, transparent 100%);
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.85) 60%, rgba(0, 0, 0, 0.3) 88%, transparent 100%);
   }
   .hero .wrap {
     gap: 1.6rem;
