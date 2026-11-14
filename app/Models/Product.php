@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class Product extends Model
 {
@@ -25,7 +26,17 @@ class Product extends Model
     /** Scope produk pilihan klien PERSIDEN HP (8 kategori resmi) */
     public function scopeClientFeatured($query)
     {
-        return $query->where('is_active', true)->where('is_client_featured', true);
+        $query->where('is_active', true);
+
+        try {
+            if (Schema::hasColumn('products', 'is_client_featured')) {
+                $query->where('is_client_featured', true);
+            }
+        } catch (\Throwable) {
+            // Jika skema belum termigrasi pada host deployment, gunakan is_active saja
+        }
+
+        return $query;
     }
 
     public function labelKelompok(): string

@@ -21,7 +21,16 @@ class HalamanPublikController extends Controller
 
         $konten = Situs::konten();
         $kebijakan = Situs::kebijakan();
-        $produk = Product::clientFeatured()->whereNull('branch_id')->orderBy('urutan')->get();
+        try {
+            $produk = Product::clientFeatured()->whereNull('branch_id')->orderBy('urutan')->get();
+        } catch (\Throwable) {
+            try {
+                $produk = Product::where('is_active', true)->whereNull('branch_id')->orderBy('urutan')->get();
+            } catch (\Throwable) {
+                $produk = collect();
+            }
+        }
+
         if ($produk->isEmpty() && ! app()->runningUnitTests()) {
             $produk = BerandaController::defaultProduk();
         }
