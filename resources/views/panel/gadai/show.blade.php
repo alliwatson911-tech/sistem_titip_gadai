@@ -15,17 +15,36 @@
     <div class="bar-aksi"><a class="btn btn--kecil" href="{{ route('panel.gadai.nota', $g) }}" target="_blank" rel="noopener">Cetak nota gadai</a></div>
 
     <dl class="ringkasan">
-        @if ($staf)<div><dt>Anggota</dt><dd>{{ $g->member->nama_lengkap }}</dd></div>@endif
+        @if ($staf)<div><dt>Penitip</dt><dd>{{ $g->member->nama_lengkap }}</dd></div>@endif
         <div><dt>Barang</dt><dd>{{ $g->product->nama }}</dd></div>
-        <div><dt>Tanggal akad</dt><dd>{{ $g->tgl_akad->translatedFormat('j F Y') }}</dd></div>
-        <div><dt>Pokok awal</dt><dd>{{ Rupiah::format((int) $g->pokok_awal) }}</dd></div>
-        <div><dt>Saldo pokok</dt><dd>{{ Rupiah::format((int) $g->pokok_saldo) }}</dd></div>
+        <div><dt>Tanggal titip</dt><dd>{{ $g->tgl_akad->translatedFormat('j F Y') }}</dd></div>
+        <div><dt>Nilai yang diterima</dt><dd>{{ Rupiah::format((int) $g->pokok_awal) }}</dd></div>
+        <div><dt>Sisa nilai pokok</dt><dd>{{ Rupiah::format((int) $g->pokok_saldo) }}</dd></div>
         <div><dt>Jatuh tempo</dt><dd>{{ $g->jatuh_tempo->translatedFormat('j F Y') }}
             @if ($tagihan)<br><small style="color:{{ $sisa < 0 ? 'var(--terakota)' : 'inherit' }}">{{ $sisa < 0 ? 'terlambat '.abs($sisa).' hari' : ($sisa === 0 ? 'hari ini' : $sisa.' hari lagi') }}</small>@endif</dd></div>
-        <div><dt>Masa tenggang sampai</dt><dd>{{ $g->tenggang_sampai?->translatedFormat('j F Y') ?? '—' }}</dd></div>
-        <div><dt>Perpanjangan ke</dt><dd>{{ $g->perpanjangan_ke }} / {{ $g->snapshot_syarat['maks_perpanjangan'] ?? 3 }}</dd></div>
+        <div><dt>Perpanjangan ke</dt><dd>{{ $g->perpanjangan_ke }}</dd></div>
         @if ($g->disbursement)<div><dt>Dana dicairkan</dt><dd>{{ Rupiah::format((int) $g->disbursement->jumlah) }} ({{ $g->disbursement->metode }})</dd></div>@endif
     </dl>
+
+    {{-- Foto Barang Jaminan --}}
+    @php $barangJaminan = $g->collaterals()->with('photos')->get(); @endphp
+    @if ($barangJaminan->isNotEmpty())
+        <h2>Foto &amp; Rincian Barang Jaminan</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            @foreach ($barangJaminan as $bj)
+                @foreach ($bj->photos as $foto)
+                    <div style="background: #fff; border: 1.5px solid var(--garis); border-radius: var(--radius-m); overflow: hidden;">
+                        <a href="{{ route('panel.berkas.foto', $foto) }}" target="_blank" rel="noopener">
+                            <img src="{{ route('panel.berkas.foto', $foto) }}" alt="Foto Barang Titipan" style="width: 100%; height: 150px; object-fit: cover; display: block;">
+                        </a>
+                        <div style="padding: .5rem .75rem; font-size: .8rem; color: var(--muted);">
+                            {{ $bj->kategori ?? 'Barang Titipan' }}
+                        </div>
+                    </div>
+                @endforeach
+            @endforeach
+        </div>
+    @endif
 
     @if ($g->status === LS::SiapLelang)
         <p class="kabar kabar--galat"><b>Barang masuk proses lelang.</b> Anggota masih dapat menebus, memperpanjang, atau mencicil sebelum lelang dilaksanakan.@if ($g->auction?->tgl_lelang) Lelang dijadwalkan pada {{ $g->auction->tgl_lelang->translatedFormat('j F Y') }}.@endif</p>
@@ -40,7 +59,7 @@
             <thead><tr><th></th><th class="angka">Perpanjang</th><th class="angka">Cicil (minimum)</th><th class="angka">Tebus</th></tr></thead>
             <tbody>
                 <tr><td>Setoran pokok</td><td class="angka">—</td><td class="angka">{{ Rupiah::format($tagihan['cicil']['minimum']) }}+</td><td class="angka">{{ Rupiah::format($tagihan['saldo']) }}</td></tr>
-                <tr><td>Sewa modal</td><td class="angka">{{ Rupiah::format($tagihan['perpanjang']['sewa_modal']) }}</td><td class="angka">{{ Rupiah::format($tagihan['cicil']['sewa_modal']) }}</td><td class="angka">{{ Rupiah::format($tagihan['tebus']['sewa_modal']) }}</td></tr>
+                <tr><td>Jasa penitipan</td><td class="angka">{{ Rupiah::format($tagihan['perpanjang']['sewa_modal']) }}</td><td class="angka">{{ Rupiah::format($tagihan['cicil']['sewa_modal']) }}</td><td class="angka">{{ Rupiah::format($tagihan['tebus']['sewa_modal']) }}</td></tr>
                 <tr><td>Administrasi</td><td class="angka">{{ Rupiah::format($tagihan['administrasi']) }}</td><td class="angka">{{ Rupiah::format($tagihan['administrasi']) }}</td><td class="angka">{{ Rupiah::format($tagihan['administrasi']) }}</td></tr>
                 @if ($tagihan['denda'] > 0)<tr><td>Denda</td><td class="angka">{{ Rupiah::format($tagihan['denda']) }}</td><td class="angka">{{ Rupiah::format($tagihan['denda']) }}</td><td class="angka">{{ Rupiah::format($tagihan['denda']) }}</td></tr>@endif
                 <tr><td><b>Total</b></td><td class="angka"><b>{{ $tagihan['perpanjang']['boleh'] ? Rupiah::format($tagihan['perpanjang']['total']) : 'tidak tersedia' }}</b></td><td class="angka"><b>{{ $tagihan['cicil']['boleh'] ? Rupiah::format($tagihan['cicil']['biaya_periode'] + $tagihan['cicil']['minimum']).'+' : 'tidak tersedia' }}</b></td><td class="angka"><b>{{ Rupiah::format($tagihan['tebus']['total']) }}</b></td></tr>
@@ -59,11 +78,11 @@
         @php
             $wa = preg_replace('/\D/', '', (string) $g->member->telepon);
             $wa = str_starts_with($wa, '0') ? '62'.substr($wa, 1) : $wa;
-            $pesan = "Halo {$g->member->nama_lengkap}, ini petugas linygadai. Gadai {$g->product->nama} (nota {$g->no_sbg}) jatuh tempo ".$g->jatuh_tempo->translatedFormat('j F Y').'. '
+            $pesan = "Halo {$g->member->nama_lengkap}, ini petugas loket PERSIDEN HP Titip Gadai. Penitipan {$g->product->nama} (nota {$g->no_sbg}) jatuh tempo ".$g->jatuh_tempo->translatedFormat('j F Y').'. '
                 .($g->status === LS::SiapLelang ? 'Barang Anda masuk proses lelang; Anda masih dapat menebus atau memperpanjang sebelum lelang. ' : '')
-                .'Silakan datang ke cabang untuk memperpanjang, mencicil, atau menebus. Kami tidak pernah meminta kata sandi atau kode.';
+                .'Silakan datang ke loket cabang untuk memperpanjang, mencicil, atau menebus. Kami tidak pernah meminta kata sandi atau kode.';
         @endphp
-        <p class="bar-aksi"><a class="btn btn--kecil" href="https://wa.me/{{ $wa }}?text={{ rawurlencode($pesan) }}" target="_blank" rel="noopener">Hubungi anggota via WhatsApp</a> <span class="catatan-audit">Membuka WhatsApp dengan pesan siap kirim; Anda yang menekan kirim.</span></p>
+        <p class="bar-aksi"><a class="btn btn--kecil" href="https://wa.me/{{ $wa }}?text={{ rawurlencode($pesan) }}" target="_blank" rel="noopener">Hubungi penitip via WhatsApp</a> <span class="catatan-audit">Membuka WhatsApp dengan pesan siap kirim; Anda yang menekan kirim.</span></p>
     @endif
 
     {{-- ===== Taksir ulang (analis) ===== --}}

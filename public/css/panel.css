@@ -1,12 +1,12 @@
 /* linygadai — panel (anggota dan staf). Memakai token dan font dari situs.css. Kerangka: sidebar gelap bergrup + topbar; kartu lembut. Palet tidak berubah. */
 
-body.panel { background: var(--kertas); font-size: 1rem; --lembut: 0 1px 2px rgba(15, 76, 58, .06), 0 10px 26px -14px rgba(15, 76, 58, .28); --r: 16px; }
+body.panel { background: var(--kertas); font-size: 1rem; --lembut: 0 1px 2px rgba(0, 38, 101, .06), 0 10px 26px -14px rgba(0, 38, 101, .28); --r: 16px; }
 .ikon { width: 1.15rem; height: 1.15rem; flex: none; }
 
 /* ---------- kerangka ---------- */
 .p-kerangka { display: grid; min-height: 100vh; }
 @media (min-width: 60rem) { .p-kerangka { grid-template-columns: 16.5rem minmax(0, 1fr); } }
-.p-samping { background: linear-gradient(180deg, #0F4C3A 0%, #0A3327 100%); color: var(--kertas); display: flex; flex-direction: column; min-width: 0; }
+.p-samping { background: linear-gradient(180deg, #002665 0%, #001C48 100%); color: var(--kertas); display: flex; flex-direction: column; min-width: 0; }
 @media (min-width: 60rem) { .p-samping { position: sticky; top: 0; height: 100vh; } }
 .p-samping a { color: var(--kertas); text-decoration: none; }
 
@@ -17,14 +17,14 @@ body.panel { background: var(--kertas); font-size: 1rem; --lembut: 0 1px 2px rgb
 .p-merek small { display: block; font: 500 .62rem/1.4 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--kuningan); }
 
 .p-peran { display: none; align-items: center; justify-content: space-between; gap: .6rem; margin: 0 1rem .4rem; padding: .7rem .2rem; border-block: 1px solid var(--garis-terang); font: 500 .66rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; }
-.p-peran em { font-style: normal; background: var(--kuningan); color: #0B2E24; border-radius: 99px; padding: .32rem .7rem; font-weight: 700; }
+.p-peran em { font-style: normal; background: var(--kuningan); color: #001C48; border-radius: 99px; padding: .32rem .7rem; font-weight: 700; }
 @media (min-width: 60rem) { .p-peran { display: flex; } }
 
 .p-nav { display: flex; gap: .15rem; padding: .3rem .8rem .8rem; overflow-x: auto; flex: 1; scrollbar-width: thin; }
 @media (min-width: 60rem) { .p-nav { flex-direction: column; overflow-x: visible; overflow-y: auto; padding-bottom: 1rem; } }
 .p-nav a { display: flex; align-items: center; gap: .7rem; padding: .55rem .8rem; min-height: 44px; border-radius: 12px; font-weight: 500; font-size: .94rem; white-space: nowrap; color: rgba(248, 245, 240, .88); border: 1px solid transparent; }
 .p-nav a:hover { background: rgba(248, 245, 240, .10); color: var(--kertas); }
-.p-nav a[aria-current="page"] { background: linear-gradient(135deg, #E5C358, #D4AF37); color: #0B2E24; font-weight: 700; box-shadow: 0 2px 8px rgba(212, 175, 55, .3); }
+.p-nav a[aria-current="page"] { background: linear-gradient(135deg, #FEC724, #F4B301); color: #001C48; font-weight: 700; box-shadow: 0 2px 8px rgba(244, 179, 1, .36); }
 .p-nav .grup { font: 500 .66rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: rgba(248, 245, 240, .6); padding: 1.1rem .8rem .35rem; white-space: nowrap; }
 @media (max-width: 59.99rem) { .p-nav .grup { display: none; } }
 

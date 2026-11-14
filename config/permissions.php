@@ -22,6 +22,7 @@ return [
 
     'anggota.lihat'              => $semuaStaf,
     'anggota.kelola'             => [Role::Owner, Role::Admin],
+    'anggota.tambah'             => [Role::Owner, Role::Manager, Role::Admin, Role::Teller],
 
     'konten.lihat'               => [Role::Owner, Role::Manager, Role::Admin],
     'konten.kelola'              => [Role::Owner, Role::Admin],   // pengumuman dan FAQ (Admin: cabangnya)

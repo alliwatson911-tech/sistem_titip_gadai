@@ -26,9 +26,7 @@ class PanelAdminTest extends PanelTestCase
             ->assertSee('Kembali ke Beranda');
 
         $this->get('/daftar')
-            ->assertOk()
-            ->assertSee('Daftar Akun Anggota linygadai')
-            ->assertSee('Kembali ke Beranda');
+            ->assertRedirect('/masuk');
     }
 
     // ---------- verifikasi anggota ----------

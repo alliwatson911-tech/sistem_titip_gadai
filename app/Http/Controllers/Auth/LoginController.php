@@ -95,6 +95,10 @@ class LoginController extends Controller
         $user->forceFill(['last_login_at' => now()])->saveQuietly();
         Audit::log('auth.masuk');
 
+        if ($user->wajib_ganti_password) {
+            return redirect()->route('panel.akun.sandi')->with('warning', 'Ini adalah login pertama Anda dengan kata sandi sementara. Demi keamanan, Anda wajib membuat kata sandi baru.');
+        }
+
         return redirect()->intended(route('panel'));
     }
 

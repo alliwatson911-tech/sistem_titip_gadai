@@ -6,6 +6,7 @@ use App\Enums\Role;
 use App\Models\AuditLog;
 use App\Models\Branch;
 use App\Models\Member;
+use App\Models\PenitipNotification;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,16 @@ class AuthTest extends TestCase
         $this->assertDatabaseHas('audit_logs', ['aksi' => 'auth.masuk', 'user_id' => $user->id]);
     }
 
+    public function test_login_pertama_dengan_password_sementara_diwajibkan_ganti_sandi(): void
+    {
+        $user = $this->akun(['wajib_ganti_password' => true]);
+
+        $this->post('/masuk', ['email' => $user->email, 'password' => self::SANDI])
+            ->assertRedirect(route('panel.akun.sandi'));
+
+        $this->assertAuthenticatedAs($user);
+    }
+
     public function test_login_gagal_tercatat_tanpa_membocorkan_alasan(): void
     {
         $user = $this->akun();
@@ -43,7 +54,7 @@ class AuthTest extends TestCase
         $this->assertGuest();
         $this->assertDatabaseHas('audit_logs', ['aksi' => 'auth.gagal']);
 
-        $this->from('/masuk')->post('/masuk', ['email' => 'tidakada@linygadai.test', 'password' => 'salah-salah-1'])
+        $this->from('/masuk')->post('/masuk', ['email' => 'tidakada@persiden.test', 'password' => 'salah-salah-1'])
             ->assertRedirect('/masuk')
             ->assertSessionHasErrors(['email' => 'Akun tidak terdaftar atau email salah.']);
     }
@@ -91,67 +102,56 @@ class AuthTest extends TestCase
         $this->assertGuest();
     }
 
-    private function dataDaftar(Branch $cabang, array $ubah = []): array
+    public function test_pendaftaran_mandiri_publik_dialihkan_ke_masuk(): void
     {
-        return array_merge([
-            'nama_lengkap' => 'Budi Santoso',
+        $this->get('/daftar')->assertRedirect('/masuk');
+    }
+
+    public function test_staf_loket_dapat_mendaftarkan_penitip_baru_dan_notifikasi_tercatat(): void
+    {
+        $cabang = Branch::factory()->create(['kode' => 'BTP', 'nama' => 'Persiden HP BTP']);
+        $staf = User::factory()->create([
+            'role' => Role::Teller,
+            'branch_id' => $cabang->id,
+            'status' => 'aktif',
+        ]);
+
+        $data = [
+            'nama_lengkap' => 'Ahmad Penitip',
             'nik' => '7371010101900001',
             'telepon' => '081234567890',
-            'email' => 'budi@contoh.test',
+            'email' => 'ahmad@persiden.test',
             'branch_id' => $cabang->id,
-            'password' => self::SANDI,
-            'password_confirmation' => self::SANDI,
-            'setuju' => '1',
-        ], $ubah);
-    }
+            'alamat' => 'Jl. BTP Blok M',
+        ];
 
-    public function test_registrasi_membuat_member_calon_dengan_nik_terenkripsi(): void
-    {
-        $cabang = Branch::factory()->create(['kode' => 'A']);
+        $this->actingAs($staf)
+            ->post('/panel/anggota', $data)
+            ->assertRedirect('/panel/anggota')
+            ->assertSessionHas('status');
 
-        $this->post('/daftar', $this->dataDaftar($cabang))->assertRedirect('/panel');
+        $userPenitip = User::where('email', 'ahmad@persiden.test')->firstOrFail();
+        $this->assertSame(Role::Member, $userPenitip->role);
+        $this->assertTrue($userPenitip->wajib_ganti_password);
 
-        $user = User::where('email', 'budi@contoh.test')->firstOrFail();
-        $this->assertSame(Role::Member, $user->role);
-        $this->assertNull($user->branch_id);
+        $member = Member::withoutGlobalScopes()->where('user_id', $userPenitip->id)->firstOrFail();
+        $this->assertSame('terverifikasi', $member->status);
+        $this->assertSame('7371010101900001', $member->nik_enc);
+        $this->assertSame(64, strlen($member->nik_hash));
 
-        $mentah = DB::table('members')->where('user_id', $user->id)->first();
-        $this->assertSame('calon', $mentah->status);
-        $this->assertNotSame('7371010101900001', $mentah->nik_enc, 'NIK tidak boleh tersimpan polos');
-        $this->assertStringNotContainsString('7371010101900001', $mentah->nik_enc);
-        $this->assertSame(64, strlen($mentah->nik_hash));
-        $this->assertSame('7371010101900001', Member::withoutGlobalScopes()->find($mentah->id)->nik_enc);
-        $this->assertNotSame(self::SANDI, $user->password, 'kata sandi harus di-hash');
-    }
-
-    public function test_registrasi_tidak_bisa_menyetel_peran_atau_status(): void
-    {
-        $cabang = Branch::factory()->create(['kode' => 'A']);
-
-        $this->post('/daftar', $this->dataDaftar($cabang, ['role' => 'owner', 'status' => 'terverifikasi']));
-
-        $user = User::where('email', 'budi@contoh.test')->firstOrFail();
-        $this->assertSame(Role::Member, $user->role);
-        $this->assertSame('calon', DB::table('members')->where('user_id', $user->id)->value('status'));
-    }
-
-    public function test_registrasi_menolak_nik_ganda_dan_kantor_pusat(): void
-    {
-        $cabang = Branch::factory()->create(['kode' => 'A']);
-        $pusat = Branch::factory()->create(['kode' => 'PUSAT']);
-        $this->post('/daftar', $this->dataDaftar($cabang))->assertRedirect('/panel');
-        $this->post('/keluar');
-
-        $this->post('/daftar', $this->dataDaftar($cabang, ['email' => 'lain@contoh.test']))->assertSessionHasErrors('nik');
-        $this->post('/daftar', $this->dataDaftar($pusat, ['email' => 'lain2@contoh.test', 'nik' => '7371010101900002']))->assertSessionHasErrors('branch_id');
-    }
-
-    public function test_registrasi_menolak_sandi_lemah(): void
-    {
-        $cabang = Branch::factory()->create(['kode' => 'A']);
-
-        $this->post('/daftar', $this->dataDaftar($cabang, ['password' => 'pendek1', 'password_confirmation' => 'pendek1']))
-            ->assertSessionHasErrors('password');
+        // Verifikasi antrean notifikasi (WhatsApp & Email)
+        $this->assertDatabaseHas('penitip_notifications', [
+            'user_id' => $userPenitip->id,
+            'member_id' => $member->id,
+            'channel' => 'whatsapp',
+            'status' => 'antrean',
+        ]);
+        $this->assertDatabaseHas('penitip_notifications', [
+            'user_id' => $userPenitip->id,
+            'member_id' => $member->id,
+            'channel' => 'email',
+            'status' => 'antrean',
+        ]);
     }
 
     public function test_audit_tidak_memuat_kata_sandi(): void

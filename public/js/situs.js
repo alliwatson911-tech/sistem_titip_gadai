@@ -240,7 +240,7 @@
 
   function produkAktif() { return produk.filter(function (p) { return String(p.id) === pilih.value; })[0] || produk[0]; }
   function angkaTaksiran() { return parseInt((taksir.value || '').replace(/\D/g, ''), 10) || 0; }
-  var satuanAktif = 'bulanan';
+  var satuanAktif = 'mingguan';
   var tabsSatuan = d.querySelectorAll('.tab-satuan');
   var boxHarian = d.getElementById('durasi-harian');
   var boxMingguan = d.getElementById('durasi-mingguan');
@@ -257,7 +257,7 @@
     ltv.min = 1000; ltv.max = maks; ltv.step = 500;
     if (parseInt(ltv.value, 10) > maks || !ltv.dataset.disentuh) ltv.value = maks;
     ltvNilai.textContent = (ltv.value / 100).toLocaleString('id-ID') + '%';
-    el('sim-batas').textContent = 'Pinjaman ' + fmt(p.min) + ' sampai ' + fmt(p.max) + ' · maksimal ' + (p.ltvMaxBp / 100).toLocaleString('id-ID') + '% dari taksiran';
+    el('sim-batas').textContent = 'Nilai yang diterima ' + fmt(p.min) + ' sampai ' + fmt(p.max) + ' · rasio ' + (p.ltvMaxBp / 100).toLocaleString('id-ID') + '% dari taksiran';
   }
 
   function tulis(id, nilai) { var n = el(id); if (n) n.textContent = nilai; }

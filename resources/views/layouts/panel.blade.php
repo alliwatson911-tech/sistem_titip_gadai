@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>@yield('judul', 'Panel') — linygadai</title>
+    <title>@yield('judul', 'Panel') — PERSIDEN HP</title>
     <meta name="robots" content="noindex,nofollow">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="preload" href="{{ asset('fonts/instrument-sans-latin-wght-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
@@ -15,14 +15,14 @@
     $u = auth()->user();
     $nav = fn (string $pola) => request()->is($pola) ? 'page' : 'false';
     $kodeAkun = strtoupper(substr($u->role->value, 0, 3)).'-'.str_pad((string) $u->id, 3, '0', STR_PAD_LEFT);
-    $lokasi = $u->branch?->nama ?? ($u->role === \App\Enums\Role::Owner ? 'Semua cabang' : 'linygadai');
+    $lokasi = $u->branch?->nama ?? ($u->role === \App\Enums\Role::Owner ? 'Semua cabang' : 'PERSIDEN HP');
 @endphp
 <a class="lompat" href="#isi">Lewati ke isi halaman</a>
 <div class="p-kerangka">
     <aside class="p-samping">
-        <a class="p-merek" href="{{ route('panel') }}">
-            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#D4AF37" stroke="#F8F5F0" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#0F4C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span><b>linygadai</b><small>Sistem operasional</small></span>
+        <a class="p-merek" href="{{ route('panel') }}" style="align-items: center; gap: .75rem;">
+            <img src="{{ asset('images/logo-persiden-hp-compact.png') }}" alt="Logo PERSIDEN HP" style="height: 36px; width: auto; object-fit: contain;">
+            <span><b style="letter-spacing: -.02em;">PERSIDEN HP</b><small style="color: var(--kuningan);">Titip Gadai Portal</small></span>
         </a>
         <div class="p-peran" aria-label="Peran dan lokasi">
             <span>Panel {{ $u->role->label() }}</span>
@@ -34,7 +34,7 @@
             @can('pengajuan.lihat')<a href="{{ route('panel.pengajuan.index') }}" aria-current="{{ $nav('panel/pengajuan*') }}">@include('partials.ikon', ['n' => 'pengajuan'])Pengajuan</a>@endcan
             @can('gadai.lihat')<a href="{{ route('panel.gadai.index') }}" aria-current="{{ $nav('panel/gadai*') }}">@include('partials.ikon', ['n' => 'gadai'])Gadai berjalan</a>@endcan
             @canany(['lelang.kelola', 'lelang.catat'])<a href="{{ route('panel.lelang.index') }}" aria-current="{{ $nav('panel/lelang*') }}">@include('partials.ikon', ['n' => 'lelang'])Lelang</a>@endcanany
-            @can('anggota.lihat')<a href="{{ route('panel.anggota') }}" aria-current="{{ $nav('panel/anggota*') }}">@include('partials.ikon', ['n' => 'anggota'])Anggota</a>@endcan
+            @can('anggota.lihat')<a href="{{ route('panel.anggota') }}" aria-current="{{ $nav('panel/anggota*') }}">@include('partials.ikon', ['n' => 'anggota'])Penitip</a>@endcan
             @can('profil.ubah')<a href="{{ route('panel.profil') }}" aria-current="{{ $nav('panel/profil*') }}">@include('partials.ikon', ['n' => 'profil'])Profil &amp; KTP</a>@endcan
             @canany(['konten.lihat', 'cabang.kontak', 'konten.situs'])
                 <span class="grup">Konten situs</span>

@@ -1,26 +1,24 @@
 @extends('layouts.publik')
 
-@section('judul', 'Masuk Akun — linygadai')
-@section('deskripsi', 'Masuk ke akun anggota linygadai untuk memantau status titip gadai, tanggal jatuh tempo, dan riwayat transaksi resmi.')
+@section('judul', 'Masuk Akun — PERSIDEN HP Titip Gadai')
+@section('deskripsi', 'Masuk ke akun penitip atau staf PERSIDEN HP Titip Gadai untuk memantau status titipan barang, tanggal jatuh tempo, dan rincian transaksi.')
 @section('robots', 'noindex,nofollow')
 
 @section('badan')
     @include('publik.partials.kepala')
     <main id="isi" class="halaman-khusus">
-        <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 34rem;">
+        <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 32rem;">
             <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Masuk' => '']" />
 
             <div class="halaman-header" style="text-align: center; border-bottom: none; margin-bottom: 1.5rem;">
-                <p class="kicker">Area Anggota &amp; Staf</p>
+                <p class="kicker">Portal Penitip &amp; Staf</p>
                 <h1>Masuk ke Akun Anda</h1>
-                <p class="pengantar" style="margin: 0 auto;">Masukkan email dan kata sandi akun linygadai Anda yang telah terdaftar.</p>
+                <p class="pengantar" style="margin: 0 auto; font-size: .95rem;">Masukkan email dan kata sandi akun PERSIDEN HP yang telah didaftarkan oleh petugas loket cabang.</p>
             </div>
 
             @if (session('status'))
                 <p class="sudah-masuk" role="status" style="margin-bottom: 1.5rem; text-align: center;">{{ session('status') }}</p>
             @endif
-
-            @include('auth.partials.demo-accounts', ['emailId' => 'email', 'passwordId' => 'password'])
 
             <form class="panel-form" method="post" action="{{ route('masuk') }}" novalidate style="padding: 2.2rem 2rem; box-shadow: var(--shadow-md);">
                 @csrf
@@ -60,12 +58,9 @@
                     Masuk ke Akun
                 </button>
 
-                <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px dashed var(--garis); text-align: center; font-size: .92rem;">
-                    <p style="margin: 0; color: var(--muted);">
-                        Belum memiliki akun?
-                        <a href="{{ route('daftar') }}" style="color: var(--kuningan-tua); font-weight: 700; text-decoration: none; margin-left: .25rem;">
-                            Daftar sebagai calon anggota &rarr;
-                        </a>
+                <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px dashed var(--garis); text-align: center; font-size: .86rem; color: var(--muted); line-height: 1.5;">
+                    <p style="margin: 0;">
+                        Akun penitip dibuat langsung oleh petugas loket di cabang PERSIDEN HP saat menyerahkan barang titipan. Kata sandi sementara dikirimkan via email atau WhatsApp.
                     </p>
                 </div>
             </form>

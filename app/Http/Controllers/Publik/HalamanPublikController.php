@@ -20,20 +20,20 @@ class HalamanPublikController extends Controller
 
         $konten = Situs::konten();
         $kebijakan = Situs::kebijakan();
-        $produk = Product::where('is_active', true)->whereNull('branch_id')->orderBy('urutan')->get();
+        $produk = Product::clientFeatured()->whereNull('branch_id')->orderBy('urutan')->get();
         if ($produk->isEmpty() && ! app()->runningUnitTests()) {
             $produk = BerandaController::defaultProduk();
         }
 
         $token = [
-            'tenor' => $produk->first()?->tenor_hari ?? 30,
+            'tenor' => $produk->first()?->tenor_hari ?? 14,
             'tenggang' => $kebijakan['masa_tenggang_hari'] ?? 3,
             'lelang_hari' => $kebijakan['hari_pemberitahuan_lelang'] ?? 7,
             'maks_perpanjangan' => $kebijakan['maks_perpanjangan'] ?? 3,
         ];
         $isi = fn (?string $t) => Situs::isi($t, $token);
 
-        $cabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
+        $cabang = Branch::where('is_active', true)->whereNotIn('kode', ['A', 'B'])->orderBy('nama')->get()->keyBy('kode');
         if ($cabang->isEmpty() && ! app()->runningUnitTests()) {
             $cabang = BerandaController::defaultCabang();
         }
@@ -84,26 +84,44 @@ class HalamanPublikController extends Controller
         return view('publik.pages.layanan-detail', $data);
     }
 
-    /** Halaman Khusus: Standar Layanan */
+    /** Halaman Khusus: Standar Layanan (Diarahkan ke Cara Penitipan) */
     public function standar(): View
     {
         $data = $this->dataUmum();
 
-        return view('publik.pages.standar', $data);
+        return view('publik.pages.cara-penitipan', $data);
     }
 
-    /** Halaman Khusus: Panduan Alur Titip Gadai */
+    /** Halaman Khusus: Panduan Alur Titip Gadai (Diarahkan ke Cara Penitipan) */
     public function panduan(): View
     {
         $data = $this->dataUmum();
 
-        return view('publik.pages.panduan', $data);
+        return view('publik.pages.cara-penitipan', $data);
     }
 
-    /** Halaman Khusus: Syarat & Ketentuan Titip Gadai */
+    /** Halaman Khusus: Cara Penitipan */
+    public function caraPenitipan(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.cara-penitipan', $data);
+    }
+
+    /** Halaman Khusus: Syarat & Ketentuan Titip Gadai (Termasuk FAQ di Bawahnya) */
     public function syarat(): View
     {
         $data = $this->dataUmum();
+        $isi = $data['isi'];
+
+        $faqs = Faq::withoutGlobalScopes()->where('is_published', true)->orderBy('urutan')->orderBy('id')->get()
+            ->each(function ($f) use ($isi) {
+                $f->pertanyaan = $isi($f->pertanyaan);
+                $f->jawaban = $isi($f->jawaban);
+            });
+
+        $data['faq'] = $faqs->where('kelompok', 'faq')->values();
+        $data['informasi'] = $faqs->where('kelompok', 'informasi')->values();
 
         return view('publik.pages.syarat', $data);
     }
@@ -136,11 +154,64 @@ class HalamanPublikController extends Controller
         return view('publik.pages.faq', $data);
     }
 
-    /** Halaman Khusus: Tentang Kami & Kontak Cabang */
+    /** Halaman Khusus: Promo (Pengganti Pengumuman) */
+    public function promo(): View
+    {
+        $data = $this->dataUmum();
+        $data['promo'] = \App\Models\Announcement::where('is_published', true)
+            ->where(fn ($q) => $q->whereNull('mulai')->orWhere('mulai', '<=', now()->toDateString()))
+            ->where(fn ($q) => $q->whereNull('selesai')->orWhere('selesai', '>=', now()->toDateString()))
+            ->latest('id')
+            ->get();
+
+        return view('publik.pages.promo', $data);
+    }
+
+    /** Halaman Khusus: Kontak & Lokasi Cabang */
+    public function kontak(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.kontak', $data);
+    }
+
+    /** Halaman Khusus: Tentang Kami (Ringkasan & Profil) */
     public function tentang(): View
     {
         $data = $this->dataUmum();
 
         return view('publik.pages.tentang', $data);
+    }
+
+    /** Sub-halaman: Sambutan Pimpinan */
+    public function sambutan(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.sambutan', $data);
+    }
+
+    /** Sub-halaman: Visi & Misi */
+    public function visiMisi(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.visi-misi', $data);
+    }
+
+    /** Sub-halaman: Dokumen Legalitas */
+    public function legalitas(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.legalitas', $data);
+    }
+
+    /** Sub-halaman: Daftar Cabang */
+    public function cabang(): View
+    {
+        $data = $this->dataUmum();
+
+        return view('publik.pages.cabang', $data);
     }
 }

@@ -1,10 +1,10 @@
 <header class="kepala">
     <div class="wrap">
-        <a class="merek" href="{{ route('beranda') }}" aria-label="linygadai, ke beranda">
-            <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="#D4AF37" stroke="#0F4C3A" stroke-width="2"/><path d="M11.5 8v13h9.5" fill="none" stroke="#0F4C3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <a class="merek" href="{{ route('beranda') }}" aria-label="PERSIDEN HP, ke beranda">
+            <img src="{{ asset('images/logo-persiden-hp-compact.png') }}" alt="Logo PERSIDEN HP" class="merek-logo-img">
             <div class="merek-teks">
-                <span class="merek-nama">linygadai</span>
-                <span class="merek-sub">Cabang A & B · Makassar</span>
+                <span class="merek-nama">PERSIDEN <span class="merah">HP</span></span>
+                <span class="merek-sub">Titip Gadai · Makassar</span>
             </div>
         </a>
 
@@ -14,20 +14,19 @@
 
         <nav class="menu" id="menu" aria-label="Menu utama">
             <a href="{{ route('beranda') }}" @if(request()->routeIs('beranda')) aria-current="page" @endif>Beranda</a>
-            <a href="{{ route('publik.layanan') }}" @if(request()->routeIs('publik.layanan')) aria-current="page" @endif>Layanan</a>
-            <a href="{{ route('publik.standar') }}" @if(request()->routeIs('publik.standar')) aria-current="page" @endif>Standar</a>
-            <a href="{{ route('publik.panduan') }}" @if(request()->routeIs('publik.panduan')) aria-current="page" @endif>Panduan</a>
+            <a href="{{ route('publik.tentang') }}" @if(request()->routeIs('publik.tentang*')) aria-current="page" @endif>Tentang Kami</a>
+            <a href="{{ route('publik.layanan') }}" @if(request()->routeIs('publik.layanan*')) aria-current="page" @endif>Layanan</a>
+            <a href="{{ route('publik.simulasi') }}" @if(request()->routeIs('publik.simulasi')) aria-current="page" @endif>Simulasi Jasa</a>
+            <a href="{{ route('publik.cara-penitipan') }}" @if(request()->routeIs('publik.cara-penitipan')) aria-current="page" @endif>Cara Penitipan</a>
             <a href="{{ route('publik.syarat') }}" @if(request()->routeIs('publik.syarat')) aria-current="page" @endif>Syarat &amp; Ketentuan</a>
-            <a href="{{ route('publik.simulasi') }}" @if(request()->routeIs('publik.simulasi')) aria-current="page" @endif>Simulasi</a>
-            <a href="{{ route('publik.faq') }}" @if(request()->routeIs('publik.faq')) aria-current="page" @endif>FAQ</a>
-            <a href="{{ route('publik.tentang') }}" @if(request()->routeIs('publik.tentang')) aria-current="page" @endif>Tentang</a>
+            <a href="{{ route('publik.promo') }}" @if(request()->routeIs('publik.promo')) aria-current="page" @endif>Promo</a>
+            <a href="{{ route('publik.kontak') }}" @if(request()->routeIs('publik.kontak')) aria-current="page" @endif>Kontak</a>
 
             <div class="nav-actions-mobile">
                 @auth
                     <a class="btn btn--utama btn--kecil" href="{{ route('panel') }}">Panel Saya</a>
                 @else
-                    <a class="btn btn--kecil" href="{{ route('masuk') }}">Masuk</a>
-                    <a class="btn btn--utama btn--kecil" href="{{ route('daftar') }}">Daftar</a>
+                    <a class="btn btn--utama btn--kecil" href="{{ route('masuk') }}">Masuk</a>
                 @endauth
             </div>
         </nav>
@@ -36,8 +35,7 @@
             @auth
                 <a class="btn btn--utama btn--kecil" href="{{ route('panel') }}">Panel Saya</a>
             @else
-                <a class="btn btn--kecil" href="{{ route('masuk') }}">Masuk</a>
-                <a class="btn btn--utama btn--kecil" href="{{ route('daftar') }}">Daftar</a>
+                <a class="btn btn--utama btn--kecil" href="{{ route('masuk') }}">Masuk</a>
             @endauth
         </div>
     </div>

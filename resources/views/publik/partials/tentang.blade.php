@@ -4,69 +4,112 @@
     $namaSosmed = ['instagram' => 'Instagram', 'facebook' => 'Facebook', 'tiktok' => 'TikTok', 'youtube' => 'YouTube'];
     $sosmed = collect($konten['sosmed'] ?? [])->filter(fn ($u) => is_string($u) && str_starts_with($u, 'https://'));
     $adaKontak = $pusat && ($pusat->alamat || $pusat->telepon || $pusat->whatsapp || $pusat->email || $pusat->jam_buka);
-    $punyaPeta = $pusat && $pusat->lat !== null && $pusat->lng !== null;
-    $cabangOperasional = $cabang->except('PUSAT')->filter(fn ($c) => $c->alamat || $c->telepon);
+    $cabangOperasional = $cabang->where('kode', '!=', 'PUSAT');
 @endphp
 <section class="bagian bagian--gelap" id="tentang" data-spy="tentang" aria-labelledby="judul-tentang">
     <div class="wrap">
         <div class="kepala-bagian">
-            <p class="nomor">Tentang kami</p>
-            <h2 id="judul-tentang">Temui kami langsung, tanyakan apa saja</h2>
+            <p class="nomor">Tentang Kami</p>
+            <h2 id="judul-tentang">PERSIDEN HP Titip Gadai Makassar</h2>
+            <p class="pengantar" style="margin-top: .75rem; color: rgba(255,255,255,.8);">
+                Layanan penitipan barang berharga dan surat berharga dengan komitmen <strong>Aman · Cepat · Terpercaya</strong> di 7 cabang Makassar &amp; Gowa.
+            </p>
         </div>
         <div class="tentang">
             <div>
-                @if ($adaKontak)
                 <dl class="kontak">
-                    @if ($wa !== '')<div><dt>WhatsApp admin</dt><dd><a href="https://wa.me/{{ $wa }}" rel="noopener">{{ $pusat->whatsapp }}</a></dd></div>@endif
-                    @if ($pusat->telepon)<div><dt>Telepon</dt><dd><a href="tel:{{ preg_replace('/[^\d+]/', '', $pusat->telepon) }}">{{ $pusat->telepon }}</a></dd></div>@endif
-                    @if ($pusat->email)<div><dt>Email</dt><dd><a href="mailto:{{ $pusat->email }}">{{ $pusat->email }}</a></dd></div>@endif
-                    @if ($pusat->alamat)<div><dt>Kantor pusat</dt><dd>{{ $pusat->alamat }}</dd></div>@endif
-                    @if ($pusat->jam_buka)<div><dt>Jam layanan</dt><dd>{{ $pusat->jam_buka }}</dd></div>@endif
+                    <div>
+                        <dt>Jam Layanan Seluruh Cabang</dt>
+                        <dd><strong>08.00 &ndash; 22.00 WITA</strong> (Buka Setiap Hari)</dd>
+                    </div>
+                    <div>
+                        <dt>Kantor Pusat</dt>
+                        <dd>{{ $pusat?->alamat ?? 'Makassar, Sulawesi Selatan' }}</dd>
+                    </div>
+                    @if ($wa !== '')
+                        <div>
+                            <dt>WhatsApp Kantor Pusat</dt>
+                            <dd><a href="https://wa.me/{{ $wa }}" rel="noopener" style="color: var(--kuningan);">{{ $pusat->whatsapp }}</a></dd>
+                        </div>
+                    @endif
+                    @if ($pusat?->telepon)
+                        <div>
+                            <dt>Telepon</dt>
+                            <dd><a href="tel:{{ preg_replace('/[^\d+]/', '', $pusat->telepon) }}" style="color: var(--kuningan);">{{ $pusat->telepon }}</a></dd>
+                        </div>
+                    @endif
+                    @if ($pusat?->email)
+                        <div>
+                            <dt>Email</dt>
+                            <dd><a href="mailto:{{ $pusat->email }}" style="color: var(--kuningan);">{{ $pusat->email }}</a></dd>
+                        </div>
+                    @endif
                 </dl>
-                @else
-                    <p>Informasi kontak resmi sedang dilengkapi oleh pengelola situs. Sementara itu, pertanyaan Anda dapat disampaikan lewat akun anggota.</p>
-                @endif
 
                 @if ($cabangOperasional->isNotEmpty())
-                    <div class="cabang-daftar">
-                        @foreach ($cabangOperasional as $c)
-                            <p><b>{{ $c->nama }}</b><br>{{ $c->alamat }}@if ($c->telepon) · {{ $c->telepon }}@endif</p>
-                        @endforeach
+                    <div style="margin: 1.5rem 0 1rem;">
+                        <b style="color: #fff; font-size: 1rem; display: block; margin-bottom: .75rem;">Jaringan 7 Cabang:</b>
+                        <div class="cabang-daftar" style="display: grid; gap: .75rem;">
+                            @foreach ($cabangOperasional as $c)
+                                <div style="background: rgba(255,255,255,.06); padding: .75rem 1rem; border-radius: var(--radius-m); border: 1px solid rgba(255,255,255,.1);">
+                                    <div style="display: flex; justify-content: space-between; align-items: baseline; gap: .5rem; flex-wrap: wrap;">
+                                        <b style="color: var(--kuningan);">{{ $c->nama_publik }}</b>
+                                        <span style="font-size: .8rem; color: rgba(255,255,255,.7);">08.00 – 22.00 WITA</span>
+                                    </div>
+                                    <p style="margin: .35rem 0 .5rem; font-size: .85rem; color: rgba(255,255,255,.8); line-height: 1.5;">
+                                        {{ $c->alamat }}
+                                    </p>
+                                    @if($c->gmaps_link)
+                                        <a href="{{ $c->gmaps_link }}" target="_blank" rel="noopener noreferrer" style="font-size: .8rem; color: var(--kuningan); text-decoration: none;">
+                                            📍 Buka di Google Maps &rarr;
+                                        </a>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
 
                 @if ($sosmed->isNotEmpty())
-                    <div class="sosmed">
+                    <div class="sosmed" style="margin-top: 1.25rem; display: flex; gap: .75rem; flex-wrap: wrap;">
                         @foreach ($sosmed as $kunci => $url)
-                            <a href="{{ $url }}" rel="noopener noreferrer" target="_blank">{{ $namaSosmed[$kunci] ?? ucfirst($kunci) }}</a>
+                            <a href="{{ $url }}" rel="noopener noreferrer" target="_blank" style="color: var(--kuningan); font-size: .88rem; text-decoration: underline;">
+                                {{ $namaSosmed[$kunci] ?? ucfirst($kunci) }}
+                            </a>
                         @endforeach
                     </div>
                 @endif
 
-                <div class="izin">
-                    <b>Perizinan usaha</b>
+                <div class="izin" style="margin-top: 1.25rem; font-size: .85rem; opacity: .85; line-height: 1.5;">
+                    <b style="color: #fff; display: block; margin-bottom: .25rem;">Informasi Perizinan &amp; Legalitas:</b>
                     @if (! empty($konten['izin_usaha']))
                         {{ $konten['izin_usaha'] }}
                     @else
                         Informasi perizinan resmi akan ditampilkan di sini setelah dilengkapi dan diverifikasi oleh pengelola.
                     @endif
                 </div>
+
+                <div style="display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <a href="{{ route('publik.sambutan') }}" class="btn btn--kecil" style="background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3);">Sambutan Pimpinan</a>
+                    <a href="{{ route('publik.visi-misi') }}" class="btn btn--kecil" style="background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3);">Visi &amp; Misi</a>
+                    <a href="{{ route('publik.legalitas') }}" class="btn btn--kecil" style="background: rgba(255,255,255,.15); color: #fff; border: 1px solid rgba(255,255,255,.3);">Legalitas</a>
+                    <a href="{{ route('publik.cabang') }}" class="btn btn--kecil btn--utama">Daftar Cabang</a>
+                </div>
             </div>
 
             <div>
-                @if ($punyaPeta)
-                    <div class="peta">
-                        <iframe title="Peta lokasi kantor pusat linygadai" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-                                src="https://www.google.com/maps?q={{ urlencode((float) $pusat->lat.','.(float) $pusat->lng) }}&amp;z=16&amp;output=embed"></iframe>
-                    </div>
-                @else
-                    <div class="peta-kosong">
-                        <div>
-                            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 43s14-12.5 14-23a14 14 0 0 0-28 0c0 10.5 14 23 14 23z" stroke-linejoin="round"/><circle cx="24" cy="20" r="5"/></svg>
-                            <p style="margin:0">Peta kantor pusat tampil di sini setelah koordinat lokasi diisi.</p>
-                        </div>
-                    </div>
-                @endif
+                <!-- Peta Kantor Pusat / 7 Cabang Makassar -->
+                <div class="peta" style="border-radius: var(--radius-m); overflow: hidden; border: 1px solid rgba(255,255,255,.2);">
+                    @if ($pusat && $pusat->lat !== null && $pusat->lng !== null)
+                        <iframe title="Peta Lokasi Kantor Pusat PERSIDEN HP Makassar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps?q={{ urlencode((float) $pusat->lat.','.(float) $pusat->lng) }}&amp;z=15&amp;output=embed"
+                                style="width: 100%; height: 380px; border: 0;"></iframe>
+                    @else
+                        <iframe title="Peta Lokasi Cabang PERSIDEN HP Makassar" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps?q=Makassar+Sulawesi+Selatan&amp;z=12&amp;output=embed"
+                                style="width: 100%; height: 380px; border: 0;"></iframe>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

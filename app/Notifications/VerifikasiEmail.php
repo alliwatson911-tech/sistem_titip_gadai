@@ -22,12 +22,12 @@ class VerifikasiEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Verifikasi email akun linygadai')
+            ->subject('Verifikasi email akun PERSIDEN HP Titip Gadai')
             ->greeting('Halo, '.$notifiable->name)
-            ->line('Terima kasih telah mendaftar. Mohon pastikan alamat email ini milik Anda dengan menekan tombol di bawah.')
+            ->line('Terima kasih. Mohon pastikan alamat email ini milik Anda dengan menekan tombol di bawah.')
             ->action('Verifikasi email saya', self::url($notifiable))
-            ->line('Tautan berlaku 24 jam. Pengajuan titip gadai memerlukan email yang sudah terverifikasi.')
-            ->line('Jika Anda tidak merasa mendaftar, abaikan email ini.')
-            ->salutation('Salam, linygadai');
+            ->line('Tautan berlaku 24 jam.')
+            ->line('Jika Anda tidak merasa didaftarkan, silakan abaikan email ini.')
+            ->salutation('Salam, PERSIDEN HP Titip Gadai');
     }
 }

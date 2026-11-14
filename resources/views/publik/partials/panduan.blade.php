@@ -16,21 +16,21 @@
         <div class="lembar-grid">
             <div class="lembar panel-form" style="padding: 1.8rem;" data-muncul>
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 01</div>
-                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Menjadi Anggota</h3>
+                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pendaftaran di Loket</h3>
                 <ol class="langkah">
-                    @foreach ($anggota as $s)
-                        <li><div><b>{{ $s['judul'] }}</b><span>{{ $isi($s['isi']) }}</span></div></li>
-                    @endforeach
+                    <li><div><b>Datang ke Loket Cabang</b><span>Kunjungi salah satu dari 7 cabang PERSIDEN HP dengan membawa barang jaminan dan KTP asli.</span></div></li>
+                    <li><div><b>Pencatatan oleh Staf</b><span>Petugas loket mencatat data identitas (nama, NIK, kontak) dan membuatkan akun digital.</span></div></li>
+                    <li><div><b>Akses Masuk Terbit</b><span>Notifikasi tautan masuk dan kata sandi sementara dikirimkan via email / WhatsApp.</span></div></li>
                 </ol>
             </div>
 
             <div class="lembar panel-form" style="padding: 1.8rem;" data-muncul>
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 02</div>
-                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Titip Gadai Agunan</h3>
+                <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pemeriksaan &amp; Nilai</h3>
                 <ol class="langkah">
-                    @foreach ($gadai as $s)
-                        <li><div><b>{{ $s['judul'] }}</b><span>{{ $isi($s['isi']) }}</span></div></li>
-                    @endforeach
+                    <li><div><b>Pemeriksaan Terbuka</b><span>Kondisi fisik barang dan kelengkapan diperiksa langsung di hadapan Anda.</span></div></li>
+                    <li><div><b>Pilihan Durasi</b><span>Tentukan durasi penitipan yang Anda inginkan: 1 minggu atau 2 minggu.</span></div></li>
+                    <li><div><b>Penerimaan Nilai</b><span>Nota diterbitkan dan dana langsung diserahkan tunai atau transfer.</span></div></li>
                 </ol>
             </div>
 
@@ -38,9 +38,9 @@
                 <div class="nomor" style="margin-bottom: .8rem;">Tahap 03</div>
                 <h3 style="border-bottom: 2px solid var(--kuningan); padding-bottom: .6rem; margin-bottom: 1.25rem;">Pelunasan &amp; Tebus</h3>
                 <ol class="langkah">
-                    <li><div><b>Perpanjang Masa Titip</b><span>Sebelum jatuh tempo, Anda dapat memperpanjang masa simpan dengan melunasi sewa modal dan administrasi berjalan.</span></div></li>
-                    <li><div><b>Cicil Pokok Pinjaman</b><span>Kurangi beban kewajiban dengan mencicil pokok pinjaman bertahap sesuai kesiapan dana Anda.</span></div></li>
-                    <li><div><b>Pelunasan &amp; Pengambilan</b><span>Lunasi sisa pokok dan biaya untuk mengambil kembali barang atau dokumen jaminan Anda yang tersimpan aman di khasanah atau brankas segel.</span></div></li>
+                    <li><div><b>Perpanjang Masa Titip</b><span>Sebelum jatuh tempo, Anda dapat memperpanjang dengan melunasi jasa penitipan periode berjalan.</span></div></li>
+                    <li><div><b>Bayar Sebagian Pokok</b><span>Kurangi beban jasa berikutnya dengan membayar sebagian dari nilai pokok.</span></div></li>
+                    <li><div><b>Pelunasan &amp; Pengambilan</b><span>Lunasi sisa nilai yang diterima dan jasa penitipan untuk mengambil kembali barang Anda secara utuh.</span></div></li>
                 </ol>
                 <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px dashed var(--garis);">
                     <a href="{{ route('publik.syarat') }}" style="display:inline-flex; align-items:center; gap:.4rem; font:600 .85rem/1.3 var(--f-isi); color:var(--kuningan-tua); text-decoration:none;">
