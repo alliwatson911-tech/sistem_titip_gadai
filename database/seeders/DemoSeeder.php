@@ -9,6 +9,7 @@ use App\Models\Branch;
 use App\Models\Faq;
 use App\Models\Loan;
 use App\Models\Member;
+use App\Models\Product;
 use App\Models\User;
 use App\Services\ApplicationFlow;
 use App\Services\LoanService;
@@ -31,6 +32,7 @@ use Illuminate\Support\Str;
 class DemoSeeder extends Seeder
 {
     private Carbon $hariIni;
+
     private array $baris = [];
 
     public function run(): void
@@ -194,7 +196,7 @@ class DemoSeeder extends Seeder
     {
         $cabang = Branch::find($m->branch_id)->kode;
         $alur = app(ApplicationFlow::class);
-        $produk = \App\Models\Product::where('slug', $slug)->firstOrFail();
+        $produk = Product::where('slug', $slug)->firstOrFail();
         [$merek, $model] = self::BARANG[$slug];
 
         Auth::setUser($m->user);
@@ -284,12 +286,12 @@ class DemoSeeder extends Seeder
         // ---- pengajuan di berbagai tahap ----
         $this->pada(-2);
         Auth::setUser($m['andi']->user);
-        $alur->ajukan($m['andi'], \App\Models\Product::where('slug', 'gadai-televisi')->first(), 3_000_000, 'Menunggu dibawa ke cabang', $m['andi']->user);
+        $alur->ajukan($m['andi'], Product::where('slug', 'gadai-televisi')->first(), 3_000_000, 'Menunggu dibawa ke cabang', $m['andi']->user);
 
         $this->pada(-1);
         $cabangA = $this->staf('teller', 'A');
         Auth::setUser($m['siti']->user);
-        $p = $alur->ajukan($m['siti'], \App\Models\Product::where('slug', 'gadai-kamera')->first(), 1_800_000, null, $m['siti']->user);
+        $p = $alur->ajukan($m['siti'], Product::where('slug', 'gadai-kamera')->first(), 1_800_000, null, $m['siti']->user);
         Auth::setUser($cabangA);
         $alur->terimaBarang($p, $cabangA, ['identitas_dicocokkan' => true, 'merek' => 'Canon', 'model' => 'EOS M50', 'imei_serial' => (string) random_int(350000000000000, 359999999999999), 'no_segel' => 'SG-'.strtoupper(Str::random(5))], $this->foto('Canon EOS M50'));
 

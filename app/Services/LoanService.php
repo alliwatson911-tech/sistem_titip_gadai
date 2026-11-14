@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Enums\ApplicationStatus as S;
 use App\Enums\LoanStatus as L;
-use App\Models\Appraisal;
 use App\Models\Application;
+use App\Models\Appraisal;
 use App\Models\Auction;
 use App\Models\Collateral;
 use App\Models\Disbursement;
@@ -204,7 +204,7 @@ class LoanService
                 [$sewa, $admin, $denda] = [$t['tebus']['sewa_modal'], $t['administrasi'], $t['denda']];
             }
 
-            $p = new Payment();
+            $p = new Payment;
             $p->forceFill([
                 'no_kwitansi' => $this->nomor('KW', $l->branch->kode, Payment::class, 'no_kwitansi'),
                 'loan_id' => $l->id, 'branch_id' => $l->branch_id, 'tipe' => $tipe, 'sewa_modal' => $sewa, 'administrasi' => $admin, 'denda' => $denda,

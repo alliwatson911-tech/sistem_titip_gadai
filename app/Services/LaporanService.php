@@ -78,7 +78,9 @@ class LaporanService
     public function baris(array $r): array
     {
         $b = [];
-        $tambah = function (string $label, int $nilai, string $jenis = 'rp') use (&$b) { $b[] = [$label, $nilai, $jenis]; };
+        $tambah = function (string $label, int $nilai, string $jenis = 'rp') use (&$b) {
+            $b[] = [$label, $nilai, $jenis];
+        };
 
         $tambah('Pencairan — jumlah akad', $r['pencairan']['n'], 'n');
         $tambah('Pencairan — total dana', $r['pencairan']['total']);

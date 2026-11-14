@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Http\Controllers\Controller;
 use App\Models\Collateral;
 use App\Models\CollateralPhoto;
+use App\Models\Loan;
 use App\Models\Member;
 use App\Services\Audit;
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class BerkasController extends Controller
     }
 
     /** Surat kuasa penebus: hanya staf cabang yang sama; pembukaan dicatat. */
-    public function kuasa(Request $r, \App\Models\Loan $gadai)
+    public function kuasa(Request $r, Loan $gadai)
     {
         abort_unless($r->user()->role->isStaff(), 403);
         $path = $gadai->redemption?->surat_kuasa_path;

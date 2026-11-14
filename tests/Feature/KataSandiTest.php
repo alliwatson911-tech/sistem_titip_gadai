@@ -14,6 +14,7 @@ use Tests\PanelTestCase;
 class KataSandiTest extends PanelTestCase
 {
     private const LAMA = 'SandiLama12345';
+
     private const BARU = 'SandiBaru67890';
 
     private function akun(Role $role = Role::Teller, array $state = []): User
@@ -87,7 +88,7 @@ class KataSandiTest extends PanelTestCase
         $this->actingAs($u)->put(route('panel.akun.sandi.ubah'), ['sandi_lama' => self::LAMA, 'password' => self::BARU, 'password_confirmation' => self::BARU]);
         auth()->logout();
 
-        $this->post('/masuk', ['email' => $u->email, 'password' => self::LAMA])->assertSessionHasErrors('email');
+        $this->post('/masuk', ['email' => $u->email, 'password' => self::LAMA])->assertSessionHasErrors('password');
         $this->post('/masuk', ['email' => $u->email, 'password' => self::BARU])->assertRedirect('/panel');
     }
 

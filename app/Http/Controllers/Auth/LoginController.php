@@ -9,6 +9,7 @@ use App\Services\Audit;
 use App\Services\Situs;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
@@ -19,11 +20,12 @@ class LoginController extends Controller
 {
     public function create()
     {
+        /** @var Collection<string, Branch> $cabang */
         $cabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
 
         return view('auth.masuk', [
             'cabang' => $cabang,
-            'pusat' => $cabang->get('PUSAT'),
+            'pusat' => $cabang->firstWhere('kode', 'PUSAT') ?? $cabang->first(),
             'konten' => Situs::konten(),
         ]);
     }
@@ -94,6 +96,10 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $user->forceFill(['last_login_at' => now()])->saveQuietly();
         Audit::log('auth.masuk');
+
+        if ($user->wajib_ganti_password) {
+            return redirect()->route('panel.akun.sandi')->with('warning', 'Ini adalah login pertama Anda dengan kata sandi sementara. Demi keamanan, Anda wajib membuat kata sandi baru.');
+        }
 
         return redirect()->intended(route('panel'));
     }

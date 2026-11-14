@@ -7,18 +7,18 @@
     <meta name="description" content="@yield('deskripsi')">
     <meta name="robots" content="@yield('robots', 'index,follow')">
     <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="theme-color" content="#0F4C3A">
+    <meta name="theme-color" content="#002665">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
-    <meta property="og:site_name" content="linygadai">
-    <meta property="og:title" content="@yield('judul')">
-    <meta property="og:description" content="@yield('deskripsi')">
+    <meta property="og:site_name" content="PERSIDEN HP Titip Gadai">
+    <meta property="og:title" content="@yield('judul', 'PERSIDEN HP — Titip Gadai Aman, Cepat, Terpercaya')">
+    <meta property="og:description" content="@yield('deskripsi', config('istilah.merek.deskripsi_meta'))">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ asset('og.png') }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="linygadai: titip gadai elektronik, biaya jelas">
+    <meta property="og:image:alt" content="PERSIDEN HP: Titip Gadai Aman, Cepat, Terpercaya Makassar">
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">

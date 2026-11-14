@@ -1,3 +1,6 @@
+@php
+    /** @var \App\Models\GadaiPayment $p */
+@endphp
 <!doctype html>
 <html lang="id">
 <head>
@@ -22,21 +25,21 @@
 @use('App\Support\Rupiah')
 <div class="tombol-cetak"><button class="btn btn--utama" type="button" data-cetak>Cetak</button></div>
 <div class="nota-cetak">
-    <h1>linygadai</h1>
-    <div style="margin-bottom:1rem">KWITANSI PEMBAYARAN</div>
+    <h1>PERSIDEN HP</h1>
+    <div style="margin-bottom:1rem; font-weight: 600; color: var(--kuningan-tua);">KWITANSI TRANSAKSI TITIP GADAI</div>
     @if ($p->status === 'batal')<div class="batal">DIBATALKAN / DIBALIKKAN</div>@endif
     <div class="baris"><span>No. kwitansi</span><b>{{ $p->no_kwitansi }}</b></div>
-    <div class="baris"><span>No. nota gadai</span><b>{{ $p->loan->no_sbg }}</b></div>
-    <div class="baris"><span>Penggadai</span><b>{{ $p->loan->member->nama_lengkap }}</b></div>
+    <div class="baris"><span>No. nota titip</span><b>{{ $p->loan->no_sbg }}</b></div>
+    <div class="baris"><span>Penitip</span><b>{{ $p->loan->member->nama_lengkap }}</b></div>
     <div class="baris"><span>Jenis</span><b>{{ ucfirst($p->tipe) }}</b></div>
     <div class="baris"><span>Tanggal</span><b>{{ $p->dibayar_at->translatedFormat('j F Y H:i') }}</b></div>
     <div class="baris"><span>Metode</span><b>{{ $p->metode }}</b></div>
-    @if ($p->pokok_dibayar > 0)<div class="baris"><span>Pokok</span><b>{{ Rupiah::format((int) $p->pokok_dibayar) }}</b></div>@endif
-    <div class="baris"><span>Sewa modal</span><b>{{ Rupiah::format((int) $p->sewa_modal) }}</b></div>
+    @if ($p->pokok_dibayar > 0)<div class="baris"><span>Pokok dibayar</span><b>{{ Rupiah::format((int) $p->pokok_dibayar) }}</b></div>@endif
+    <div class="baris"><span>Jasa penitipan</span><b>{{ Rupiah::format((int) $p->sewa_modal) }}</b></div>
     <div class="baris"><span>Administrasi</span><b>{{ Rupiah::format((int) $p->administrasi) }}</b></div>
     @if ($p->denda > 0)<div class="baris"><span>Denda</span><b>{{ Rupiah::format((int) $p->denda) }}</b></div>@endif
     <div class="total"><span>TOTAL</span><b>{{ Rupiah::format((int) $p->total) }}</b></div>
-    <div style="margin-top:1rem;font-size:.8rem">Petugas: {{ $p->teller?->name }}</div>
+    <div style="margin-top:1rem;font-size:.8rem">Petugas Loket: {{ $p->teller?->name }}</div>
 </div>
 <script src="{{ asset('js/panel.js') }}" defer></script>
 </body>

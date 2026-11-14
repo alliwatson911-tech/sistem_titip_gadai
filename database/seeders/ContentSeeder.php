@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Announcement;
-use App\Models\Branch;
 use App\Models\Faq;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,45 +19,49 @@ class ContentSeeder extends Seeder
     {
         $konten = [
             'tagline' => 'Titip hari ini, tenang sampai tebus.',
-            'sambutan' => 'Selamat datang di linygadai. Kami membantu Anda mendapatkan dana tunai dengan menjaminkan laptop, smartphone, BPKB kendaraan bermotor, sertifikat properti, dan barang/surat berharga resmi. Sejak awal kami jelaskan semuanya: berapa pinjaman yang bisa Anda terima, berapa biayanya, kapan jatuh tempo, dan bagaimana cara menebus jaminan Anda kembali.',
-            'ringkasan' => 'linygadai melayani titip gadai multi-agunan (elektronik, BPKB mobil & motor, sertifikat tanah & rumah, dan surat berharga) lewat dua cabang resmi di Makassar (Cabang A dan Cabang B) yang dikoordinasikan kantor pusat. Setiap agunan diperiksa, ditaksir oleh analis bersertifikat, diamankan sesuai standar legalitas dan khasanah tahan api, serta dicatat di sistem terintegrasi. Anggota dapat mengajukan lewat situs ini, memantau status jatuh tempo, dan mencicil atau menebus dengan mudah.',
+            'sambutan' => 'Selamat datang di PERSIDEN HP Titip Gadai. Terpercaya sejak tahun 2005 dalam melayani masyarakat Makassar dan sekitarnya. Kami membantu Anda mendapatkan dana tunai dengan menitipkan smartphone, laptop, tablet, kamera, BPKB kendaraan bermotor, sertifikat properti, dan surat berharga dengan perhitungan jasa penitipan yang transparan dan aman.',
+            'ringkasan' => 'PERSIDEN HP Titip Gadai melayani penitipan barang berharga dan surat berharga (elektronik, BPKB kendaraan, sertifikat tanah & rumah, dan surat berharga) melalui jaringan 7 loket cabang strategis di Kota Makassar dan Kabupaten Gowa. Berpengalaman lebih dari 20 tahun sejak 2005, setiap barang titipan diperiksa cermat di hadapan Anda, diberi segel khusus, dan disimpan aman tanpa digunakan selama masa penitipan.',
             'standar_layanan' => [
-                ['judul' => 'Taksiran yang dijelaskan', 'isi' => 'Analis menyampaikan dasar penilaian barang atau dokumen legal Anda sebelum Anda memutuskan setuju atau tidak.'],
-                ['judul' => 'Biaya dirinci dari awal', 'isi' => 'Pokok pinjaman, sewa modal, dan biaya administrasi ditulis terpisah di nota. Tidak ada potongan tersembunyi yang muncul belakangan.'],
-                ['judul' => 'Agunan aman & unit kendaraan tetap dipakai', 'isi' => 'Barang elektronik disimpan bersegel di brankas. Pada gadai BPKB kendaraan dan sertifikat properti, hanya dokumen sah yang disimpan di khasanah kantor, unit fisik tetap digunakan nasabah.'],
-                ['judul' => 'Identitas & legalitas diperiksa', 'isi' => 'Kami memeriksa KTP, keabsahan kepemilikan, dan validitas dokumen jaminan demi melindungi hak kepemilikan nasabah.'],
-                ['judul' => 'Jatuh tempo yang jelas', 'isi' => 'Tenor {tenor} hari dan dapat diperpanjang. Tanggal jatuh tempo tercantum di nota fisik dan di akun anggota secara real-time.'],
-                ['judul' => 'Tiga pilihan bayar fleksibel', 'isi' => 'Perpanjang, cicil sebagian pokok, atau tebus lunas. Anda memilih sesuai kesiapan dana, dan setiap pembayaran diterbitkan kwitansi resmi.'],
+                ['judul' => 'Taksiran yang dijelaskan', 'isi' => 'Petugas menyampaikan dasar penilaian barang atau dokumen Anda secara transparan sebelum Anda memutuskan setuju atau tidak.'],
+                ['judul' => 'Jasa penitipan dirinci di awal', 'isi' => 'Nilai yang diterima, tarif jasa penitipan, dan biaya administrasi ditulis terpisah di nota. Tidak ada potongan tersembunyi.'],
+                ['judul' => 'Barang aman & BPKB tetap jalan', 'isi' => 'Barang elektronik disimpan bersegel di tempat penyimpanan khusus cabang. Pada titip BPKB kendaraan, unit fisik tetap digunakan penitip.'],
+                ['judul' => 'Identitas & kepemilikan diperiksa', 'isi' => 'Kami memeriksa e-KTP asli dan bukti kepemilikan sah demi melindungi hak barang penitip.'],
+                ['judul' => 'Jatuh tempo yang pasti', 'isi' => 'Tenor {tenor} hari (atau mingguan 1-2 minggu) dan dapat diperpanjang. Tanggal jatuh tempo tercantum pasti di nota fisik dan portal penitip.'],
+                ['judul' => 'Tiga pilihan penyelesaian', 'isi' => 'Perpanjang masa titip, bayar sebagian pokok, atau tebus lunas kapan saja sebelum jatuh tempo.'],
             ],
             'panduan_anggota' => [
-                ['judul' => 'Daftar akun', 'isi' => 'Isi nama, NIK, nomor telepon, dan email sesuai KTP, lalu pilih cabang yang paling dekat dengan Anda.'],
-                ['judul' => 'Tunggu verifikasi', 'isi' => 'Admin cabang mencocokkan data Anda. Bila diperlukan, Anda diminta datang membawa KTP asli.'],
-                ['judul' => 'Akun aktif', 'isi' => 'Setelah terverifikasi, Anda dapat mengajukan titip gadai, memantau jatuh tempo, dan melihat riwayat pembayaran.'],
+                ['judul' => 'Datang ke Loket', 'isi' => 'Bawa e-KTP fisik asli dan barang berharga yang ingin dititipkan ke cabang PERSIDEN HP terdekat.'],
+                ['judul' => 'Pencatatan Akun oleh Staf', 'isi' => 'Petugas loket cabang mendaftarkan data diri Anda dan membuat akun penitip di sistem.'],
+                ['judul' => 'Pantau Transaksi', 'isi' => 'Masuk ke portal penitip menggunakan nomor WhatsApp dan kata sandi untuk melihat detail transaksi dan jatuh tempo.'],
             ],
             'panduan_gadai' => [
-                ['judul' => 'Hitung perkiraan', 'isi' => 'Pakai simulasi di halaman ini untuk melihat perkiraan pinjaman dan total yang harus ditebus.'],
-                ['judul' => 'Ajukan online', 'isi' => 'Pilih jenis barang dan jumlah pinjaman yang Anda inginkan. Pengajuan online membuat antrean Anda lebih cepat di cabang.'],
-                ['judul' => 'Datang ke cabang', 'isi' => 'Bawa barang beserta kelengkapannya (dus, pengisi daya) dan KTP asli. Pencairan tidak dilakukan tanpa bertemu langsung.'],
-                ['judul' => 'Barang diperiksa dan ditaksir', 'isi' => 'Petugas memeriksa keaslian barang dan identitas Anda, lalu analis menetapkan taksiran.'],
-                ['judul' => 'Setuju dan dana diterima', 'isi' => 'Jika Anda setuju dengan taksiran dan biayanya, nota gadai diterbitkan dan dana dicairkan.'],
-                ['judul' => 'Pantau dan bayar', 'isi' => 'Sebelum jatuh tempo, pilih perpanjang, cicil, atau tebus. Barang diserahkan kembali setelah penebusan.'],
+                ['judul' => 'Hitung perkiraan', 'isi' => 'Gunakan kalkulator Simulasi Jasa di situs ini untuk melihat perkiraan nilai yang diterima dan jasa penitipan.'],
+                ['judul' => 'Kunjungi loket cabang', 'isi' => 'Bawa barang jaminan beserta kelengkapannya (charger/aksesori) dan e-KTP asli ke loket cabang PERSIDEN HP.'],
+                ['judul' => 'Pemeriksaan & taksiran', 'isi' => 'Petugas memeriksa kondisi fisik barang dan kelengkapan secara terbuka di hadapan Anda.'],
+                ['judul' => 'Penerbitan nota & pencairan', 'isi' => 'Setelah Anda setuju dengan taksiran dan jasa penitipan, nota dicetak, barang disegel, dan dana diserahkan.'],
+                ['judul' => 'Pantau & selesaikan', 'isi' => 'Sebelum tanggal jatuh tempo, Anda dapat memperpanjang, membayar sebagian pokok, atau menebus lunas barang.'],
             ],
             'syarat_online' => [
-                'Akun anggota sudah terverifikasi oleh admin cabang.',
-                'Memiliki KTP yang masih berlaku, dan membawa aslinya saat datang ke cabang.',
-                'Barang milik sendiri, dapat dinyalakan, dan sudah bebas dari kunci akun (misalnya akun perangkat atau kode kunci layar).',
-                'Membawa kelengkapan barang bila ada: dus, pengisi daya, kabel, atau aksesori.',
-                'Jumlah pinjaman berada dalam batas produk yang dipilih; angka pastinya ditetapkan analis setelah barang diperiksa.',
+                'Membawa e-KTP fisik asli yang masih berlaku saat datang ke loket cabang.',
+                'Barang milik pribadi yang sah dan bebas dari sengketa pihak mana pun.',
+                'Untuk smartphone, tablet, dan laptop: kondisi dapat menyala normal dan sudah logout dari seluruh kunci akun (iCloud, Google, sandi layar).',
+                'Membawa kelengkapan pengisi daya (charger adaptor) dan perlengkapan unit jika ada.',
+                'Penitipan diproses langsung di loket cabang oleh petugas resmi PERSIDEN HP.',
             ],
             'tata_cara' => [
-                ['judul' => 'Pengajuan', 'isi' => 'Anda mengajukan lewat akun anggota. Status pengajuan dapat dipantau kapan saja.'],
-                ['judul' => 'Barang diserahkan', 'isi' => 'Anda datang ke cabang. Teller memeriksa identitas, menerima barang, lalu menyegelnya.'],
-                ['judul' => 'Penaksiran', 'isi' => 'Analis menilai kondisi dan nilai barang, lalu memberi rekomendasi.'],
-                ['judul' => 'Persetujuan', 'isi' => 'Pinjaman dalam batas biasa disetujui di cabang. Pinjaman di atas batas disetujui Manager cabang.'],
-                ['judul' => 'Pencairan', 'isi' => 'Teller menerbitkan nota gadai dan mencairkan dana. Tanggal jatuh tempo tertulis di nota.'],
-                ['judul' => 'Perpanjang, cicil, atau tebus', 'isi' => 'Bayar sewa modal dan administrasi untuk memperpanjang, tambahkan pokok untuk mencicil, atau lunasi untuk menebus. Setelah tebus, barang diserahkan.'],
+                ['judul' => 'Datang ke cabang', 'isi' => 'Kunjungi loket cabang PERSIDEN HP terdekat dengan membawa barang jaminan dan e-KTP asli.'],
+                ['judul' => 'Pemeriksaan di loket', 'isi' => 'Petugas memeriksa kondisi fisik dan kelengkapan secara langsung di hadapan Anda.'],
+                ['judul' => 'Penaksiran nilai', 'isi' => 'Petugas menetapkan taksiran nilai yang diterima dan menjelaskan rincian jasa penitipan.'],
+                ['judul' => 'Pencatatan & penyegelan', 'isi' => 'Data dicatat ke sistem, nota penitipan diterbitkan, dan barang disimpan aman dalam segel khusus.'],
+                ['judul' => 'Pencairan dana', 'isi' => 'Dana tunai diserahkan seketika di loket cabang sesuai nilai yang diterima tanpa potongan tersembunyi.'],
+                ['judul' => 'Perpanjang atau tebus', 'isi' => 'Lakukan perpanjangan, pembayaran sebagian pokok, atau tebus lunas kapan saja sebelum jatuh tempo.'],
             ],
-            'sosmed' => ['instagram' => '', 'facebook' => '', 'tiktok' => '', 'youtube' => ''],
+            'sosmed' => [
+                'instagram' => 'https://www.instagram.com/persidenhp.official/',
+                'facebook' => '',
+                'tiktok' => '',
+                'youtube' => '',
+            ],
             'izin_usaha' => '',
         ];
 
@@ -70,21 +73,21 @@ class ContentSeeder extends Seeder
         }
 
         $faq = [
-            ['Jaminan apa saja yang bisa digadai di linygadai?', 'Kami menerima 5 kelompok agunan: (1) Gadai Emas & Perhiasan (batangan Antam/UBS & perhiasan), (2) Gadai Elektronik (Laptop, Smartphone, Tablet, Kamera, TV, Konsol), (3) Gadai BPKB Kendaraan (Mobil & Motor), (4) Gadai Sertifikat Properti (Rumah & Tanah SHM/SHGB), serta (5) Gadai Barang & Surat Berharga Lainnya.'],
-            ['Apakah pada Gadai BPKB kendaraan (mobil/motor) fisik kendaraan ikut ditahan?', 'Tidak. Pada pinjaman Gadai BPKB Mobil dan Motor, fisik kendaraan TETAP BISA DIGUNAKAN untuk mendukung mobilitas dan usaha Anda. Yang disimpan di khasanah kantor cabang kami hanyalah buku BPKB asli dan faktur pembelian, setelah dilakukan cek fisik kesesuaian nomor rangka dan nomor mesin.'],
-            ['Apakah dokumen asli BPKB atau Sertifikat aman disimpan di kantor cabang?', 'Sangat aman. Seluruh dokumen kepemilikan berharga (BPKB, STNK jika dititipkan, Sertifikat Hak Milik/SHGB) disimpan di dalam khasanah brankas tahan api (fireproof vault) dengan akses ganda bersandi dan pengawasan CCTV 24 jam.'],
-            ['Bagaimana proses gadai Sertifikat Rumah atau Tanah?', 'Pengajuan sertifikat memerlukan survei on-site lokasi objek properti oleh tim penaksir dan verifikasi keabsahan warkah di Kantor Pertanahan (BPN). Properti tetap ditempati atau dikelola pemilik seperti biasa tanpa pengosongan.'],
-            ['Bagaimana cara pengambilan dan pengembalian dokumen jaminan setelah pelunasan?', 'Setelah seluruh pinjaman pokok dan sewa modal dilunasi di loket teller, teller akan mencetak Berita Acara Serah Terima (BAST) pengembalian dokumen. Dokumen jaminan asli (BPKB/Sertifikat/Surat Berharga) diserahkan seketika di hadapan Anda dan tercatat lengkap pada audit trail sistem linygadai.'],
-            ['Apa syarat menggadaikan emas, smartphone, atau laptop?', 'Untuk emas/perhiasan: membawa fisik emas dan KTP asli untuk uji karat & timbangan digital (nota toko diutamakan). Untuk elektronik: unit berfungsi normal, layar bekerja baik, membawa charger asli, dan wajib bebas dari kunci akun (iCloud, Google, pola/sandi).'],
-            ['Berapa lama jangka waktu titip gadai (tenor)?', 'Tenor {tenor} hari sejak tanggal akad. Sebelum jatuh tempo, Anda dapat memperpanjang sampai {maks_perpanjangan} kali berturut-turut cukup dengan melunasi sewa modal dan biaya administrasi.'],
-            ['Bolehkah orang lain menebus jaminan atau mengambil dokumen saya?', 'Boleh, dengan syarat membawa Surat Kuasa bermeterai Rp 10.000 asli bertandatangan pemilik sah, fisik Nota Gadai asli, KTP asli pemilik jaminan, serta KTP asli penerima kuasa.'],
-            ['Bagaimana cara mengetahui perkiraan nilai pinjaman?', 'Anda dapat memanfaatkan kalkulator Simulasi Gadai interaktif di website ini untuk menghitung taksiran, biaya sewa modal per hari, dan total pelunasan sesuai parameter jenis agunan yang dipilih.'],
+            ['Barang apa saja yang bisa dititipkan di PERSIDEN HP Titip Gadai?', 'Kami menerima barang elektronik dan surat berharga: Laptop, HP (Smartphone), Tab (Tablet), Kamera, BPKB Mobil, BPKB Motor, Sertifikat Rumah & Tanah (SHM/SHGB), serta Barang & Surat Berharga lainnya.'],
+            ['Apakah pada titip BPKB kendaraan (mobil/motor) fisik kendaraan ikut ditahan?', 'Tidak. Pada penitipan BPKB Mobil dan Motor, fisik kendaraan TETAP BISA DIGUNAKAN untuk mobilitas dan usaha Anda. Yang disimpan di kantor cabang kami hanyalah buku BPKB asli dan faktur pembelian, setelah dilakukan cek fisik kesesuaian nomor rangka dan nomor mesin.'],
+            ['Apakah barang elektronik dan dokumen BPKB atau Sertifikat aman disimpan di cabang?', 'Sangat aman. Seluruh barang elektronik disimpan dalam tempat penyimpanan khusus cabang dan disegel stiker resmi dengan paraf penitip. Dokumen BPKB dan Sertifikat disimpan di tempat penyimpanan aman cabang dengan pengawasan ketat.'],
+            ['Bagaimana proses penitipan Sertifikat Rumah atau Tanah?', 'Penitipan sertifikat memerlukan survei lokasi objek properti dan verifikasi keabsahan dokumen. Properti tetap ditempati atau dikelola pemilik seperti biasa tanpa pengosongan.'],
+            ['Bagaimana cara pengambilan barang atau dokumen setelah pelunasan?', 'Setelah seluruh nilai pokok dan jasa penitipan dilunasi di loket teller cabang, petugas menyerahkan kembali fisik barang/dokumen asli seketika di hadapan Anda dengan menunjukkan fisik Nota Titip Gadai dan e-KTP asli.'],
+            ['Apa syarat menitipkan smartphone atau laptop?', 'Unit berfungsi normal (layar, kamera, audio, baterai), membawa charger adaptor asli, dan wajib bebas dari seluruh kunci akun (iCloud, Apple ID, Google Account, Mi/Samsung Account, sandi layar) saat proses pemeriksaan di loket.'],
+            ['Berapa lama jangka waktu titip gadai (tenor)?', 'Pilihan durasi 1 minggu (7 hari) atau 2 minggu (14 hari). Anda dapat memperpanjang masa simpan dengan melunasi jasa penitipan periode berjalan di loket cabang sebelum jatuh tempo.'],
+            ['Bolehkah orang lain menebus jaminan atau mengambil dokumen saya?', 'Pengambilan barang diutamakan langsung oleh penitip yang bersangkutan dengan membawa e-KTP asli dan Nota Titip Gadai fisik asli demi keamanan barang Anda.'],
+            ['Bagaimana cara mengetahui perkiraan nilai yang diterima?', 'Anda dapat memanfaatkan kalkulator Simulasi Jasa Penitipan di website ini untuk menghitung taksiran nilai yang diterima dan rincian jasa penitipan sesuai pilihan barang dan durasi.'],
         ];
         $info = [
-            ['Apa itu sewa modal?', 'Sewa modal adalah imbal jasa legal atas pemanfaatan fasilitas pinjaman selama masa titip. Di linygadai, sewa modal dihitung harian secara transparan tanpa denda siluman.'],
-            ['Apa beda perpanjang, cicil pokok, dan tebus?', 'Perpanjang: membayar sewa modal & administrasi, pokok tetap, jatuh tempo diperpanjang. Cicil: membayar sewa modal ditambah sebagian pokok pinjaman untuk memperingan tanggungan. Tebus: melunasi sisa pinjaman secara utuh dan mengambil kembali barang/dokumen jaminan.'],
-            ['Bagaimana jika terlambat melewati tanggal jatuh tempo?', 'Ada masa tenggang {tenggang} hari kalender; sewa modal tetap berjalan. Tim kami akan mengirimkan pengingat ramah sebelum batas akhir, dan pemberitahuan tertulis sekurang-kurangnya {lelang_hari} hari sebelum langkah tindak lanjut sesuai kesepakatan akad.'],
-            ['Apakah nilai taksiran bisa ditinjau kembali?', 'Ya. Saat pengajuan perpanjangan atau perubahan kondisi pasar, analis bersertifikasi dapat melakukan penaksiran ulang secara objektif dan transparan.'],
+            ['Apa itu jasa penitipan?', 'Jasa penitipan adalah imbal jasa atas pemeliharaan dan pengamanan barang berharga selama masa penitipan di loket cabang PERSIDEN HP. Dihitung secara transparan dan jelas di muka.'],
+            ['Apa beda perpanjang, cicil sebagian pokok, dan tebus lunas?', 'Perpanjang: membayar jasa penitipan periode berjalan agar masa simpan diperpanjang. Cicil: membayar sebagian nilai pokok untuk memperkecil beban jasa penitipan berikutnya. Tebus: melunasi sisa nilai yang diterima dan jasa penitipan untuk mengambil kembali barang titipan Anda.'],
+            ['Bagaimana jika mendekati atau melewati tanggal jatuh tempo?', 'Petugas kami akan memberikan informasi pengingat ramah sebelum batas akhir, dan Anda dapat segera melakukan perpanjangan atau pelunasan di loket cabang terdekat.'],
+            ['Apakah nilai taksiran bisa dinilai kembali saat perpanjangan?', 'Petugas penaksir kami dapat melakukan penyesuaian objektif secara transparan bila terdapat perubahan kondisi unit atau kesepakatan baru di loket cabang.'],
         ];
 
         foreach ($faq as $i => [$q, $a]) {
@@ -100,44 +103,31 @@ class ContentSeeder extends Seeder
             );
         }
 
-        $cabangA = Branch::where('kode', 'A')->value('id');
-        $cabangB = Branch::where('kode', 'B')->value('id');
-
         $pengumuman = [
             [
-                'judul' => 'Pengajuan online sudah dibuka',
-                'isi' => 'Daftar dan ajukan titip gadai dari akun anggota, lalu bawa barang atau dokumen Anda ke cabang. Antrean di cabang jadi lebih singkat karena data Anda sudah kami terima.',
+                'judul' => 'Layanan Titip Gadai Terpercaya Sejak 2005',
+                'isi' => 'PERSIDEN HP melayani masyarakat Kota Makassar dan Kabupaten Gowa dengan komitmen Aman, Cepat, dan Terpercaya di 7 jaringan loket cabang strategis.',
                 'branch_id' => null,
             ],
             [
-                'judul' => 'Perpanjang sebelum jatuh tempo',
-                'isi' => 'Barang yang diperpanjang atau ditebus tepat waktu tidak masuk proses lelang. Cek tanggal jatuh tempo Anda di nota fisik atau di akun anggota.',
+                'judul' => 'Perpanjang Sebelum Jatuh Tempo',
+                'isi' => 'Barang yang diperpanjang atau ditebus tepat waktu tetap tersimpan aman. Cek tanggal jatuh tempo Anda di nota fisik atau di portal digital penitip.',
                 'branch_id' => null,
             ],
             [
-                'judul' => 'Cek tanggal jatuh tempo di akun Anda',
-                'isi' => 'Masuk ke akun anggota untuk melihat jatuh tempo, tagihan perpanjang, dan riwayat pembayaran. Kami juga mengirim email pengingat sebelum jatuh tempo.',
+                'judul' => 'Pantau Transaksi di Portal Penitip',
+                'isi' => 'Masuk ke portal penitip menggunakan nomor WhatsApp dan kata sandi untuk melihat detail transaksi, rincian jasa penitipan, dan tanggal jatuh tempo.',
                 'branch_id' => null,
             ],
             [
-                'judul' => 'Waspada penipuan',
-                'isi' => 'Petugas linygadai tidak pernah meminta kata sandi, kode verifikasi, atau transfer ke rekening pribadi. Pembayaran transaksi hanya sah melalui teller resmi cabang.',
+                'judul' => 'Waspada Penipuan Mengatasnamakan PERSIDEN HP',
+                'isi' => 'Petugas PERSIDEN HP tidak pernah meminta transfer ke rekening pribadi. Pembayaran transaksi hanya sah dilakukan langsung melalui teller di loket resmi cabang.',
                 'branch_id' => null,
             ],
             [
-                'judul' => 'Layanan Gadai Emas & Perhiasan Resmi',
-                'isi' => 'Kini linygadai melayani titip gadai emas batangan (Antam, UBS) dan perhiasan emas dengan uji kadar karat akurat, timbangan digital tersertifikasi, dan perlindungan brankas tahan api.',
+                'judul' => 'Jam Layanan Cabang 08.00 - 22.00 WITA',
+                'isi' => 'Seluruh 7 cabang PERSIDEN HP buka setiap hari Senin s.d. Minggu mulai pukul 08.00 hingga 22.00 WITA untuk kenyamanan konsultasi dan transaksi Anda.',
                 'branch_id' => null,
-            ],
-            [
-                'judul' => 'Antrean lebih singkat di pagi hari',
-                'isi' => 'Cabang Veteran Selatan melayani penaksiran paling cepat pukul 08.30–10.00 WITA. Bawa KTP asli dan kelengkapan agunan untuk mempercepat proses pencairan dana Anda.',
-                'branch_id' => $cabangA,
-            ],
-            [
-                'judul' => 'Loket penebusan dan pencairan dipisah',
-                'isi' => 'Cabang Perintis Kemerdekaan kini memisahkan loket penebusan dan pencairan agar alur pelayanan nasabah lebih tertib, cepat, dan nyaman tanpa antre panjang.',
-                'branch_id' => $cabangB,
             ],
         ];
 

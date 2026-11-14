@@ -43,4 +43,3 @@ return new class extends Migration
         // Data operasional dasar tidak dihapus saat rollback
     }
 };
-

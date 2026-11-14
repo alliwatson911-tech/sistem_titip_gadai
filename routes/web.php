@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\AturUlangSandiController;
 use App\Http\Controllers\Auth\DuaFaktorTantanganController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LupaSandiController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifikasiEmailController;
 use App\Http\Controllers\Panel\AkunController;
 use App\Http\Controllers\Panel\AuditController;
@@ -35,22 +34,36 @@ Route::get('/', BerandaController::class)->name('beranda');
 Route::get('/simulasi', SimulasiController::class)->middleware('throttle:60,1')->name('simulasi');
 Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
-// Halaman publik khusus tiap panel navigasi
+// 8 Menu Struktur Klien PERSIDEN HP
+Route::get('/tentang-kami', [HalamanPublikController::class, 'tentang'])->name('publik.tentang');
+Route::get('/tentang-kami/sambutan', [HalamanPublikController::class, 'sambutan'])->name('publik.sambutan');
+Route::get('/tentang-kami/visi-misi', [HalamanPublikController::class, 'visiMisi'])->name('publik.visi-misi');
+Route::get('/tentang-kami/legalitas', [HalamanPublikController::class, 'legalitas'])->name('publik.legalitas');
+Route::get('/tentang-kami/cabang', [HalamanPublikController::class, 'cabang'])->name('publik.cabang');
+
 Route::get('/layanan', [HalamanPublikController::class, 'layanan'])->name('publik.layanan');
 Route::get('/layanan/{slug}', [HalamanPublikController::class, 'layananDetail'])->name('publik.layanan.detail');
-Route::get('/standar', [HalamanPublikController::class, 'standar'])->name('publik.standar');
-Route::get('/panduan', [HalamanPublikController::class, 'panduan'])->name('publik.panduan');
-Route::get('/syarat', [HalamanPublikController::class, 'syarat'])->name('publik.syarat');
-Route::get('/simulasi-gadai', [HalamanPublikController::class, 'simulasi'])->name('publik.simulasi');
-Route::get('/faq', [HalamanPublikController::class, 'faq'])->name('publik.faq');
-Route::get('/tentang', [HalamanPublikController::class, 'tentang'])->name('publik.tentang');
+Route::get('/simulasi-jasa', [HalamanPublikController::class, 'simulasi'])->name('publik.simulasi');
+Route::get('/cara-penitipan', [HalamanPublikController::class, 'caraPenitipan'])->name('publik.cara-penitipan');
+Route::redirect('/cara', '/cara-penitipan', 301)->name('publik.cara');
+Route::get('/syarat-ketentuan', [HalamanPublikController::class, 'syarat'])->name('publik.syarat');
+Route::get('/promo', [HalamanPublikController::class, 'promo'])->name('publik.promo');
+Route::get('/kontak', [HalamanPublikController::class, 'kontak'])->name('publik.kontak');
 
-// Halaman masuk dan daftar terpisah dan tersendiri
+// Redirect 301 Tautan Lama ke Struktur Baru PERSIDEN HP
+Route::redirect('/tentang', '/tentang-kami', 301);
+Route::redirect('/simulasi-gadai', '/simulasi-jasa', 301);
+Route::redirect('/standar', '/cara-penitipan', 301);
+Route::redirect('/panduan', '/cara-penitipan', 301);
+Route::redirect('/syarat', '/syarat-ketentuan', 301);
+Route::redirect('/faq', '/syarat-ketentuan#faq', 301);
+Route::redirect('/pengumuman', '/promo', 301);
+
+// Halaman masuk khusus penitip dan petugas (pendaftaran mandiri publik dihapus)
 Route::middleware('guest')->group(function () {
     Route::get('/masuk', [LoginController::class, 'create'])->name('masuk');
-    Route::get('/daftar', [RegisterController::class, 'create'])->name('daftar');
     Route::post('/masuk', [LoginController::class, 'store'])->middleware('throttle:20,1');
-    Route::post('/daftar', [RegisterController::class, 'store'])->middleware('throttle:6,1');
+    Route::redirect('/daftar', '/masuk', 301); // Redirect jika ada yang membuka link /daftar lama
 
     // Tahap kedua masuk (2FA) untuk staf.
     Route::get('/verifikasi-2fa', [DuaFaktorTantanganController::class, 'create'])->name('dua-faktor.tantangan');
@@ -99,9 +112,12 @@ Route::middleware(['auth', 'wajib.2fa'])->prefix('panel')->group(function () {
     Route::post('/lelang/{gadai}/hasil', [LelangController::class, 'hasil'])->name('panel.lelang.hasil');
     Route::post('/lelang/{gadai}/kelebihan', [LelangController::class, 'kelebihan'])->name('panel.lelang.kelebihan');
 
-    // Anggota
+    // Anggota / Penitip
     Route::middleware('can:anggota.lihat')->group(function () {
         Route::get('/anggota', [MemberController::class, 'index'])->name('panel.anggota');
+        Route::get('/anggota/baru', [MemberController::class, 'create'])->name('panel.anggota.create');
+        Route::post('/anggota', [MemberController::class, 'store'])->name('panel.anggota.store');
+        Route::get('/anggota/notifikasi/antrean', [MemberController::class, 'notifikasi'])->name('panel.anggota.notifikasi');
         Route::get('/anggota/{anggota}', [MemberController::class, 'show'])->name('panel.anggota.show');
         Route::post('/anggota/{anggota}/tindakan', [MemberController::class, 'tindakan'])->name('panel.anggota.tindakan');
         Route::post('/anggota/{anggota}/nik', [MemberController::class, 'lihatNik'])->name('panel.anggota.nik');

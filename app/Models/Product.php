@@ -15,10 +15,17 @@ class Product extends Model
     {
         return [
             'is_active' => 'boolean',
+            'is_client_featured' => 'boolean',
             'dokumen_wajib' => 'array',
             'atribut_khusus' => 'array',
             'syarat_ketentuan' => 'array',
         ];
+    }
+
+    /** Scope produk pilihan klien PERSIDEN HP (8 kategori resmi) */
+    public function scopeClientFeatured($query)
+    {
+        return $query->where('is_active', true)->where('is_client_featured', true);
     }
 
     public function labelKelompok(): string

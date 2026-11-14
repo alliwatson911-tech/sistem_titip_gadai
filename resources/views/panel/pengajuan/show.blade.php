@@ -1,3 +1,6 @@
+@php
+    /** @var \App\Models\LoanApplication $a */
+@endphp
 @extends('layouts.panel')
 @section('judul', $a->kode)
 @section('isi')

@@ -1,7 +1,10 @@
+@php
+    /** @var \App\Models\Member $m */
+@endphp
 @extends('layouts.panel')
 @section('judul', $m->nama_lengkap)
 @section('isi')
-    <p class="sub"><a href="{{ route('panel.anggota') }}">&larr; Semua anggota</a></p>
+    <p class="sub"><a href="{{ route('panel.anggota') }}">&larr; Semua penitip</a></p>
     <h1>{{ $m->nama_lengkap }}</h1>
 
     <dl class="ringkasan">

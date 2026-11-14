@@ -21,12 +21,12 @@ class AturUlangSandi extends Notification
         $menit = (int) config('auth.passwords.'.config('auth.defaults.passwords').'.expire', 60);
 
         return (new MailMessage)
-            ->subject('Atur ulang kata sandi linygadai')
+            ->subject('Atur ulang kata sandi PERSIDEN HP Titip Gadai')
             ->greeting('Halo, '.$notifiable->name)
             ->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda.')
             ->action('Atur ulang kata sandi', $url)
             ->line("Tautan ini berlaku {$menit} menit dan hanya dapat dipakai satu kali.")
             ->line('Jika Anda tidak meminta ini, abaikan email ini; kata sandi Anda tidak berubah. Jangan bagikan tautan ini kepada siapa pun, termasuk petugas kami.')
-            ->salutation('Salam, linygadai');
+            ->salutation('Salam, PERSIDEN HP Titip Gadai');
     }
 }

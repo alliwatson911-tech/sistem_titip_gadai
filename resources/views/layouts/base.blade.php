@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>@yield('judul', 'linygadai')</title>
+    <title>@yield('judul', 'PERSIDEN HP Titip Gadai')</title>
     <meta name="robots" content="@yield('robots', 'noindex')">
-    {{-- Gaya sementara Tahap 1. Sistem desain penuh (font, komponen) dibangun di Tahap 2. --}}
     <style>
-        :root { --tinta:#0F4C3A; --kertas:#F8F5F0; --kuningan:#D4AF37; --lumut:#1B4332; --terakota:#B5472E; --garis:rgba(15, 76, 58, .16); }
+        :root { --tinta:#002665; --kertas:#F8F5F0; --kuningan:#F4B301; --lumut:#0B2D6F; --terakota:#FA0001; --garis:rgba(0, 38, 101, .16); }
         * { box-sizing: border-box; }
         body { margin:0; background:var(--kertas); color:var(--tinta); font:16px/1.55 system-ui, "Segoe UI", sans-serif; }
         a { color:var(--tinta); }

@@ -17,7 +17,9 @@ class PeriksaSistem extends Command
     {
         $produksi = app()->environment('production');
         $hasil = [];
-        $catat = function (string $nama, string $status, string $catatan = '') use (&$hasil) { $hasil[] = [$nama, $status, $catatan]; };
+        $catat = function (string $nama, string $status, string $catatan = '') use (&$hasil) {
+            $hasil[] = [$nama, $status, $catatan];
+        };
         // Di produksi, peringatan keamanan dianggap GAGAL.
         $tegas = fn (bool $ok, string $nama, string $pesan) => $catat($nama, $ok ? 'OK' : ($produksi ? 'GAGAL' : 'PERINGATAN'), $ok ? '' : $pesan);
 

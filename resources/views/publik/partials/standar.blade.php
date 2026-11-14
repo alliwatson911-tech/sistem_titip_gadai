@@ -5,8 +5,8 @@
         <div class="kepala-bagian">
             <p class="nomor">Standar Layanan</p>
             <div>
-                <h2 id="judul-standar">Keunggulan & Standar Transaksi linygadai</h2>
-                <p class="pengantar" style="margin-top:1rem">Enam prinsip layanan yang selalu kami pegang teguh untuk menjaga keamanan barang elektronik dan kenyamanan setiap anggota.</p>
+                <h2 id="judul-standar">Keunggulan &amp; Standar Transaksi PERSIDEN HP</h2>
+                <p class="pengantar" style="margin-top:1rem">Prinsip layanan yang selalu kami pegang teguh untuk menjaga keamanan barang titipan dan kenyamanan setiap penitip.</p>
             </div>
         </div>
 

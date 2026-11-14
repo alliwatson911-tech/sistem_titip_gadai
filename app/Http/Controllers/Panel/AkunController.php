@@ -32,6 +32,7 @@ class AkunController extends Controller
 
         $u = $r->user();
         $u->password = $d['password'];
+        $u->wajib_ganti_password = false;
         $u->setRememberToken(Str::random(60));
         $u->save();
 

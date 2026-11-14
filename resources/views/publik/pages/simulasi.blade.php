@@ -1,17 +1,17 @@
 @extends('layouts.publik')
 
-@section('judul', 'Kalkulator Simulasi Gadai — linygadai')
-@section('deskripsi', 'Hitung estimasi pokok pinjaman, biaya sewa modal, biaya administrasi, dan total tebusan barang elektronik secara akurat sebelum datang ke cabang.')
+@section('judul', 'Simulasi Jasa Penitipan — PERSIDEN HP Titip Gadai')
+@section('deskripsi', 'Hitung estimasi nilai yang diterima, jasa penitipan durasi 1 atau 2 minggu, dan perkiraan total pelunasan sebelum berkunjung ke loket cabang.')
 
 @section('badan')
     @include('publik.partials.kepala')
     <main id="isi" class="halaman-khusus">
         <div class="wrap" style="padding-top: clamp(1.5rem, 3vw, 2.5rem);">
-            <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Simulasi' => '']" />
+            <x-breadcrumb backText="Kembali ke Beranda" :backUrl="route('beranda')" :crumbs="['Simulasi Jasa' => '']" />
             <div class="halaman-header">
                 <p class="kicker">Kalkulator Transparan</p>
-                <h1>Hitung Simulasi Titip Gadai</h1>
-                <p class="pengantar">Pilih jenis barang, masukkan nilai perkiraan taksiran, dan tentukan tenor titip. Kami rincikan seluruh komponen biaya di muka secara transparan tanpa pungutan terselubung.</p>
+                <h1>Hitung Simulasi Jasa Penitipan</h1>
+                <p class="pengantar">Pilih jenis barang, tentukan nilai yang diterima, dan pilih durasi 1 minggu atau 2 minggu. Kami rincikan estimasi jasa penitipan dan simulasi perpanjangan di muka tanpa biaya terselubung.</p>
             </div>
         </div>
         @include('publik.partials.simulasi')
@@ -19,4 +19,3 @@
     </main>
     @include('publik.partials.kaki')
 @endsection
-

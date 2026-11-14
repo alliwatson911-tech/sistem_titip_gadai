@@ -1,16 +1,16 @@
 @extends('layouts.publik')
 
-@section('judul', 'linygadai — Titip Gadai Elektronik, Biaya Jelas')
-@section('deskripsi', 'Titip gadai ponsel, laptop, kamera, televisi, smartwatch, dan konsol game. Hitung pinjaman dan biaya di muka, ajukan online, bawa barang ke Cabang A atau B.')
+@section('judul', 'PERSIDEN HP — Titip Gadai Aman, Cepat, Terpercaya')
+@section('deskripsi', 'PERSIDEN HP Titip Gadai Laptop, HP, Tab, Kamera, BPKB Motor & Mobil, Sertifikat, dan Surat Berharga di Makassar dan sekitarnya. Aman, Cepat, Terpercaya.')
 
 @push('jsonld')
 @php
     $ld = [
         '@context' => 'https://schema.org',
         '@type' => 'FinancialService',
-        'name' => 'linygadai',
+        'name' => 'PERSIDEN HP Titip Gadai',
         'url' => url('/'),
-        'description' => 'Layanan titip gadai barang elektronik dengan rincian biaya di muka.',
+        'description' => 'Layanan titip gadai barang elektronik dan surat berharga aman, cepat, terpercaya di Makassar.',
     ];
     if ($pusat?->alamat) { $ld['address'] = ['@type' => 'PostalAddress', 'streetAddress' => $pusat->alamat, 'addressCountry' => 'ID']; }
     if ($pusat?->telepon) { $ld['telephone'] = $pusat->telepon; }

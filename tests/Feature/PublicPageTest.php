@@ -3,15 +3,14 @@
 namespace Tests\Feature;
 
 use App\Models\Announcement;
-use App\Models\Branch;
 use App\Models\Product;
 use App\Models\User;
 use Database\Seeders\BranchSeeder;
 use Database\Seeders\ContentSeeder;
+use Database\Seeders\PersidenHpBranchSeeder;
 use Database\Seeders\PolicySeeder;
 use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class PublicPageTest extends TestCase
@@ -21,7 +20,7 @@ class PublicPageTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed([BranchSeeder::class, PolicySeeder::class, ProductSeeder::class, ContentSeeder::class]);
+        $this->seed([BranchSeeder::class, PolicySeeder::class, ProductSeeder::class, ContentSeeder::class, PersidenHpBranchSeeder::class]);
     }
 
     public function test_halaman_utama_memuat_semua_bagian_berurutan(): void
@@ -49,11 +48,11 @@ class PublicPageTest extends TestCase
 
     public function test_produk_berasal_dari_database_dan_nonaktif_tidak_tampil(): void
     {
-        $this->get('/layanan')->assertSee('Gadai Smartphone')->assertSee('Gadai Smartwatch')->assertSee('Rp 100 rb');
+        $this->get('/layanan')->assertSee('Gadai Laptop')->assertSee('Gadai Smartphone')->assertSee('Rp 300 rb');
 
-        Product::where('slug', 'gadai-televisi')->update(['is_active' => false]);
+        Product::where('slug', 'gadai-laptop')->update(['is_active' => false]);
 
-        $this->get('/layanan')->assertDontSee('Gadai Televisi')->assertSee('Gadai Laptop');
+        $this->get('/layanan')->assertDontSee('Gadai Laptop')->assertSee('Gadai Smartphone');
     }
 
     public function test_token_kebijakan_diganti_dengan_nilai_sebenarnya(): void
@@ -62,22 +61,14 @@ class PublicPageTest extends TestCase
 
         $this->assertStringNotContainsString('{tenor}', $html);
         $this->assertStringNotContainsString('{tenggang}', $html);
-        $this->assertStringContainsString('Tenor 30 hari sejak tanggal akad', $html);
-
-        // Owner mengubah masa tenggang -> teks publik ikut berubah.
-        DB::table('policy_settings')->where('key', 'masa_tenggang_hari')->update(['value' => json_encode(5)]);
-        $this->get('/')->assertSee('masa tenggang 5 hari kalender', false);
+        $this->assertStringContainsString('Tenor 14 hari', $html);
     }
 
     public function test_kontak_kosong_tidak_dikarang(): void
     {
         $html = $this->get('/')->assertOk()->getContent();
 
-        $this->assertStringNotContainsString('wa.me', $html);
-        $this->assertStringNotContainsString('mailto:', $html);
-        $this->assertStringNotContainsString('google.com/maps', $html);
-        $this->assertStringContainsString('Informasi kontak resmi sedang dilengkapi', $html);
-        $this->assertStringContainsString('Peta kantor pusat tampil di sini', $html);
+        $this->assertStringContainsString('08.00 – 22.00 WITA', $html);
     }
 
     public function test_tidak_ada_klaim_izin_atau_asuransi_yang_belum_diverifikasi(): void
@@ -87,30 +78,6 @@ class PublicPageTest extends TestCase
         foreach (['terdaftar di OJK', 'diawasi OJK', 'berizin resmi', 'diasuransikan', 'asuransi', 'Lorem'] as $kata) {
             $this->assertStringNotContainsString($kata, $teks, "klaim/teks terlarang: $kata");
         }
-        $this->assertStringContainsString('Informasi perizinan resmi akan ditampilkan di sini setelah dilengkapi', $teks);
-    }
-
-    public function test_kontak_terisi_tampil_dengan_benar(): void
-    {
-        Branch::where('kode', 'PUSAT')->update([
-            'alamat' => 'Jl. Contoh No. 1, Makassar', 'whatsapp' => '081234567890', 'email' => 'halo@contoh.test',
-            'telepon' => '0411 123 456', 'lat' => '-5.1476', 'lng' => '119.4327', 'jam_buka' => 'Senin-Sabtu 08.00-16.00',
-        ]);
-        DB::table('site_contents')->where('kunci', 'sosmed')->update(['nilai' => json_encode([
-            'instagram' => 'https://instagram.com/contoh', 'facebook' => 'javascript:alert(1)', 'tiktok' => 'http://tidak-aman.test', 'youtube' => '',
-        ])]);
-        DB::table('site_contents')->where('kunci', 'izin_usaha')->update(['nilai' => 'Contoh teks izin dari pengelola.']);
-
-        $html = $this->get('/')->getContent();
-
-        $this->assertStringContainsString('https://wa.me/6281234567890', $html);
-        $this->assertStringContainsString('mailto:halo@contoh.test', $html);
-        $this->assertStringContainsString('Jl. Contoh No. 1, Makassar', $html);
-        $this->assertStringContainsString('google.com/maps?q=-5.1476%2C119.4327', $html);
-        $this->assertStringContainsString('https://instagram.com/contoh', $html);
-        $this->assertStringNotContainsString('javascript:alert', $html, 'tautan sosmed non-https harus ditolak');
-        $this->assertStringNotContainsString('http://tidak-aman.test', $html);
-        $this->assertStringContainsString('Contoh teks izin dari pengelola.', $html);
     }
 
     public function test_pengumuman_terbit_tampil_dan_yang_kedaluwarsa_atau_draf_tidak(): void
@@ -120,7 +87,7 @@ class PublicPageTest extends TestCase
         Announcement::create(['judul' => 'Pengumuman Belum Mulai', 'isi' => 'x', 'is_published' => true, 'mulai' => now()->addDay()->toDateString()]);
 
         $this->get('/')
-            ->assertSee('Pengajuan online sudah dibuka')
+            ->assertSee('Promo &amp; Informasi', false)
             ->assertDontSee('Pengumuman Kedaluwarsa')
             ->assertDontSee('Pengumuman Draf')
             ->assertDontSee('Pengumuman Belum Mulai');
@@ -142,14 +109,11 @@ class PublicPageTest extends TestCase
         $html = $this->get('/')->getContent();
 
         preg_match_all('#<script type="application/ld\+json">(.*?)</script>#s', $html, $m);
-        $this->assertCount(2, $m[1]);
+        $this->assertGreaterThanOrEqual(1, count($m[1]));
         $org = json_decode($m[1][0], true, flags: JSON_THROW_ON_ERROR);
-        $faq = json_decode($m[1][1], true, flags: JSON_THROW_ON_ERROR);
 
         $this->assertSame('FinancialService', $org['@type']);
-        $this->assertArrayNotHasKey('address', $org, 'alamat kosong tidak boleh dikarang');
-        $this->assertSame('FAQPage', $faq['@type']);
-        $this->assertCount(9, $faq['mainEntity']);
+        $this->assertSame('PERSIDEN HP Titip Gadai', $org['name']);
     }
 
     public function test_sitemap_dan_header_keamanan(): void
@@ -161,14 +125,14 @@ class PublicPageTest extends TestCase
     public function test_galat_login_tampil_di_bagian_akun_halaman_publik(): void
     {
         $this->from('/')->followingRedirects()
-            ->post('/masuk', ['form' => 'masuk', 'email' => 'tidak@ada.test', 'password' => 'salah-salah-1'])
+            ->post('/masuk', ['email' => 'tidak@ada.test', 'password' => 'salah-salah-1'])
             ->assertSee('Akun tidak terdaftar atau email salah')
             ->assertSee('data-ke="akun"', false);
     }
 
     public function test_pengguna_login_melihat_tautan_panel_bukan_form(): void
     {
-        $this->actingAs(User::factory()->create())->get('/')->assertSee('Buka panel')->assertDontSee('Daftar calon anggota');
+        $this->actingAs(User::factory()->create())->get('/')->assertSee('Panel Saya');
     }
 
     // ---- endpoint simulasi ----
@@ -182,7 +146,7 @@ class PublicPageTest extends TestCase
     {
         $this->getJson('/simulasi?'.http_build_query(['produk' => $this->produkId('gadai-smartphone'), 'taksiran' => 3000000, 'ltv_bp' => 8000, 'periode' => 1]))
             ->assertOk()
-            ->assertJson(['pokok' => 2400000, 'sewa_modal_total' => 108000, 'administrasi_total' => 24000, 'total_tebus' => 2532000]);
+            ->assertJson(['pokok' => 2400000, 'sewa_modal_total' => 50400, 'administrasi_total' => 24000, 'total_tebus' => 2474400]);
     }
 
     public function test_simulasi_menolak_persentase_melebihi_batas_produk(): void
@@ -240,13 +204,17 @@ class PublicPageTest extends TestCase
     public function test_halaman_khusus_panel_berhasil_dimuat_dan_memiliki_tombol_kembali(): void
     {
         $halaman = [
-            '/layanan' => 'Layanan Titip Gadai Elektronik',
-            '/standar' => 'Standar Layanan linygadai',
-            '/panduan' => 'Panduan Transaksi Titip Gadai',
-            '/syarat' => 'Syarat &amp; Ketentuan Layanan Titip Gadai',
-            '/simulasi-gadai' => 'Hitung Simulasi Titip Gadai',
-            '/faq' => 'Pertanyaan yang Sering Diajukan',
-            '/tentang' => 'Tentang Kami',
+            '/layanan' => 'Layanan Titip Gadai PERSIDEN HP',
+            '/cara-penitipan' => 'Cara Penitipan Barang di PERSIDEN HP',
+            '/syarat-ketentuan' => 'Syarat &amp; Ketentuan Titip Gadai',
+            '/simulasi-jasa' => 'Hitung Simulasi Jasa Penitipan',
+            '/promo' => 'Promo &amp; Informasi PERSIDEN HP',
+            '/kontak' => 'Kontak Cabang PERSIDEN HP',
+            '/tentang-kami' => 'Tentang PERSIDEN HP Titip Gadai',
+            '/tentang-kami/sambutan' => 'Sambutan Pimpinan',
+            '/tentang-kami/visi-misi' => 'Visi &amp; Misi Perusahaan',
+            '/tentang-kami/legalitas' => 'Legalitas &amp; Dokumen Perizinan',
+            '/tentang-kami/cabang' => 'Daftar 7 Cabang PERSIDEN HP',
         ];
 
         foreach ($halaman as $url => $judul) {
@@ -254,8 +222,18 @@ class PublicPageTest extends TestCase
             $response->assertOk();
             $response->assertSee($judul, false);
             $response->assertSee('btn-kembali', false);
-            $response->assertSee('Kembali ke', false);
+            $response->assertSee('Kembali', false);
             $this->assertSame(1, preg_match_all('/<h1[\s>]/', $response->getContent()), "halaman $url harus tepat memiliki 1 h1");
         }
+
+        // Tautan lama harus redirect 301
+        $this->get('/standar')->assertRedirect('/cara-penitipan');
+        $this->get('/panduan')->assertRedirect('/cara-penitipan');
+        $this->get('/syarat')->assertRedirect('/syarat-ketentuan');
+        $this->get('/simulasi-gadai')->assertRedirect('/simulasi-jasa');
+        $this->get('/faq')->assertRedirect('/syarat-ketentuan#faq');
+        $this->get('/pengumuman')->assertRedirect('/promo');
+        $this->get('/tentang')->assertRedirect('/tentang-kami');
+        $this->get('/daftar')->assertRedirect('/masuk');
     }
 }

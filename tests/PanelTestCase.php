@@ -5,10 +5,12 @@ namespace Tests;
 use App\Enums\Role;
 use App\Models\Application;
 use App\Models\Branch;
+use App\Models\Loan;
 use App\Models\Member;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\ApplicationFlow;
+use App\Services\LoanService;
 use Database\Seeders\BranchSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\PolicySeeder;
@@ -22,6 +24,7 @@ abstract class PanelTestCase extends TestCase
     use RefreshDatabase;
 
     protected Branch $a;
+
     protected Branch $b;
 
     protected function setUp(): void
@@ -57,7 +60,7 @@ abstract class PanelTestCase extends TestCase
     }
 
     /** Pengajuan sampai dicairkan (tunai) lewat service. Mengembalikan Loan aktif. */
-    protected function buatGadai(?Member $m = null, int $pinjam = 2_000_000, ?User $teller = null): \App\Models\Loan
+    protected function buatGadai(?Member $m = null, int $pinjam = 2_000_000, ?User $teller = null): Loan
     {
         $m ??= $this->anggota();
         $cabang = $m->branch_id === $this->b->id ? $this->b : $this->a;
@@ -67,7 +70,7 @@ abstract class PanelTestCase extends TestCase
         $alur->terimaBarang($a, $teller, ['identitas_dicocokkan' => true, 'merek' => 'Samsung', 'model' => 'A54', 'imei_serial' => (string) random_int(100000000000000, 999999999999999), 'no_segel' => 'SG-'.random_int(1000, 9999)]);
         $alur->taksir($a, $this->staf(Role::Analis, $cabang), ['nilai_pasar' => 3_500_000, 'nilai_taksiran' => 3_000_000, 'periksa' => [], 'rekomendasi' => 'setuju']);
 
-        return app(\App\Services\LoanService::class)->cairkan($a->refresh(), $teller, 'tunai', null);
+        return app(LoanService::class)->cairkan($a->refresh(), $teller, 'tunai', null);
     }
 
     /** Data form terima barang yang valid. */
