@@ -1,3 +1,6 @@
+@php
+    /** @var \App\Models\GadaiPayment $p */
+@endphp
 <!doctype html>
 <html lang="id">
 <head>

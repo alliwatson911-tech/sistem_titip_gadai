@@ -12,6 +12,7 @@ use App\Services\Situs;
 use App\Support\Pii;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -22,12 +23,13 @@ class RegisterController extends Controller
 {
     public function create()
     {
+        /** @var Collection<string, Branch> $semuaCabang */
         $semuaCabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
 
         return view('auth.daftar', [
             'cabang' => $semuaCabang->where('kode', '!=', 'PUSAT')->values(),
             'semuaCabang' => $semuaCabang,
-            'pusat' => $semuaCabang->get('PUSAT'),
+            'pusat' => $semuaCabang->firstWhere('kode', 'PUSAT') ?? $semuaCabang->first(),
             'konten' => Situs::konten(),
         ]);
     }

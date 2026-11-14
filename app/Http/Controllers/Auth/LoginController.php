@@ -9,6 +9,7 @@ use App\Services\Audit;
 use App\Services\Situs;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
@@ -19,11 +20,12 @@ class LoginController extends Controller
 {
     public function create()
     {
+        /** @var Collection<string, Branch> $cabang */
         $cabang = Branch::where('is_active', true)->orderByRaw("FIELD(kode,'PUSAT','A','B')")->get()->keyBy('kode');
 
         return view('auth.masuk', [
             'cabang' => $cabang,
-            'pusat' => $cabang->get('PUSAT'),
+            'pusat' => $cabang->firstWhere('kode', 'PUSAT') ?? $cabang->first(),
             'konten' => Situs::konten(),
         ]);
     }

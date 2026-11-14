@@ -1,3 +1,6 @@
+@php
+    /** @var \App\Models\Member $m */
+@endphp
 @extends('layouts.panel')
 @section('judul', $m->nama_lengkap)
 @section('isi')

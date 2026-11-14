@@ -1,3 +1,7 @@
+@php
+    /** @var \App\Models\GadaiLoan $g */
+    /** @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\GadaiPayment> $pembayaran */
+@endphp
 @extends('layouts.panel')
 @section('judul', $g->no_sbg)
 @section('isi')

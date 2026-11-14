@@ -1,3 +1,7 @@
+@php
+    /** @var \App\Models\GadaiLoan $g */
+    /** @var \Illuminate\Database\Eloquent\Collection<int, \App\Models\GadaiItem> $barang */
+@endphp
 <!doctype html>
 <html lang="id">
 <head>

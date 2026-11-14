@@ -34,6 +34,7 @@ class HalamanPublikController extends Controller
         ];
         $isi = fn (?string $t) => Situs::isi($t, $token);
 
+        /** @var Collection<string, Branch> $cabang */
         $cabang = Branch::where('is_active', true)->whereNotIn('kode', ['A', 'B'])->orderBy('nama')->get()->keyBy('kode');
         if ($cabang->isEmpty() && ! app()->runningUnitTests()) {
             $cabang = BerandaController::defaultCabang();
@@ -46,7 +47,7 @@ class HalamanPublikController extends Controller
             'token' => $token,
             'isi' => $isi,
             'cabang' => $cabang,
-            'pusat' => $cabang->get('PUSAT'),
+            'pusat' => $cabang->firstWhere('kode', 'PUSAT') ?? $cabang->first(),
         ];
     }
 

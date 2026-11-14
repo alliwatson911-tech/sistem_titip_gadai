@@ -42,6 +42,7 @@ class BerandaController extends Controller
                 $f->jawaban = $isi($f->jawaban);
             });
 
+        /** @var Collection<string, Branch> $cabang */
         $cabang = Branch::where('is_active', true)->orderBy('nama')->get()->keyBy('kode');
         if ($cabang->isEmpty() && ! app()->runningUnitTests()) {
             $cabang = self::defaultCabang();
@@ -56,7 +57,7 @@ class BerandaController extends Controller
             'faq' => $faqs->where('kelompok', 'faq')->values(),
             'informasi' => $faqs->where('kelompok', 'informasi')->values(),
             'cabang' => $cabang,
-            'pusat' => $cabang->get('PUSAT'),
+            'pusat' => $cabang->firstWhere('kode', 'PUSAT') ?? $cabang->first(),
             'dataProduk' => $this->dataKalkulator($produk),
             'maksPeriode' => LoanCalculator::MAKS_PERIODE,
         ]);
