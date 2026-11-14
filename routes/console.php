@@ -2,13 +2,14 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Schedule;
 
 // Pengajuan yang barangnya tidak dibawa sampai batas waktu -> kedaluwarsa (setiap hari, dini hari).
 Schedule::command('pengajuan:kedaluwarsa')->dailyAt('01:00');
 
 // Detak: dipakai `php artisan sistem:periksa` untuk memastikan scheduler benar-benar berjalan.
-Schedule::call(fn () => \Illuminate\Support\Facades\Cache::put('scheduler:detak', now()->timestamp, 3600))->everyMinute()->name('scheduler-detak');
+Schedule::call(fn () => Cache::put('scheduler:detak', now()->timestamp, 3600))->everyMinute()->name('scheduler-detak');
 
 // Gadai lewat jatuh tempo -> tenggang; lewat tenggang -> siap lelang (setiap hari, tepat setelah tengah malam).
 Schedule::command('gadai:perbarui-status')->dailyAt('00:10');

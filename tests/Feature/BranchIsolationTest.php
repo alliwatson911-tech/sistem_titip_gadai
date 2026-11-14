@@ -18,9 +18,13 @@ class BranchIsolationTest extends TestCase
     use RefreshDatabase;
 
     private Branch $a;
+
     private Branch $b;
+
     private Member $anggotaA;
+
     private Member $anggotaB;
+
     private Product $produk;
 
     protected function setUp(): void

@@ -15,7 +15,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
@@ -83,7 +82,7 @@ class MemberController extends Controller
         ]);
 
         // Buat password sementara acak tapi mudah dibaca (cth: Persiden482910)
-        $passwordSementara = 'Persiden' . rand(100000, 999999);
+        $passwordSementara = 'Persiden'.rand(100000, 999999);
 
         [$user, $member] = DB::transaction(function () use ($data, $passwordSementara, $r) {
             $user = new User([

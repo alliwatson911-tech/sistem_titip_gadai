@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\Loan;
 use App\Services\LoanService;
+use App\Support\Rupiah;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,7 +58,7 @@ class GadaiController extends Controller
     public function taksirUlang(Request $r, Loan $gadai): RedirectResponse
     {
         Gate::authorize('taksiran.buat');
-        $r->merge(['nilai_pasar' => \App\Support\Rupiah::digit($r->input('nilai_pasar')), 'nilai_taksiran' => \App\Support\Rupiah::digit($r->input('nilai_taksiran'))]);
+        $r->merge(['nilai_pasar' => Rupiah::digit($r->input('nilai_pasar')), 'nilai_taksiran' => Rupiah::digit($r->input('nilai_taksiran'))]);
         $d = $r->validate([
             'nilai_pasar' => ['required', 'integer', 'min:1', 'max:1000000000'],
             'nilai_taksiran' => ['required', 'integer', 'min:1', 'max:1000000000'],

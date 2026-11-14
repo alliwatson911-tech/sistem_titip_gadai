@@ -10,6 +10,7 @@ use App\Models\Application;
 use App\Models\Loan;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Services\RingkasanPanel;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -21,7 +22,7 @@ class DashboardController extends Controller
         return view('panel.beranda', [
             'user' => $user,
             'tugas' => $this->tugas($user),
-            'ringkasan' => app(\App\Services\RingkasanPanel::class)->untuk($user),
+            'ringkasan' => app(RingkasanPanel::class)->untuk($user),
         ]);
     }
 

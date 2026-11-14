@@ -4,7 +4,6 @@ use App\Http\Controllers\Auth\AturUlangSandiController;
 use App\Http\Controllers\Auth\DuaFaktorTantanganController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LupaSandiController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifikasiEmailController;
 use App\Http\Controllers\Panel\AkunController;
 use App\Http\Controllers\Panel\AuditController;

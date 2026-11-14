@@ -6,10 +6,8 @@ use App\Enums\Role;
 use App\Models\AuditLog;
 use App\Models\Branch;
 use App\Models\Member;
-use App\Models\PenitipNotification;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class AuthTest extends TestCase

@@ -6,18 +6,20 @@ use App\Enums\ApplicationStatus as S;
 use App\Enums\LoanStatus as L;
 use App\Enums\Role;
 use App\Models\Application;
-use App\Models\AuditLog;
 use App\Models\Auction;
+use App\Models\AuditLog;
 use App\Models\Collateral;
 use App\Models\Loan;
 use App\Models\LoanExtension;
 use App\Models\Member;
 use App\Models\Payment;
+use App\Models\Redemption;
 use App\Models\User;
 use App\Services\ApplicationFlow;
 use App\Services\LoanService;
 use DomainException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Tests\PanelTestCase;
 
@@ -28,8 +30,10 @@ use Tests\PanelTestCase;
 class GadaiAlurTest extends PanelTestCase
 {
     private ?User $teller = null;
+
     private ?User $analis = null;
-    private \Illuminate\Support\Carbon $awal;
+
+    private Carbon $awal;
 
     protected function setUp(): void
     {
@@ -259,7 +263,7 @@ class GadaiAlurTest extends PanelTestCase
         $this->actingAs($this->teller)->post(route('panel.penebusan.store', $l), ['penebus_tipe' => 'penggadai', 'nama_penebus' => $l->member->nama_lengkap, 'nota_asli_diperiksa' => '1'])->assertSessionHasNoErrors();
 
         $this->assertSame('dikeluarkan', Collateral::withoutGlobalScopes()->firstOrFail()->status);
-        $this->assertSame(1, \App\Models\Redemption::where('loan_id', $l->id)->count());
+        $this->assertSame(1, Redemption::where('loan_id', $l->id)->count());
         $this->actingAs($this->teller)->post(route('panel.penebusan.store', $l), ['penebus_tipe' => 'penggadai', 'nama_penebus' => 'X', 'nota_asli_diperiksa' => '1'])->assertSessionHasErrors('umum');
         $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
     }
@@ -276,7 +280,7 @@ class GadaiAlurTest extends PanelTestCase
         $this->actingAs($this->teller)->post(route('panel.penebusan.store', $l), $dasar + ['nik_penebus' => '7371010101900009', 'surat_kuasa' => UploadedFile::fake()->create('k.exe', 10, 'application/x-msdownload')])->assertSessionHasErrors('surat_kuasa');
         $this->actingAs($this->teller)->post(route('panel.penebusan.store', $l), $dasar + ['nik_penebus' => '7371010101900009', 'surat_kuasa' => UploadedFile::fake()->create('kuasa.pdf', 100, 'application/pdf')])->assertSessionHasNoErrors();
 
-        $r = \App\Models\Redemption::where('loan_id', $l->id)->firstOrFail();
+        $r = Redemption::where('loan_id', $l->id)->firstOrFail();
         $this->assertSame('kuasa', $r->penebus_tipe);
         $this->assertNotNull($r->surat_kuasa_path);
         $this->assertNotSame('7371010101900009', \DB::table('redemptions')->value('nik_penebus_enc'), 'NIK penebus terenkripsi');

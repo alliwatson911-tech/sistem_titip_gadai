@@ -5,7 +5,32 @@ namespace App\Models;
 use App\Models\Concerns\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $kode
+ * @property string $nama
+ * @property string|null $nama_tampilan
+ * @property string|null $alamat
+ * @property string|null $telepon
+ * @property string|null $whatsapp
+ * @property string|null $email
+ * @property string|null $gmaps_link
+ * @property string|null $instagram
+ * @property array|null $medsos_lain
+ * @property string|null $foto_path
+ * @property string|null $jam_buka
+ * @property string|null $lat
+ * @property string|null $lng
+ * @property bool $is_verified
+ * @property string|null $catatan_verifikasi
+ * @property bool $is_active
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read string $nama_publik
+ * @property-read string $jam_layanan
+ */
 class Branch extends Model
 {
     use Auditable, HasFactory;

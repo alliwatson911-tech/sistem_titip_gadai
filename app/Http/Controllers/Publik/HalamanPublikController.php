@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Publik;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Branch;
 use App\Models\Faq;
 use App\Models\Product;
@@ -158,7 +159,7 @@ class HalamanPublikController extends Controller
     public function promo(): View
     {
         $data = $this->dataUmum();
-        $data['promo'] = \App\Models\Announcement::where('is_published', true)
+        $data['promo'] = Announcement::where('is_published', true)
             ->where(fn ($q) => $q->whereNull('mulai')->orWhere('mulai', '<=', now()->toDateString()))
             ->where(fn ($q) => $q->whereNull('selesai')->orWhere('selesai', '>=', now()->toDateString()))
             ->latest('id')

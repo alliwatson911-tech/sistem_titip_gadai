@@ -26,4 +26,3 @@ class PenitipNotification extends Model
         return $this->belongsTo(Member::class);
     }
 }
-

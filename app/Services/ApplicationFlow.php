@@ -4,14 +4,15 @@ namespace App\Services;
 
 use App\Enums\ApplicationStatus as S;
 use App\Enums\Role;
-use App\Models\Appraisal;
 use App\Models\Application;
+use App\Models\Appraisal;
 use App\Models\Approval;
 use App\Models\Collateral;
 use App\Models\Member;
 use App\Models\Product;
 use App\Models\User;
 use App\Support\Pii;
+use App\Support\Rupiah;
 use DomainException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,7 @@ class ApplicationFlow
             throw new DomainException('Produk ini sedang tidak tersedia.');
         }
         if ($pinjaman < $produk->pinjaman_min || $pinjaman > $produk->pinjaman_max) {
-            throw new DomainException('Jumlah pinjaman harus antara '.\App\Support\Rupiah::format($produk->pinjaman_min).' dan '.\App\Support\Rupiah::format($produk->pinjaman_max).'.');
+            throw new DomainException('Jumlah pinjaman harus antara '.Rupiah::format($produk->pinjaman_min).' dan '.Rupiah::format($produk->pinjaman_max).'.');
         }
 
         $kebijakan = Situs::kebijakan();

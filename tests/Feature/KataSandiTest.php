@@ -14,6 +14,7 @@ use Tests\PanelTestCase;
 class KataSandiTest extends PanelTestCase
 {
     private const LAMA = 'SandiLama12345';
+
     private const BARU = 'SandiBaru67890';
 
     private function akun(Role $role = Role::Teller, array $state = []): User

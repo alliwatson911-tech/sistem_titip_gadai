@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Announcement;
-use App\Models\Branch;
 use App\Models\Product;
 use App\Models\User;
 use Database\Seeders\BranchSeeder;
@@ -12,7 +11,6 @@ use Database\Seeders\PersidenHpBranchSeeder;
 use Database\Seeders\PolicySeeder;
 use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class PublicPageTest extends TestCase
