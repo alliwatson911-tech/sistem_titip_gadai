@@ -73,7 +73,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
 }
@@ -93,7 +93,7 @@ body {
   background-repeat: no-repeat;
   color: var(--tinta-gelap);
   font: 400 1.0625rem/1.6 var(--f-isi);
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
   width: 100%;
   position: relative;
@@ -101,7 +101,7 @@ body {
 main, #isi {
   max-width: 100%;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   box-sizing: border-box;
 }
 body.panel {

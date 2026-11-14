@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" class="panel-html">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -86,7 +86,7 @@
             @if ($errors->has('umum'))<p class="kabar kabar--galat" role="alert">{{ $errors->first('umum') }}</p>@endif
             @yield('isi')
             <footer class="p-kaki" style="margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--garis); font-size: .82rem; color: var(--tinta-2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .75rem;">
-                <span>&copy; {{ date('Y') }} <strong>linygadai</strong> &mdash; Sistem Operasional Titip Gadai</span>
+                <span>&copy; {{ date('Y') }} <strong>PERSIDEN HP</strong> &mdash; Titip Gadai Terpercaya Makassar</span>
                 <a href="https://www.linyjayainformatika.co.id/" target="_blank" rel="noopener noreferrer" style="color: var(--tinta); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: .3rem;" title="Kunjungi PT Linijayainformatika">
                     Developed by PT Linijayainformatika
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>

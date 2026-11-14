@@ -1,6 +1,12 @@
 /* PERSIDEN HP Titip Gadai — panel (anggota/penitip dan staf). Memakai token glassmorphism dan font dari situs.css. */
 
+html.panel-html,
+html:has(body.panel) {
+  overflow-x: visible;
+}
+
 body.panel {
+  overflow-x: visible;
   background-color: var(--kertas);
   background-image:
     radial-gradient(circle at 10% 10%, rgba(244, 179, 1, 0.12) 0%, transparent 400px),
@@ -11,12 +17,18 @@ body.panel {
   font-size: 1rem;
   --lembut: 0 4px 20px rgba(0, 38, 101, .06), 0 1px 2px rgba(0, 38, 101, .04);
   --r: 16px;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 .ikon { width: 1.15rem; height: 1.15rem; flex: none; }
 
 /* ---------- kerangka ---------- */
-.p-kerangka { display: grid; min-height: 100vh; }
-@media (min-width: 60rem) { .p-kerangka { grid-template-columns: 16.5rem minmax(0, 1fr); } }
+.p-kerangka { display: grid; min-height: 100vh; min-height: 100dvh; }
+@media (min-width: 60rem) {
+  .p-kerangka {
+    grid-template-columns: 16.5rem minmax(0, 1fr);
+  }
+}
 .p-samping {
   background:
     radial-gradient(circle at 100% 0%, rgba(244, 179, 1, 0.15), transparent 220px),
@@ -27,28 +39,53 @@ body.panel {
   min-width: 0;
   box-shadow: 4px 0 24px rgba(0, 15, 45, 0.15);
 }
-@media (min-width: 60rem) { .p-samping { position: sticky; top: 0; height: 100vh; } }
+@media (min-width: 60rem) {
+  .p-samping {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 16.5rem;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    z-index: 40;
+    overflow: hidden;
+  }
+  .p-utama {
+    grid-column: 2;
+    min-width: 0;
+  }
+}
 .p-samping a { color: var(--kertas); text-decoration: none; }
 
-.p-merek { display: flex; align-items: center; gap: .7rem; padding: 1.1rem 1.1rem .9rem; }
+.p-merek { display: flex; align-items: center; gap: .7rem; padding: 1.1rem 1.1rem .9rem; flex-shrink: 0; }
 .p-merek svg { width: 2.4rem; height: 2.4rem; flex: none; }
 .p-merek span { display: block; line-height: 1.15; }
 .p-merek b { display: block; font: 600 1.2rem/1.1 var(--f-judul); letter-spacing: -.01em; }
 .p-merek small { display: block; font: 500 .62rem/1.4 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--kuningan); }
 
-.p-peran { display: none; align-items: center; justify-content: space-between; gap: .6rem; margin: 0 1rem .4rem; padding: .7rem .2rem; border-block: 1px solid var(--garis-terang); font: 500 .66rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; }
+.p-peran { display: none; align-items: center; justify-content: space-between; gap: .6rem; margin: 0 1rem .4rem; padding: .7rem .2rem; border-block: 1px solid var(--garis-terang); font: 500 .66rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; flex-shrink: 0; }
 .p-peran em { font-style: normal; background: var(--kuningan); color: #001C48; border-radius: 99px; padding: .32rem .7rem; font-weight: 700; }
 @media (min-width: 60rem) { .p-peran { display: flex; } }
 
 .p-nav { display: flex; gap: .15rem; padding: .3rem .8rem .8rem; overflow-x: auto; flex: 1; scrollbar-width: thin; }
-@media (min-width: 60rem) { .p-nav { flex-direction: column; overflow-x: visible; overflow-y: auto; padding-bottom: 1rem; } }
+@media (min-width: 60rem) {
+  .p-nav {
+    flex-direction: column;
+    overflow-x: visible;
+    overflow-y: auto;
+    padding-bottom: 1rem;
+    overscroll-behavior: contain;
+  }
+}
 .p-nav a { display: flex; align-items: center; gap: .7rem; padding: .55rem .8rem; min-height: 44px; border-radius: 12px; font-weight: 500; font-size: .94rem; white-space: nowrap; color: rgba(248, 245, 240, .88); border: 1px solid transparent; }
 .p-nav a:hover { background: rgba(248, 245, 240, .10); color: var(--kertas); }
 .p-nav a[aria-current="page"] { background: linear-gradient(135deg, #FEC724, #F4B301); color: #001C48; font-weight: 700; box-shadow: 0 2px 8px rgba(244, 179, 1, .36); }
 .p-nav .grup { font: 500 .66rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: rgba(248, 245, 240, .6); padding: 1.1rem .8rem .35rem; white-space: nowrap; }
 @media (max-width: 59.99rem) { .p-nav .grup { display: none; } }
 
-.p-akun { display: none; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1rem; border-top: 1px solid var(--garis-terang); }
+.p-akun { display: none; align-items: center; justify-content: space-between; gap: .6rem; padding: .9rem 1rem; border-top: 1px solid var(--garis-terang); margin-top: auto; flex-shrink: 0; }
 @media (min-width: 60rem) { .p-akun { display: flex; } }
 .p-akun b { display: block; font-size: .85rem; line-height: 1.3; overflow-wrap: anywhere; }
 .p-akun small { display: block; font: 500 .64rem/1.4 var(--f-mono); letter-spacing: .08em; color: rgba(248, 245, 240, .65); }
