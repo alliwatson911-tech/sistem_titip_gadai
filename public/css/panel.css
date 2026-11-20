@@ -358,7 +358,16 @@ body.panel {
 .p-isi .dash-judul-bagian h2 { margin: 0; }
 .dash-judul-bagian p { margin: 0; font-size: .88rem; color: var(--tinta-2); }
 
+/* Mobile: label mono kecil dinaikkan agar terbaca di layar HP. */
+@media (max-width: 39.99rem) {
+  .p-merek small { font-size: .7rem; }
+  .lencana { font-size: .78rem; }
+  .tabel th { font-size: .76rem; }
+  .ringkasan dt { font-size: .76rem; }
+  .bidang label, .form legend { font-size: .8rem; }
+}
 @media (prefers-reduced-motion: no-preference) { .kpi, .pkartu { animation: naik .4s ease both; } .kpi:nth-child(2) { animation-delay: .05s; } .kpi:nth-child(3) { animation-delay: .1s; } .kpi:nth-child(4) { animation-delay: .15s; } }
 @keyframes naik { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 @media print { .p-samping, .p-atas { display: none; } .p-kerangka { display: block; } }
+@media (max-width: 39.99rem) { .bidang textarea { field-sizing: content; min-height: 9rem; } }

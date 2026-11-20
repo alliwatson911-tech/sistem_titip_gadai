@@ -9,7 +9,7 @@ use App\Models\User;
 class PenitipNotificationService
 {
     /** Buat antrean notifikasi email dan WhatsApp untuk penitip baru yang didaftarkan di loket. */
-    public static function antrekanAkunBaru(User $user, Member $member, string $passwordSementara): void
+    public static function antrekanAkunBaru(User $user, Member $member): void
     {
         $cabangNama = $member->branch?->nama_publik ?? $member->branch?->nama ?? 'PERSIDEN HP';
         $loginUrl = url('/masuk');
@@ -19,7 +19,7 @@ class PenitipNotificationService
             ."Berikut data akses portal digital penitip Anda:\n"
             ."• Link Masuk: {$loginUrl}\n"
             ."• Email Akun: {$user->email}\n"
-            ."• Kata Sandi Sementara: {$passwordSementara}\n\n"
+            ."• Kata sandi sementara disampaikan langsung oleh petugas loket.\n\n"
             ."Demi keamanan, Anda wajib mengganti kata sandi setelah berhasil masuk pertama kali.\n\n"
             ."Terima kasih,\nPERSIDEN HP Titip Gadai\nAman · Cepat · Terpercaya";
 
@@ -28,7 +28,7 @@ class PenitipNotificationService
             ."Akses Portal:\n"
             ."Link: {$loginUrl}\n"
             ."Email: {$user->email}\n"
-            ."Kata Sandi Sementara: {$passwordSementara}\n\n"
+            ."Kata sandi sementara disampaikan langsung oleh petugas loket.\n\n"
             .'Silakan ganti kata sandi saat pertama kali masuk.';
 
         // 1. Antrekan Notifikasi WhatsApp
@@ -60,13 +60,18 @@ class PenitipNotificationService
     }
 
     /** URL kirim langsung via WhatsApp Web / App oleh petugas cabang */
-    public static function tautanWhatsApp(PenitipNotification $notif): string
+    /** Sandi (bila ada) hanya ditempel ke tautan saat pendaftaran; tidak pernah disimpan. */
+    public static function tautanWhatsApp(PenitipNotification $notif, ?string $sandi = null): string
     {
         $hp = preg_replace('/\D/', '', $notif->tujuan);
         if (str_starts_with($hp, '0')) {
             $hp = '62'.substr($hp, 1);
         }
 
-        return 'https://wa.me/'.$hp.'?text='.rawurlencode($notif->pesan);
+        $teks = $notif->pesan.($sandi ? "
+
+Kata sandi sementara: {$sandi}" : '');
+
+        return 'https://wa.me/'.$hp.'?text='.rawurlencode($teks);
     }
 }

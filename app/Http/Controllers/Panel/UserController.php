@@ -42,7 +42,7 @@ class UserController extends Controller
         $sandi = Str::password(14, symbols: false);
 
         $u = new User(['name' => $d['name'], 'email' => $d['email'], 'password' => $sandi]);
-        $u->forceFill(['role' => $d['role'], 'branch_id' => $d['branch_id'], 'status' => 'aktif', 'email_verified_at' => now()])->save();
+        $u->forceFill(['role' => $d['role'], 'branch_id' => $d['branch_id'], 'status' => 'aktif', 'email_verified_at' => now(), 'wajib_ganti_password' => true])->save();
 
         return redirect()->route('panel.pengguna.index')
             ->with('status', "Akun {$u->email} dibuat.")
@@ -91,8 +91,7 @@ class UserController extends Controller
         abort_if($pengguna->role === Role::Member, 404);
 
         $sandi = Str::password(14, symbols: false);
-        $pengguna->password = $sandi;
-        $pengguna->save();
+        $pengguna->forceFill(['password' => $sandi, 'wajib_ganti_password' => true])->save();
         DB::table('sessions')->where('user_id', $pengguna->id)->delete();
         Audit::log('user.reset_sandi', $pengguna);
 

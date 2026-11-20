@@ -1,6 +1,6 @@
 @extends('layouts.publik')
 
-@section('judul', 'Panduan Titip Gadai — linygadai')
+@section('judul', 'Panduan Titip Gadai — PERSIDEN HP')
 @section('deskripsi', 'Panduan lengkap alur titip gadai elektronik: dari pendaftaran anggota, penyerahan barang di loket, sampai pelunasan dan tebus kembali.')
 
 @section('badan')

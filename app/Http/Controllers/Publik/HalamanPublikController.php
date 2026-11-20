@@ -63,15 +63,7 @@ class HalamanPublikController extends Controller
     /** Data minimal yang dibutuhkan kalkulator di browser */
     private function dataKalkulator(Collection $produk): array
     {
-        return $produk->map(fn (Product $p) => [
-            'id' => $p->id,
-            'slug' => $p->slug,
-            'nama' => $p->nama,
-            'ltvMaxBp' => $p->ltv_max_bp,
-            'min' => $p->pinjaman_min,
-            'max' => $p->pinjaman_max,
-            'tenor' => $p->tenor_hari,
-        ])->values()->all();
+        return $produk->map(fn (Product $p) => $p->dataKalkulator())->values()->all();
     }
 
     /** Halaman Khusus: Layanan Gadai */

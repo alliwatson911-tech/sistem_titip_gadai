@@ -303,7 +303,8 @@ class PanelAdminTest extends PanelTestCase
         $this->assertTrue(Hash::check($sandi, $u->password));
 
         auth()->logout();
-        $this->post('/masuk', ['email' => 'teller.baru@contoh.test', 'password' => $sandi])->assertRedirect('/panel');
+        // Sandi sementara wajib diganti pada login pertama.
+        $this->post('/masuk', ['email' => 'teller.baru@contoh.test', 'password' => $sandi])->assertRedirect(route('panel.akun.sandi'));
     }
 
     public function test_pembuatan_staf_menolak_peran_anggota_cabang_pusat_dan_peran_tanpa_cabang(): void

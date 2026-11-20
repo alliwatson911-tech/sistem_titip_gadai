@@ -2128,6 +2128,66 @@ input.input-error-shake:focus {
   box-shadow: 0 6px 20px rgba(220, 39, 67, 0.45);
 }
 
+/* ---------- Chip contoh barang di simulasi ---------- */
+.contoh-judul { margin: 0 0 .5rem; font: 600 .85rem/1.3 var(--f-isi); color: var(--tinta-2); }
+.contoh-daftar { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip-contoh {
+  display: flex; flex-direction: column; align-items: flex-start; gap: .15rem;
+  min-height: 2.75rem; padding: .5rem .85rem; text-align: left; cursor: pointer;
+  background: rgba(255, 255, 255, .8); border: 1px solid var(--garis); border-radius: var(--radius-md);
+  color: var(--tinta); font-family: var(--f-isi); transition: border-color .15s, background .15s, transform .15s;
+}
+.chip-contoh b { font-size: .88rem; line-height: 1.25; }
+.chip-contoh small { font: 600 .78rem/1.2 var(--f-mono); color: var(--kuningan-tua); font-variant-numeric: tabular-nums; }
+.chip-contoh:hover { border-color: var(--kuningan); background: var(--kuningan-muda); }
+.chip-contoh[aria-pressed="true"] { border-color: var(--kuningan); background: var(--kuningan-muda); box-shadow: inset 0 0 0 1px var(--kuningan); }
+@media (max-width: 40rem) { .chip-contoh { flex: 1 1 calc(50% - .25rem); min-width: 0; } }
+
+/* ---------- Perapian mobile halaman mandiri (Tentang, Visi-Misi, dll.) ----------
+   !important diperlukan karena banyak ukuran font/padding ditulis inline di Blade. */
+@media (max-width: 40rem) {
+  .halaman-khusus .wrap { width: min(100% - 2rem, 78rem); }
+  .halaman-khusus .halaman-header { padding-block: .5rem 1.25rem; margin-bottom: 1.5rem; }
+  .halaman-khusus .halaman-header h1 { font-size: clamp(1.65rem, 7vw, 2rem); line-height: 1.2; }
+  .halaman-khusus .halaman-header p.pengantar { font-size: 1rem; line-height: 1.65; }
+  .halaman-khusus h2 { font-size: clamp(1.25rem, 5.4vw, 1.45rem) !important; line-height: 1.25; }
+  .halaman-khusus .syarat-highlight-box { padding: 1.25rem 1.1rem !important; margin-bottom: 2rem !important; }
+  .halaman-khusus .syarat-highlight-box h2 { padding-bottom: .6rem; margin-bottom: 1rem; }
+  .halaman-khusus .syarat-highlight-box p,
+  .halaman-khusus .syarat-card p,
+  .halaman-khusus .lembar p { font-size: 1rem !important; line-height: 1.7 !important; text-align: left; }
+  .halaman-khusus .syarat-highlight-box span[style*="border-radius: 9999px"] { font-size: .8rem !important; letter-spacing: .01em; }
+  .halaman-khusus .lembar.panel-form { padding: 1.25rem !important; }
+  .halaman-khusus .lembar-grid { gap: 1rem; margin-bottom: 2.25rem !important; }
+  .halaman-khusus .syarat-highlight-box .tombol,
+  .halaman-khusus .trust-ig-aksi .btn-ig-official { width: 100%; justify-content: center; text-align: center; min-height: 2.75rem; }
+  .halaman-khusus .syarat-highlight-box div[style*="flex-wrap: wrap"] { gap: .75rem !important; }
+}
+
+/* ---------- Perapian mobile lintas halaman: kartu lebih lebar, label tidak terlalu kecil ---------- */
+@media (max-width: 40rem) {
+  .syarat-card { padding: 1.25rem 1.1rem; }
+  .syarat-card p { font-size: 1rem; line-height: 1.65; }
+  .syarat-card h3 { font-size: 1.15rem; }
+  .trust-ig-banner { padding: 1.25rem 1.1rem; }
+  .banner-member { padding-inline: 1.25rem; }
+  .banner-member p { font-size: 1rem; }
+  .kartu-modern-top { padding: 1.1rem 1.1rem 0; }
+  .kartu-modern-body { padding: 1.1rem; }
+  .kartu-modern-body p { font-size: 1rem; line-height: 1.6; }
+  .panel-form { padding: 1.25rem 1.1rem; }
+  .panel-form[style*="padding"] { padding: 1.5rem 1.25rem !important; }
+  label small { font-size: .78rem; }
+  .kartu-fitur { padding: 1.25rem; }
+  .kartu-kategori-body { padding: 1.1rem 1.25rem; }
+  .kategori-showcase-bawah { padding-inline: 1.25rem; }
+  .breadcrumb-nav { font-size: .9rem; }
+  .merek-sub { font-size: .72rem; }
+  .badge-plafon, .chip { font-size: .8rem; }
+  .trust-ig-badge-star .star-text { font-size: .78rem; }
+  .trust-ig-badge-star .star-year { font-size: .82rem; }
+}
+
 /* ---------- gerak halus saat muncul (hanya bila JS aktif) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-muncul] { opacity: 0; transform: translateY(14px); transition: opacity .5s ease-out, transform .5s ease-out; }

@@ -19,8 +19,39 @@ class Product extends Model
             'is_client_featured' => 'boolean',
             'dokumen_wajib' => 'array',
             'atribut_khusus' => 'array',
+            'contoh_taksiran' => 'array',
             'syarat_ketentuan' => 'array',
         ];
+    }
+
+    /** @return array<string, mixed> data satu produk untuk kalkulator simulasi publik */
+    public function dataKalkulator(): array
+    {
+        return [
+            'id' => $this->id,
+            'slug' => $this->slug,
+            'nama' => $this->nama,
+            'ltvMaxBp' => $this->ltv_max_bp,
+            'min' => $this->pinjaman_min,
+            'max' => $this->pinjaman_max,
+            'tenor' => $this->tenor_hari,
+            'contoh' => $this->contohSimulasi(),
+            'contohTgl' => $this->updated_at?->toDateString(),
+        ];
+    }
+
+    /**
+     * Contoh barang beserta kisaran taksiran untuk chip simulasi (ASUMSI indikatif, bukan harga pasar resmi).
+     *
+     * @return list<array{label: string, min: int, max: int}>
+     */
+    public function contohSimulasi(): array
+    {
+        return collect((array) $this->contoh_taksiran)
+            ->filter(fn ($c) => isset($c['label'], $c['min'], $c['max']))
+            ->map(fn ($c) => ['label' => $c['label'], 'min' => (int) $c['min'], 'max' => (int) $c['max']])
+            ->values()
+            ->all();
     }
 
     /** Scope produk pilihan klien PERSIDEN HP (8 kategori resmi) */

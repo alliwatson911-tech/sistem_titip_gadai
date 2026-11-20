@@ -121,8 +121,7 @@
                 <div style="margin-bottom: 2rem;" data-muncul>
                     <label for="cariCabang" style="display: block; font-weight: 600; font-size: .9rem; margin-bottom: .5rem; color: var(--tinta);">Cari Cabang Terdekat:</label>
                     <input type="text" id="cariCabang" placeholder="Ketik nama cabang atau wilayah (cth: BTP, Antang, Gowa, Rappocini)..." 
-                           style="width: 100%; max-width: 500px; padding: .75rem 1rem; border: 1.5px solid var(--garis); border-radius: var(--radius-m); font-size: .95rem; background: #fff;"
-                           onkeyup="filterCabang()">
+                           style="width: 100%; max-width: 500px; padding: .75rem 1rem; border: 1.5px solid var(--garis); border-radius: var(--radius-m); font-size: .95rem; background: #fff;">
                 </div>
 
                 <!-- Grid 7 Cabang -->
@@ -223,20 +222,5 @@
             @include('publik.partials.banner-member')
         </div>
     </main>
-
-    <script>
-        function filterCabang() {
-            var input = document.getElementById('cariCabang').value.toLowerCase();
-            var items = document.querySelectorAll('.item-cabang');
-            items.forEach(function(item) {
-                var nama = item.getAttribute('data-nama') || '';
-                if (nama.indexOf(input) > -1) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-    </script>
     @include('publik.partials.kaki')
 @endsection

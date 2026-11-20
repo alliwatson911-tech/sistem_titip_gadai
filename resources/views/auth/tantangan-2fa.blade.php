@@ -1,5 +1,5 @@
 @extends('layouts.publik')
-@section('judul', 'Verifikasi dua langkah — linygadai')
+@section('judul', 'Verifikasi dua langkah — PERSIDEN HP')
 @section('deskripsi', 'Masukkan kode verifikasi untuk melanjutkan masuk.')
 @section('robots', 'noindex,nofollow')
 @section('badan')

@@ -1,6 +1,6 @@
 @extends('layouts.publik')
 
-@section('judul', 'Pendaftaran Calon Anggota — linygadai')
+@section('judul', 'Pendaftaran Calon Anggota — PERSIDEN HP')
 @section('deskripsi', 'Daftar sebagai calon anggota linygadai untuk mengajukan titip gadai online dan memantau status barang elektronik Anda.')
 @section('robots', 'noindex,nofollow')
 

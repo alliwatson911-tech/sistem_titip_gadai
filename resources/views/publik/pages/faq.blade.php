@@ -1,6 +1,6 @@
 @extends('layouts.publik')
 
-@section('judul', 'FAQ & Tanya Jawab — linygadai')
+@section('judul', 'FAQ & Tanya Jawab — PERSIDEN HP')
 @section('deskripsi', 'Pertanyaan yang paling sering diajukan seputar titip gadai elektronik, keamanan brankas, pelunasan, perpanjangan, dan pengambilan barang di linygadai.')
 
 @section('badan')

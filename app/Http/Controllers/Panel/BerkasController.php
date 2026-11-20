@@ -9,6 +9,7 @@ use App\Models\Loan;
 use App\Models\Member;
 use App\Services\Audit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 /** Berkas pribadi (KTP, foto barang) hanya lewat sini: disk privat, otorisasi per permintaan, tanpa URL publik. */
@@ -17,6 +18,10 @@ class BerkasController extends Controller
     public function ktp(Request $r, Member $anggota)
     {
         // Member model ber-scope: anggota hanya menemukan miliknya, staf hanya cabangnya, lainnya 404.
+        // Staf wajib berhak mengelola anggota (sama dengan tombol di halaman penitip); cek sebelum 404 agar keberadaan berkas tidak bisa ditebak.
+        if ($r->user()->role->isStaff()) {
+            Gate::authorize('anggota.kelola');
+        }
         abort_unless($anggota->ktp_path && Storage::exists($anggota->ktp_path), 404);
 
         if ($r->user()->role->isStaff()) {

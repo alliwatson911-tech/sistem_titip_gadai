@@ -43,7 +43,7 @@ class LaporanService
         $portofolio = $cab(Loan::query())->whereIn('status', $dapatDibayar);
         $perStatus = $cab(Loan::query())->selectRaw('status, COUNT(*) n')->groupBy('status')->pluck('n', 'status');
 
-        $lelang = Auction::query()->where('status', 'laku')->whereBetween('updated_at', [$awal, $akhir])
+        $lelang = Auction::query()->where('status', 'laku')->whereBetween('tgl_lelang', [$awal->toDateString(), $akhir->toDateString()])
             ->whereHas('loan', fn ($q) => $cabangId ? $q->where('branch_id', $cabangId) : $q);
         $lelangRingkas = (clone $lelang)->selectRaw('COUNT(*) n, COALESCE(SUM(harga_laku),0) laku, COALESCE(SUM(biaya_lelang),0) biaya, COALESCE(SUM(CASE WHEN kelebihan > 0 THEN kelebihan ELSE 0 END),0) lebih, COALESCE(SUM(CASE WHEN kelebihan < 0 THEN -kelebihan ELSE 0 END),0) kurang')->first();
 

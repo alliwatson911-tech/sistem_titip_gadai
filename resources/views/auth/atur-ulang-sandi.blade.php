@@ -1,5 +1,5 @@
 @extends('layouts.publik')
-@section('judul', 'Atur ulang kata sandi — linygadai')
+@section('judul', 'Atur ulang kata sandi — PERSIDEN HP')
 @section('deskripsi', 'Buat kata sandi baru untuk akun linygadai.')
 @section('robots', 'noindex,nofollow')
 @section('badan')

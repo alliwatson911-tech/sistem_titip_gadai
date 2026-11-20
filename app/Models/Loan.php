@@ -77,4 +77,10 @@ class Loan extends Model
     {
         return $this->hasMany(Collateral::class, 'application_id', 'application_id')->withoutGlobalScopes();
     }
+
+    /** Sidik keadaan gadai yang dibawa form bayar; berubah setelah setiap perpanjangan, cicil, atau tebus (cegah kirim ganda). */
+    public function versiBayar(): string
+    {
+        return sha1($this->status->value.'|'.$this->jatuh_tempo->toDateString().'|'.(int) $this->pokok_saldo.'|'.(int) $this->perpanjangan_ke);
+    }
 }

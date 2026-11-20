@@ -42,7 +42,16 @@ class LoginController extends Controller
         ]);
 
         $kunci = Str::lower($data['email']).'|'.$request->ip();
+        $kunciEmail = 'masuk-email|'.Str::lower($data['email']); // tanpa IP: rotasi alamat IP tidak mereset hitungan akun
         $batas = config('linygadai.login_attempts_per_minute');
+
+        if (RateLimiter::tooManyAttempts($kunciEmail, config('linygadai.login_attempts_per_email_per_hour'))) {
+            Audit::log('auth.dikunci', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
+
+            throw ValidationException::withMessages([
+                'email' => 'Terlalu banyak percobaan untuk akun ini. Coba lagi nanti atau gunakan "Lupa kata sandi".',
+            ]);
+        }
 
         if (RateLimiter::tooManyAttempts($kunci, $batas)) {
             throw ValidationException::withMessages([
@@ -55,6 +64,7 @@ class LoginController extends Controller
         // 1. Akun tidak ditemukan / salah
         if (! $user) {
             RateLimiter::hit($kunci, 60);
+            RateLimiter::hit($kunciEmail, 3600);
             Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
 
             throw ValidationException::withMessages([
@@ -65,6 +75,7 @@ class LoginController extends Controller
         // 2. Akun nonaktif
         if (! $user->isActive()) {
             RateLimiter::hit($kunci, 60);
+            RateLimiter::hit($kunciEmail, 3600);
             Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
 
             throw ValidationException::withMessages([
@@ -75,6 +86,7 @@ class LoginController extends Controller
         // 3. Kata sandi salah
         if (! Hash::check($data['password'], $user->password)) {
             RateLimiter::hit($kunci, 60);
+            RateLimiter::hit($kunciEmail, 3600);
             Audit::log('auth.gagal', null, null, ['email' => mb_substr($data['email'], 0, 120)]);
 
             throw ValidationException::withMessages([

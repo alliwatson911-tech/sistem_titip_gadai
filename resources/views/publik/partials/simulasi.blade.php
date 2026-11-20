@@ -23,6 +23,12 @@
                     </select>
                 </div>
 
+                <div class="bidang contoh-taksiran" id="sim-contoh" hidden>
+                    <p class="contoh-judul" id="sim-contoh-judul">Belum tahu nilainya? Pilih contoh barang:</p>
+                    <div class="contoh-daftar" id="sim-contoh-daftar" role="group" aria-labelledby="sim-contoh-judul"></div>
+                    <p class="catatan-kecil" id="sim-contoh-catatan" style="margin:.5rem 0 0"></p>
+                </div>
+
                 <div class="bidang">
                     <label for="sim-taksiran">Perkiraan Nilai Taksiran Barang</label>
                     <div class="awalan"><span aria-hidden="true">Rp</span><input id="sim-taksiran" type="text" inputmode="numeric" autocomplete="off" value="3.000.000"></div>

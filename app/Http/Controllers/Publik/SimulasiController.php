@@ -32,6 +32,19 @@ class SimulasiController extends Controller
             'taksiran.integer' => 'Taksiran harus berupa angka.',
             'taksiran.min' => 'Taksiran harus lebih dari nol.',
             'taksiran.max' => 'Taksiran terlalu besar.',
+            'produk.required' => 'Pilih jenis barang.',
+            'produk.integer' => 'Jenis barang tidak valid.',
+            'ltv_bp.required' => 'Rasio nilai yang diterima wajib diisi.',
+            'ltv_bp.integer' => 'Rasio nilai yang diterima tidak valid.',
+            'ltv_bp.min' => 'Rasio nilai yang diterima terlalu kecil.',
+            'ltv_bp.max' => 'Rasio nilai yang diterima terlalu besar.',
+            'hari.integer' => 'Durasi hari tidak valid.',
+            'hari.min' => 'Durasi minimal 1 hari.',
+            'hari.max' => 'Durasi maksimal 120 hari.',
+            'periode.required' => 'Pilih durasi penitipan.',
+            'periode.integer' => 'Durasi penitipan tidak valid.',
+            'periode.min' => 'Durasi penitipan tidak valid.',
+            'periode.max' => 'Durasi penitipan melebihi batas perpanjangan.',
         ]);
 
         $produk = Product::where('is_active', true)->find($data['produk']);

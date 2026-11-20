@@ -1,6 +1,6 @@
 @extends('layouts.publik')
 
-@section('judul', 'Standar Layanan & Keunggulan — linygadai')
+@section('judul', 'Standar Layanan & Keunggulan — PERSIDEN HP')
 @section('deskripsi', 'Prinsip standar layanan linygadai: keamanan brankas bersegel, taksiran terbuka, tanpa biaya tersembunyi.')
 
 @section('badan')

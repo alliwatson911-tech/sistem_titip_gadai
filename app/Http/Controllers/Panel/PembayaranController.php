@@ -22,14 +22,15 @@ class PembayaranController extends Controller
         Gate::authorize('pembayaran.catat');
         $r->merge(['pokok' => Rupiah::digit($r->input('pokok'))]);
         $d = $r->validate([
+            'versi' => ['required', 'string', 'size:40'],
             'tipe' => ['required', 'in:perpanjangan,cicil,tebus'],
             'metode' => ['required', 'in:tunai,transfer'],
             'pokok' => ['nullable', 'integer', 'min:1', 'max:1000000000'],
             'bukti' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
-        ], ['tipe.required' => 'Pilih jenis pembayaran.', 'metode.required' => 'Pilih metode pembayaran.', 'bukti.image' => 'Bukti harus berupa gambar JPG, PNG, atau WebP.', 'bukti.max' => 'Ukuran bukti maksimal 4 MB.']);
+        ], ['versi.required' => 'Formulir kedaluwarsa. Muat ulang halaman gadai lalu coba lagi.', 'versi.size' => 'Formulir tidak valid. Muat ulang halaman gadai.', 'tipe.required' => 'Pilih jenis pembayaran.', 'metode.required' => 'Pilih metode pembayaran.', 'bukti.image' => 'Bukti harus berupa gambar JPG, PNG, atau WebP.', 'bukti.max' => 'Ukuran bukti maksimal 4 MB.']);
 
         try {
-            $p = $this->gadai->bayar($gadai, $r->user(), $d['tipe'], $d['metode'], isset($d['pokok']) ? (int) $d['pokok'] : null, $r->file('bukti'));
+            $p = $this->gadai->bayar($gadai, $r->user(), $d['tipe'], $d['metode'], isset($d['pokok']) ? (int) $d['pokok'] : null, $r->file('bukti'), $d['versi']);
         } catch (DomainException $e) {
             return back()->withInput()->withErrors(['umum' => $e->getMessage()]);
         }

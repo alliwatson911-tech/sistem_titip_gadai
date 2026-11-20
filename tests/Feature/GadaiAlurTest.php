@@ -16,6 +16,7 @@ use App\Models\Payment;
 use App\Models\Redemption;
 use App\Models\User;
 use App\Services\ApplicationFlow;
+use App\Services\LaporanService;
 use App\Services\LoanService;
 use DomainException;
 use Illuminate\Http\UploadedFile;
@@ -158,7 +159,7 @@ class GadaiAlurTest extends PanelTestCase
         $lama = $l->jatuh_tempo->copy();
 
         $this->hariKe(25); // bayar lebih awal: jatuh tempo baru tetap lama + 30, bukan tanggal bayar + 30
-        $r = $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai']);
+        $r = $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'tunai']);
         $r->assertSessionHasNoErrors();
 
         $l->refresh();
@@ -252,7 +253,7 @@ class GadaiAlurTest extends PanelTestCase
         $l = $this->gadai();
         $this->hariKe(30);
 
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasNoErrors();
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasNoErrors();
         $l->refresh();
         $this->assertSame(L::Ditebus, $l->status);
         $this->assertSame(0, (int) $l->pokok_saldo);
@@ -265,7 +266,7 @@ class GadaiAlurTest extends PanelTestCase
         $this->assertSame('dikeluarkan', Collateral::withoutGlobalScopes()->firstOrFail()->status);
         $this->assertSame(1, Redemption::where('loan_id', $l->id)->count());
         $this->actingAs($this->teller)->post(route('panel.penebusan.store', $l), ['penebus_tipe' => 'penggadai', 'nama_penebus' => 'X', 'nota_asli_diperiksa' => '1'])->assertSessionHasErrors('umum');
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
     }
 
     public function test_tebus_oleh_kuasa_wajib_surat_kuasa_dan_nik(): void
@@ -294,8 +295,8 @@ class GadaiAlurTest extends PanelTestCase
         $this->hariKe(30);
         $lama = $l->jatuh_tempo->toDateString();
 
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'transfer'])->assertSessionHasErrors('umum'); // bukti wajib
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'transfer', 'bukti' => UploadedFile::fake()->image('b.jpg')])->assertSessionHasNoErrors();
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'transfer'])->assertSessionHasErrors('umum'); // bukti wajib
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'transfer', 'bukti' => UploadedFile::fake()->image('b.jpg')])->assertSessionHasNoErrors();
 
         $p = Payment::withoutGlobalScopes()->firstOrFail();
         $this->assertSame('menunggu_verifikasi', $p->status);
@@ -303,7 +304,7 @@ class GadaiAlurTest extends PanelTestCase
         \Storage::disk('local')->assertExists($p->bukti_path);
 
         // pembayaran kedua diblokir selama ada yang menunggu
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
         // pencatat tidak boleh memverifikasi sendiri
         $this->actingAs($this->teller)->post(route('panel.pembayaran.verifikasi', $p), ['keputusan' => 'setuju'])->assertSessionHasErrors('umum');
         // peran tanpa izin ditolak
@@ -546,7 +547,7 @@ class GadaiAlurTest extends PanelTestCase
         $this->hariKe(41);
         $this->svc()->catatHasilLelang($l, $this->teller, 'laku', 3_000_000, 0);
 
-        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'tebus', 'metode' => 'tunai'])->assertSessionHasErrors('umum');
         $this->assertSame(0, Payment::withoutGlobalScopes()->count());
     }
 
@@ -568,9 +569,9 @@ class GadaiAlurTest extends PanelTestCase
         $l = $this->gadai();
         $this->hariKe(30);
         foreach ([Role::Manager, Role::Analis, Role::Admin, Role::Owner] as $peran) {
-            $this->actingAs($this->staf($peran, $this->a))->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertForbidden();
+            $this->actingAs($this->staf($peran, $this->a))->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertForbidden();
         }
-        $this->actingAs($l->member->user)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertForbidden();
+        $this->actingAs($l->member->user)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertForbidden();
         $this->assertSame(0, Payment::withoutGlobalScopes()->count());
     }
 
@@ -581,7 +582,7 @@ class GadaiAlurTest extends PanelTestCase
         $lain = $this->anggota($this->a);
 
         $this->actingAs($tellerB)->get(route('panel.gadai.show', $l))->assertNotFound();
-        $this->actingAs($tellerB)->post(route('panel.pembayaran.store', $l), ['tipe' => 'tebus', 'metode' => 'tunai'])->assertNotFound();
+        $this->actingAs($tellerB)->post(route('panel.pembayaran.store', $l), ['versi' => $l->refresh()->versiBayar(), 'tipe' => 'tebus', 'metode' => 'tunai'])->assertNotFound();
         $this->actingAs($tellerB)->get(route('panel.gadai.index'))->assertDontSee($l->no_sbg);
         $this->actingAs($lain->user)->get(route('panel.gadai.show', $l))->assertNotFound();
         $this->actingAs($lain->user)->get(route('panel.gadai.nota', $l))->assertNotFound();
@@ -661,5 +662,72 @@ class GadaiAlurTest extends PanelTestCase
         $this->actingAs($this->teller)->get(route('panel.gadai.index', ['segera' => 1]))->assertSee($l->no_sbg);
         $this->hariKe(5);
         $this->actingAs($this->teller)->get(route('panel.gadai.index', ['segera' => 1]))->assertDontSee($l->no_sbg);
+    }
+
+    // ---------- perbaikan lanjutan ----------
+
+    public function test_kirim_ulang_formulir_bayar_yang_sama_tidak_menggandakan_perpanjangan(): void
+    {
+        $l = $this->gadai();
+        $versi = $l->versiBayar();
+        $url = route('panel.pembayaran.store', $l);
+
+        $this->actingAs($this->teller)->post($url, ['tipe' => 'perpanjangan', 'metode' => 'tunai', 'versi' => $versi])->assertSessionHasNoErrors();
+        $jatuhTempo = $l->refresh()->jatuh_tempo->toDateString();
+
+        $this->actingAs($this->teller)->post($url, ['tipe' => 'perpanjangan', 'metode' => 'tunai', 'versi' => $versi])->assertSessionHasErrors('umum');
+
+        $this->assertSame($jatuhTempo, $l->refresh()->jatuh_tempo->toDateString());
+        $this->assertSame(1, Payment::where('loan_id', $l->id)->count());
+        $this->assertSame(1, LoanExtension::where('loan_id', $l->id)->count());
+
+        $this->actingAs($this->teller)->post($url, ['tipe' => 'perpanjangan', 'metode' => 'tunai', 'versi' => $l->versiBayar()])->assertSessionHasNoErrors();
+        $this->assertSame(2, Payment::where('loan_id', $l->id)->count(), 'formulir baru yang sah tetap diterima');
+    }
+
+    public function test_formulir_bayar_tanpa_versi_ditolak(): void
+    {
+        $l = $this->gadai();
+
+        $this->actingAs($this->teller)->get(route('panel.gadai.show', $l))->assertOk()->assertSee('name="versi" value="'.$l->versiBayar().'"', false);
+
+        $this->actingAs($this->teller)->post(route('panel.pembayaran.store', $l), ['tipe' => 'perpanjangan', 'metode' => 'tunai'])->assertSessionHasErrors('versi');
+        $this->assertSame(0, Payment::where('loan_id', $l->id)->count());
+    }
+
+    public function test_pembalikan_perpanjangan_saat_siap_lelang_mengaktifkan_antrean_lagi(): void
+    {
+        $l = $this->siapLelang();
+        $p = $this->bayarTunai($l, 'perpanjangan');
+        $this->assertSame('batal', Auction::where('loan_id', $l->id)->first()->status);
+
+        $this->svc()->batalkan($p, $this->staf(Role::Manager, $this->a), 'salah input');
+
+        $this->assertSame(L::SiapLelang, $l->refresh()->status);
+        $au = Auction::where('loan_id', $l->id)->first();
+        $this->assertSame('dijadwalkan', $au->status);
+        $this->assertNull($au->tgl_lelang);
+    }
+
+    public function test_hasil_lelang_ditolak_bila_lelang_tidak_aktif(): void
+    {
+        $l = $this->siapLelang();
+        Auction::where('loan_id', $l->id)->update(['status' => 'batal', 'tgl_lelang' => today()->subDay()->toDateString(), 'harga_limit' => 2_000_000]);
+
+        $this->actingAs($this->teller)->post(route('panel.lelang.hasil', $l), ['hasil' => 'laku', 'harga_laku' => '3.000.000', 'biaya_lelang' => '100.000'])->assertSessionHasErrors('umum');
+
+        $this->assertSame('batal', Auction::where('loan_id', $l->id)->first()->status);
+        $this->assertSame(L::SiapLelang, $l->refresh()->status);
+    }
+
+    public function test_laporan_lelang_dihitung_menurut_tanggal_lelang_bukan_updated_at(): void
+    {
+        $l = $this->siapLelang();
+        $au = Auction::where('loan_id', $l->id)->first();
+        $au->forceFill(['status' => 'laku', 'tgl_lelang' => today()->subDays(40)->toDateString(), 'harga_laku' => 3_000_000])->save();
+
+        $r = app(LaporanService::class)->ringkas(today()->subDays(5), today());
+
+        $this->assertSame(0, (int) $r['lelang']['n'], 'lelang 40 hari lalu tidak boleh masuk periode ini hanya karena updated_at baru');
     }
 }
