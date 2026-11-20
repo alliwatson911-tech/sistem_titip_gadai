@@ -364,6 +364,44 @@
   d.querySelectorAll('input[name="durasi_minggu"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
   d.querySelectorAll('input[name="periode"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
 
+  /* Emas & perhiasan: taksiran = berat x harga 24K per gram x karat/24 (harga diisi Owner). Basi atau kosong: isi taksiran manual. */
+  function renderEmas() {
+    var box = el('sim-emas'), p = produkAktif();
+    if (!box) return;
+    var e = p && p.emas;
+    box.hidden = !e;
+    if (!e) return;
+    var isian = el('sim-emas-isian'), hasil = el('sim-emas-hasil'), pilihKarat = el('sim-emas-karat');
+    var siap = e.harga > 0 && !e.basi;
+    isian.hidden = !siap;
+    if (!siap) {
+      hasil.textContent = e.harga > 0
+        ? 'Harga emas belum diperbarui sehingga hitung otomatis dimatikan. Isi perkiraan nilai taksiran di bawah, atau tanyakan harga terbaru ke loket.'
+        : 'Harga emas hari ini belum tersedia. Isi perkiraan nilai taksiran di bawah, atau tanyakan ke loket.';
+      return;
+    }
+    if (!pilihKarat.options.length) {
+      e.karat.forEach(function (k) { var o = d.createElement('option'); o.value = String(k); o.textContent = k + ' karat'; if (k === 22) o.selected = true; pilihKarat.appendChild(o); });
+    }
+    hitungEmas();
+  }
+  function hitungEmas() {
+    var p = produkAktif(), e = p && p.emas, hasil = el('sim-emas-hasil');
+    if (!e || !(e.harga > 0) || e.basi) return;
+    var berat = parseFloat((el('sim-emas-berat').value || '').replace(',', '.'));
+    var tgl = e.tgl ? new Date(e.tgl + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    var sumber = 'Harga emas 24K ' + fmt(e.harga) + '/gram' + (e.sumber ? ' (' + e.sumber : '') + (tgl ? ', diperbarui ' + tgl : '') + (e.sumber ? ')' : '') + '. ';
+    if (!(berat > 0) || berat > 100000) { hasil.textContent = sumber + 'Isi berat emas untuk menghitung taksiran.'; return; }
+    var karat = parseInt(el('sim-emas-karat').value, 10) || 24;
+    var nilai = Math.round(berat * e.harga * karat / 24 / 1000) * 1000;
+    taksir.value = rupiah.format(nilai);
+    var perhiasan = el('sim-emas-jenis').value === 'perhiasan';
+    hasil.textContent = sumber + berat.toLocaleString('id-ID') + ' g × ' + karat + '/24 ≈ ' + fmt(nilai) + '.' + (perhiasan ? ' Ongkos pembuatan dan batu tidak dihitung; nilai pasti ditetapkan petugas setelah pemeriksaan fisik.' : ' Nilai pasti ditetapkan petugas setelah pemeriksaan fisik.');
+    jadwalkan();
+  }
+  ['sim-emas-jenis', 'sim-emas-karat'].forEach(function (id) { var n = el(id); if (n) n.addEventListener('change', hitungEmas); });
+  if (el('sim-emas-berat')) el('sim-emas-berat').addEventListener('input', hitungEmas);
+
   /* Chip contoh barang: mengisi taksiran dengan nilai tengah kisaran; pengguna tetap bebas mengetik ulang. */
   function jt(n) { return (n / 1e6).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' jt'; }
   function renderContoh() {
@@ -399,6 +437,7 @@
     }
     aturRentang();
     renderContoh();
+    renderEmas();
     jadwalkan();
   });
   taksir.addEventListener('input', function () {
@@ -422,6 +461,7 @@
         }
         aturRentang();
         renderContoh();
+    renderEmas();
         jadwalkan();
       }
     });
@@ -441,6 +481,7 @@
 
   aturRentang();
   renderContoh();
+    renderEmas();
   taksir.value = rupiah.format(3000000);
   hitung();
 })();

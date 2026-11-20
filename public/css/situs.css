@@ -2143,6 +2143,11 @@ input.input-error-shake:focus {
 .chip-contoh[aria-pressed="true"] { border-color: var(--kuningan); background: var(--kuningan-muda); box-shadow: inset 0 0 0 1px var(--kuningan); }
 @media (max-width: 40rem) { .chip-contoh { flex: 1 1 calc(50% - .25rem); min-width: 0; } }
 
+/* ---------- Kalkulator emas & perhiasan di simulasi ---------- */
+.emas-baris { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .75rem; }
+.emas-baris label { margin-top: 0; }
+@media (max-width: 40rem) { .emas-baris { grid-template-columns: 1fr 1fr; } .emas-baris > div:last-child { grid-column: 1 / -1; } }
+
 /* ---------- Perapian mobile halaman mandiri (Tentang, Visi-Misi, dll.) ----------
    !important diperlukan karena banyak ukuran font/padding ditulis inline di Blade. */
 @media (max-width: 40rem) {

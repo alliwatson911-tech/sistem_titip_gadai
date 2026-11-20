@@ -5,6 +5,19 @@
     <p class="sub">Chip contoh barang di simulasi publik. Hanya Owner. Ini <b>kisaran indikatif</b>, bukan harga pasar resmi: isi dari pengalaman transaksi atau pengecekan manual yang terdokumentasi, dan perbarui rutin. Jenis barang tanpa contoh tidak menampilkan chip.</p>
     <p class="bantuan" style="max-width:46rem">Satu baris satu contoh: <code>Nama contoh | terendah | tertinggi</code> (angka boleh memakai titik). Maksimal 12 contoh per jenis barang.</p>
 
+    <form class="form" method="post" action="{{ route('panel.emas.update') }}" style="max-width:46rem; margin-top:1.5rem">
+        @csrf @method('PUT')
+        <h2>Harga emas per gram (24K)</h2>
+        <p class="bantuan">Dipakai simulasi emas &amp; perhiasan: berat &times; harga &times; karat/24. Isi dari sumber yang jelas dan perbarui rutin. Bila lebih dari 7 hari tidak diperbarui (atau belum diisi), hitung otomatis di situs dimatikan dan pengunjung mengisi taksiran sendiri.</p>
+        <x-bidang nama="harga_emas_gram" label="Harga emas 24K per gram (Rp)" :nilai="$emas['harga'] ? number_format($emas['harga'], 0, ',', '.') : ''" :wajib="true" inputmode="numeric" autocomplete="off" placeholder="1.250.000" />
+        <x-bidang nama="sumber" label="Sumber harga" :nilai="$emas['sumber']" :wajib="true" maxlength="120" placeholder="Antam, 20 Nov 2026" bantuan="Tampil di situs bersama tanggal pembaruan." />
+        @if ($emas['tgl'])
+            <p class="bantuan">Terakhir diperbarui {{ \Illuminate\Support\Carbon::parse($emas['tgl'])->format('d-m-Y') }}@if ($emas['basi']) &mdash; <b>sudah lebih dari 7 hari, hitung otomatis di situs mati</b>@endif.</p>
+        @endif
+        <button class="btn btn--utama" type="submit">Simpan harga emas</button>
+    </form>
+
+    <h2 style="margin-top:2rem">Contoh barang per jenis</h2>
     @foreach ($produk as $p)
         @php
             $bag = $errors->getBag('p'.$p->id);

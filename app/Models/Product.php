@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Concerns\Auditable;
+use App\Services\Situs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
@@ -27,7 +28,7 @@ class Product extends Model
     /** @return array<string, mixed> data satu produk untuk kalkulator simulasi publik */
     public function dataKalkulator(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'slug' => $this->slug,
             'nama' => $this->nama,
@@ -38,6 +39,12 @@ class Product extends Model
             'contoh' => $this->contohSimulasi(),
             'contohTgl' => $this->updated_at?->toDateString(),
         ];
+
+        if ($this->kategori_barang === 'emas') {
+            $data['emas'] = Situs::hargaEmas();
+        }
+
+        return $data;
     }
 
     /**

@@ -8,6 +8,7 @@ use Database\Seeders\BranchSeeder;
 use Database\Seeders\ContentSeeder;
 use Database\Seeders\PolicySeeder;
 use Database\Seeders\ProductSeeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /** Pembaca konten dan kebijakan situs publik (satu sumber: tabel site_contents dan policy_settings). */
@@ -153,5 +154,24 @@ class Situs
         }
 
         return $teks;
+    }
+
+    /** Kadar emas yang ditawarkan di simulasi (karat). */
+    public const KARAT_EMAS = [24, 23, 22, 21, 20, 18, 17, 16, 10];
+
+    /** Harga emas 24K per gram yang diisi Owner. Dianggap basi bila lebih dari 7 hari tidak diperbarui. */
+    public static function hargaEmas(): array
+    {
+        $baris = DB::table('site_contents')->whereNull('branch_id')->whereIn('kunci', ['harga_emas_gram', 'harga_emas_sumber'])->get()->keyBy('kunci');
+        $harga = (int) ($baris['harga_emas_gram']->nilai ?? 0);
+        $tgl = isset($baris['harga_emas_gram']->updated_at) ? Carbon::parse($baris['harga_emas_gram']->updated_at) : null;
+
+        return [
+            'harga' => $harga,
+            'sumber' => (string) ($baris['harga_emas_sumber']->nilai ?? ''),
+            'tgl' => $tgl?->toDateString(),
+            'basi' => $harga > 0 && (! $tgl || $tgl->lt(now()->subDays(7)->startOfDay())),
+            'karat' => self::KARAT_EMAS,
+        ];
     }
 }
