@@ -1,5 +1,5 @@
 @extends('layouts.base')
-@section('judul', 'Pengguna — linygadai')
+@section('judul', 'Pengguna — PERSIDEN HP')
 @section('isi')
     <h1>Pengguna</h1>
     <table>

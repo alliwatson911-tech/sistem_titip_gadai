@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\VerifikasiEmailController;
 use App\Http\Controllers\Panel\AkunController;
 use App\Http\Controllers\Panel\AuditController;
 use App\Http\Controllers\Panel\BerkasController;
+use App\Http\Controllers\Panel\ContohTaksiranController;
 use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\DuaFaktorController;
 use App\Http\Controllers\Panel\FaqController;
@@ -153,6 +154,8 @@ Route::middleware(['auth', 'wajib.2fa'])->prefix('panel')->group(function () {
     Route::put('/kontak/{cabang}', [KontakCabangController::class, 'update'])->name('panel.kontak.update');
     Route::get('/situs', [KontenSitusController::class, 'edit'])->name('panel.situs');
     Route::put('/situs', [KontenSitusController::class, 'update'])->name('panel.situs.update');
+    Route::get('/contoh-taksiran', [ContohTaksiranController::class, 'index'])->name('panel.contoh.index');
+    Route::put('/contoh-taksiran/{produk}', [ContohTaksiranController::class, 'update'])->name('panel.contoh.update');
 
     // Laporan dan audit
     Route::get('/laporan', [LaporanController::class, 'cabang'])->name('panel.laporan.cabang');

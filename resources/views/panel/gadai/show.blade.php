@@ -114,6 +114,7 @@
             @else
                 <form class="form" method="post" action="{{ route('panel.pembayaran.store', $g) }}" enctype="multipart/form-data" style="margin-top:1.5rem">
                     @csrf
+                    <input type="hidden" name="versi" value="{{ $g->versiBayar() }}">
                     <h2>Catat pembayaran</h2>
                     <div class="baris-2">
                         <div class="bidang"><label for="f-tipe">Jenis</label>

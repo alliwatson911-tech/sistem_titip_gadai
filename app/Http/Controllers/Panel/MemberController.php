@@ -82,9 +82,12 @@ class MemberController extends Controller
         ]);
 
         // Buat password sementara acak tapi mudah dibaca (cth: Persiden482910)
-        $passwordSementara = 'Persiden'.rand(100000, 999999);
+        // Staf cabang hanya boleh mendaftarkan ke cabangnya sendiri; Owner/Manager memilih bebas.
+        $cabangId = $r->user()->role->isBranchBound() ? $r->user()->branch_id : $data['branch_id'];
 
-        [$user, $member] = DB::transaction(function () use ($data, $passwordSementara, $r) {
+        $passwordSementara = 'Persiden'.random_int(100000, 999999);
+
+        [$user, $member] = DB::transaction(function () use ($data, $passwordSementara, $r, $cabangId) {
             $user = new User([
                 'name' => $data['nama_lengkap'],
                 'email' => $data['email'],
@@ -93,13 +96,13 @@ class MemberController extends Controller
             $user->forceFill([
                 'role' => Role::Member,
                 'status' => 'aktif',
-                'branch_id' => $data['branch_id'],
+                'branch_id' => $cabangId,
                 'wajib_ganti_password' => true,
             ])->save();
 
             $member = new Member([
                 'user_id' => $user->id,
-                'branch_id' => $data['branch_id'],
+                'branch_id' => $cabangId,
                 'nama_lengkap' => $data['nama_lengkap'],
                 'nik_enc' => $data['nik'],
                 'nik_hash' => Pii::hash($data['nik']),
@@ -116,12 +119,12 @@ class MemberController extends Controller
         });
 
         // Antrekan notifikasi email dan WhatsApp
-        PenitipNotificationService::antrekanAkunBaru($user, $member, $passwordSementara);
+        PenitipNotificationService::antrekanAkunBaru($user, $member);
 
         Audit::log('anggota.daftar_loket', $member, null, ['petugas_id' => $r->user()->id]);
 
         $waNotif = PenitipNotification::where('member_id', $member->id)->where('channel', 'whatsapp')->latest('id')->first();
-        $waUrl = $waNotif ? PenitipNotificationService::tautanWhatsApp($waNotif) : null;
+        $waUrl = $waNotif ? PenitipNotificationService::tautanWhatsApp($waNotif, $passwordSementara) : null;
 
         return redirect()->route('panel.anggota')->with([
             'status' => "Penitip {$member->nama_lengkap} berhasil didaftarkan dan akun telah aktif.",
@@ -141,6 +144,7 @@ class MemberController extends Controller
         Gate::authorize('anggota.tambah');
 
         $notifikasi = PenitipNotification::with(['user', 'member.branch'])
+            ->whereHas('member') // member ber-scope cabang: staf hanya melihat notifikasi penitip cabangnya
             ->latest('id')
             ->paginate(25);
 

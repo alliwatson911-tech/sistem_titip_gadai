@@ -21,7 +21,16 @@ class BerandaController extends Controller
         $konten = Situs::konten();
         $kebijakan = Situs::kebijakan();
 
-        $produk = Product::clientFeatured()->whereNull('branch_id')->orderBy('urutan')->get();
+        try {
+            $produk = Product::clientFeatured()->whereNull('branch_id')->orderBy('urutan')->get();
+        } catch (\Throwable) {
+            try {
+                $produk = Product::where('is_active', true)->whereNull('branch_id')->orderBy('urutan')->get();
+            } catch (\Throwable) {
+                $produk = collect();
+            }
+        }
+
         if ($produk->isEmpty() && ! app()->runningUnitTests()) {
             $produk = self::defaultProduk();
         }
@@ -120,14 +129,6 @@ class BerandaController extends Controller
     /** Data minimal yang dibutuhkan kalkulator di browser (rumus tetap di server). */
     private function dataKalkulator(Collection $produk): array
     {
-        return $produk->map(fn (Product $p) => [
-            'id' => $p->id,
-            'slug' => $p->slug,
-            'nama' => $p->nama,
-            'ltvMaxBp' => $p->ltv_max_bp,
-            'min' => $p->pinjaman_min,
-            'max' => $p->pinjaman_max,
-            'tenor' => $p->tenor_hari,
-        ])->values()->all();
+        return $produk->map(fn (Product $p) => $p->dataKalkulator())->values()->all();
     }
 }

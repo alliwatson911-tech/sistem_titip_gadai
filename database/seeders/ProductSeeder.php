@@ -473,5 +473,7 @@ class ProductSeeder extends Seeder
                 'ketentuan_penyimpanan' => $item['ketentuan_penyimpanan'] ?? null,
             ]);
         }
+
+        $this->call(ContohTaksiranSeeder::class);
     }
 }

@@ -75,3 +75,10 @@ Pencairan, pembayaran, dan pengeluaran barang hanya Teller. Verifikasi transfer:
 - **Tampilan berkas** surat kuasa penebus dan bukti pencairan transfer oleh staf: tersimpan privat, belum ada halaman untuk membukanya.
 - **Pembayaran anggota mandiri** (payment gateway) tidak ada; semua pembayaran lewat teller.
 - Ganti/lupa kata sandi: sudah ditutup (lihat docs/03, bagian "Kata sandi"). Verifikasi email dan 2FA staf belum ada.
+
+## Keputusan terbuka (menunggu Owner)
+
+**Cicil mereset hitungan perpanjangan.** Setiap cicil (minimal Rp 50.000, pokok harus turun) menyetel `perpanjangan_ke` kembali ke 0, sehingga batas "maksimal 3 perpanjangan berturut-turut" bisa diulang dengan menyisipkan cicil kecil di sela perpanjangan. Perilaku ini sengaja dibiarkan karena tertulis di tabel di atas dan dikunci tes (`GadaiAlurTest::test_cicil_mengurangi_pokok_dan_menyetel_ulang_hitungan_perpanjangan`); mengubahnya berarti mengubah tarif nasabah.
+
+Pilihan untuk Owner: (1) tetap seperti sekarang, (2) reset hanya bila pokok turun minimal persentase tertentu (angka ditentukan Owner), (3) tidak pernah reset. Status: **menunggu keputusan Owner**; belum ada perubahan kode.
+

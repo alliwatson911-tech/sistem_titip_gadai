@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('panel'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->dontFlash(['nik', 'nik_penebus']); // NIK tidak boleh tersimpan di session saat validasi gagal
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

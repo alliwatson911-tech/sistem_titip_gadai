@@ -42,6 +42,7 @@
                 <a href="{{ route('panel.faq.index') }}" aria-current="{{ $nav('panel/faq*') }}">@include('partials.ikon', ['n' => 'faq'])FAQ &amp; informasi</a>@endcan
                 @can('cabang.kontak')<a href="{{ route('panel.kontak.index') }}" aria-current="{{ $nav('panel/kontak*') }}">@include('partials.ikon', ['n' => 'lokasi'])Kontak cabang</a>@endcan
                 @can('konten.situs')<a href="{{ route('panel.situs') }}" aria-current="{{ $nav('panel/situs*') }}">@include('partials.ikon', ['n' => 'situs'])Teks &amp; izin situs</a>@endcan
+                @can('konten.situs')<a href="{{ route('panel.contoh.index') }}" aria-current="{{ $nav('panel/contoh-taksiran*') }}">@include('partials.ikon', ['n' => 'laporan'])Contoh taksiran</a>@endcan
             @endcanany
             @canany(['laporan.cabang', 'laporan.harian', 'laporan.konsolidasi'])
                 <span class="grup">Laporan</span>

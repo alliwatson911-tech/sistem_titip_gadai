@@ -364,6 +364,33 @@
   d.querySelectorAll('input[name="durasi_minggu"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
   d.querySelectorAll('input[name="periode"]').forEach(function (r) { r.addEventListener('change', jadwalkan); });
 
+  /* Chip contoh barang: mengisi taksiran dengan nilai tengah kisaran; pengguna tetap bebas mengetik ulang. */
+  function jt(n) { return (n / 1e6).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' jt'; }
+  function renderContoh() {
+    var box = el('sim-contoh'), daftar = el('sim-contoh-daftar'), p = produkAktif();
+    if (!box || !daftar) return;
+    daftar.textContent = '';
+    var list = (p && p.contoh) || [];
+    box.hidden = !list.length;
+    if (!list.length) return;
+    list.forEach(function (c) {
+      var b = d.createElement('button'), n = d.createElement('b'), k = d.createElement('small');
+      b.type = 'button'; b.className = 'chip-contoh';
+      n.textContent = c.label;
+      k.textContent = c.min === c.max ? '± ' + jt(c.min) : jt(c.min) + ' – ' + jt(c.max);
+      b.appendChild(n); b.appendChild(k);
+      b.addEventListener('click', function () {
+        taksir.value = rupiah.format(Math.round((c.min + c.max) / 2 / 1000) * 1000);
+        daftar.querySelectorAll('.chip-contoh').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', 'true');
+        jadwalkan();
+      });
+      daftar.appendChild(b);
+    });
+    var tgl = p.contohTgl ? new Date(p.contohTgl + 'T00:00:00').toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    el('sim-contoh-catatan').textContent = 'Contoh kisaran indikatif' + (tgl ? ' (diperbarui ' + tgl + ')' : '') + ', bukan harga pasar resmi dan bukan penawaran. Nilai pasti ditetapkan petugas setelah pemeriksaan fisik.';
+  }
+
   pilih.addEventListener('change', function () {
     var p = produkAktif(), tak = angkaTaksiran();
     var minTak = Math.round(p.min / (p.ltvMaxBp / 10000));
@@ -371,6 +398,7 @@
       taksir.value = rupiah.format(Math.round(minTak * 1.2));
     }
     aturRentang();
+    renderContoh();
     jadwalkan();
   });
   taksir.addEventListener('input', function () {
@@ -393,6 +421,7 @@
           taksir.value = rupiah.format(Math.round(minTak * 1.2));
         }
         aturRentang();
+        renderContoh();
         jadwalkan();
       }
     });
@@ -411,6 +440,26 @@
   }
 
   aturRentang();
+  renderContoh();
   taksir.value = rupiah.format(3000000);
   hitung();
+})();
+
+/* ---- pencarian cabang & tombol kembali (tanpa skrip inline: CSP) ---- */
+(function () {
+  var d = document;
+  var cari = d.getElementById('cariCabang');
+  if (cari) {
+    cari.addEventListener('input', function () {
+      var kata = cari.value.toLowerCase();
+      d.querySelectorAll('.item-cabang').forEach(function (it) {
+        it.style.display = (it.getAttribute('data-nama') || '').indexOf(kata) > -1 ? '' : 'none';
+      });
+    });
+  }
+  d.querySelectorAll('[data-kembali]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (window.history.length > 1 && d.referrer.indexOf(window.location.host) !== -1) { e.preventDefault(); window.history.back(); }
+    });
+  });
 })();

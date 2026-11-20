@@ -165,10 +165,13 @@ class LoanService
         });
     }
 
-    public function bayar(Loan $l, User $teller, string $tipe, string $metode, ?int $pokok = null, ?UploadedFile $bukti = null): Payment
+    public function bayar(Loan $l, User $teller, string $tipe, string $metode, ?int $pokok = null, ?UploadedFile $bukti = null, ?string $versi = null): Payment
     {
-        return DB::transaction(function () use ($l, $teller, $tipe, $metode, $pokok, $bukti) {
+        return DB::transaction(function () use ($l, $teller, $tipe, $metode, $pokok, $bukti, $versi) {
             $l = $this->kunciLoan($l);
+            if ($versi !== null && ! hash_equals($l->versiBayar(), $versi)) {
+                throw new DomainException('Data gadai sudah berubah sejak formulir dibuka (mungkin pembayaran ini sudah tercatat). Muat ulang halaman dan periksa riwayat pembayaran sebelum mengulang.');
+            }
             if (! in_array($l->status, L::dapatDibayar(), true)) {
                 throw new DomainException('Gadai ini tidak dapat dibayar (status: '.$l->status->label().').');
             }
@@ -274,6 +277,9 @@ class LoanService
                 'jatuh_tempo' => $sb['jatuh_tempo'], 'tenggang_sampai' => $sb['tenggang_sampai'], 'pokok_saldo' => $sb['pokok_saldo'], 'perpanjangan_ke' => $sb['perpanjangan_ke'],
             ])->save();
             $this->setStatus($l, L::from($sb['status']), $manager, 'Pembayaran '.$p->no_kwitansi.' dibalikkan');
+            if ($l->status === L::SiapLelang) {
+                $this->antreanLelang($l); // perpanjangan sempat membatalkan antrean; kembalikan agar gadai tidak macet
+            }
             LoanExtension::where('payment_id', $p->id)->delete();
             $p->forceFill(['status' => 'batal', 'alasan' => $alasan, 'diverifikasi_oleh' => $manager->id, 'diverifikasi_at' => now()])->save();
         });
@@ -326,25 +332,38 @@ class LoanService
         $hari = ($hari ?? today())->copy()->startOfDay();
         $hasil = ['tenggang' => 0, 'siap_lelang' => 0];
 
-        Loan::withoutGlobalScopes()->where('status', L::Aktif->value)->whereDate('jatuh_tempo', '<', $hari)->get()->each(function (Loan $l) use (&$hasil) {
-            DB::transaction(function () use ($l, &$hasil) {
+        Loan::withoutGlobalScopes()->where('status', L::Aktif->value)->whereDate('jatuh_tempo', '<', $hari)->get()->each(function (Loan $l) use (&$hasil, $hari) {
+            DB::transaction(function () use ($l, &$hasil, $hari) {
+                $l = $this->kunciLoan($l);
+                if ($l->status !== L::Aktif || $l->jatuh_tempo->gte($hari)) {
+                    return; // sudah berubah (mis. diperpanjang) sejak dipilih
+                }
                 $this->setStatus($l, L::Tenggang, null, 'Lewat jatuh tempo');
                 $hasil['tenggang']++;
             });
         });
 
-        Loan::withoutGlobalScopes()->where('status', L::Tenggang->value)->whereDate('tenggang_sampai', '<', $hari)->get()->each(function (Loan $l) use (&$hasil) {
-            DB::transaction(function () use ($l, &$hasil) {
+        Loan::withoutGlobalScopes()->where('status', L::Tenggang->value)->whereDate('tenggang_sampai', '<', $hari)->get()->each(function (Loan $l) use (&$hasil, $hari) {
+            DB::transaction(function () use ($l, &$hasil, $hari) {
+                $l = $this->kunciLoan($l);
+                if ($l->status !== L::Tenggang || $l->tenggang_sampai->gte($hari)) {
+                    return;
+                }
                 $this->setStatus($l, L::SiapLelang, null, 'Masa tenggang berakhir');
-                $c = Collateral::withoutGlobalScopes()->where('application_id', $l->application_id)->first();
-                $au = Auction::firstOrNew(['loan_id' => $l->id]);
-                $au->fill(['collateral_id' => $c->id, 'status' => 'dijadwalkan', 'diberitahukan_at' => now(), 'tgl_lelang' => null, 'harga_limit' => null,
-                    'harga_laku' => null, 'biaya_lelang' => 0, 'kelebihan' => 0, 'kelebihan_status' => 'belum', 'disetujui_oleh' => null])->save();
+                $this->antreanLelang($l);
                 $hasil['siap_lelang']++;
             });
         });
 
         return $hasil;
+    }
+
+    /** Masukkan gadai ke antrean lelang (dijadwalkan, masa pemberitahuan dimulai ulang). */
+    private function antreanLelang(Loan $l): void
+    {
+        $c = Collateral::withoutGlobalScopes()->where('application_id', $l->application_id)->first();
+        Auction::firstOrNew(['loan_id' => $l->id])->fill(['collateral_id' => $c->id, 'status' => 'dijadwalkan', 'diberitahukan_at' => now(), 'tgl_lelang' => null, 'harga_limit' => null,
+            'harga_laku' => null, 'biaya_lelang' => 0, 'kelebihan' => 0, 'kelebihan_status' => 'belum', 'disetujui_oleh' => null])->save();
     }
 
     // ---------------- lelang ----------------
@@ -354,6 +373,7 @@ class LoanService
         return DB::transaction(function () use ($l, $u, $tglLelang, $hargaLimit) {
             $l = $this->kunciLoan($l);
             $au = $this->lelangDari($l, L::SiapLelang);
+            $this->pastikanLelangAktif($au);
             $paling = $au->diberitahukan_at->copy()->startOfDay()->addDays((int) ($l->snapshot_syarat['hari_pemberitahuan_lelang'] ?? 7));
             $tgl = Carbon::parse($tglLelang)->startOfDay();
             if ($tgl->lt($paling)) {
@@ -373,6 +393,7 @@ class LoanService
         return DB::transaction(function () use ($l, $u, $hasil, $hargaLaku, $biaya) {
             $l = $this->kunciLoan($l);
             $au = $this->lelangDari($l, L::SiapLelang);
+            $this->pastikanLelangAktif($au);
             if (! $au->tgl_lelang) {
                 throw new DomainException('Jadwalkan lelang terlebih dahulu.');
             }
@@ -433,7 +454,7 @@ class LoanService
         } else {
             $lama = $l->jatuh_tempo->copy();
             $baru = $lama->copy()->addDays($s['tenor_hari']);
-            $ke = $p->tipe === 'perpanjangan' ? $l->perpanjangan_ke + 1 : 0; // cicil menyetel ulang hitungan perpanjangan
+            $ke = $p->tipe === 'perpanjangan' ? $l->perpanjangan_ke + 1 : 0; // cicil menyetel ulang hitungan perpanjangan (keputusan terbuka: docs/04-tahap4-panduan.md, bagian Keputusan terbuka)
             if ($p->tipe === 'perpanjangan') {
                 LoanExtension::create(['loan_id' => $l->id, 'payment_id' => $p->id, 'jatuh_tempo_lama' => $lama, 'jatuh_tempo_baru' => $baru, 'ke' => $ke]);
             }
@@ -462,6 +483,13 @@ class LoanService
         }
 
         return Auction::where('loan_id', $l->id)->first() ?? throw new DomainException('Data lelang tidak ditemukan.');
+    }
+
+    private function pastikanLelangAktif(Auction $au): void
+    {
+        if ($au->status !== 'dijadwalkan') {
+            throw new DomainException('Lelang ini tidak aktif (status: '.$au->status.').');
+        }
     }
 
     private function keadaan(Loan $l): array
