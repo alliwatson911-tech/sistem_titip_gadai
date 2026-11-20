@@ -140,9 +140,8 @@ class PersidenHpBranchSeeder extends Seeder
         }
 
         // 3. Sembunyikan produk lama yang tidak ada di daftar klien
-        // (Emas & perhiasan, televisi, konsol game, smartwatch)
+        // (televisi, konsol game, smartwatch). Emas & perhiasan tetap tampil: simulasi emas memakai harga per gram dari Owner.
         Product::whereIn('slug', [
-            'gadai-emas-perhiasan',
             'gadai-televisi',
             'gadai-konsol-game',
             'gadai-smartwatch',
@@ -164,6 +163,8 @@ class PersidenHpBranchSeeder extends Seeder
             'tenor_hari' => 14,
             'durasi_opsi_minggu' => 1,
         ]);
+
+        Product::where('slug', 'gadai-emas-perhiasan')->update(['is_client_featured' => true]);
 
         // Tambahkan Tab/Tablet bila belum ada
         Product::updateOrCreate(

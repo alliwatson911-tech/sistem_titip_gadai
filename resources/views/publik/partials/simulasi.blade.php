@@ -23,6 +23,19 @@
                     </select>
                 </div>
 
+                <div class="bidang emas-kalkulator" id="sim-emas" hidden>
+                    <p class="contoh-judul" id="sim-emas-judul">Hitung nilai emas Anda:</p>
+                    <div class="emas-baris" id="sim-emas-isian">
+                        <div><label for="sim-emas-jenis">Jenis</label>
+                            <select id="sim-emas-jenis"><option value="perhiasan">Perhiasan</option><option value="batangan">Batangan</option></select></div>
+                        <div><label for="sim-emas-karat">Kadar (karat)</label>
+                            <select id="sim-emas-karat"></select></div>
+                        <div><label for="sim-emas-berat">Berat (gram)</label>
+                            <input id="sim-emas-berat" type="text" inputmode="decimal" autocomplete="off" placeholder="mis. 5,5"></div>
+                    </div>
+                    <p class="catatan-kecil" id="sim-emas-hasil" style="margin:.5rem 0 0"></p>
+                </div>
+
                 <div class="bidang contoh-taksiran" id="sim-contoh" hidden>
                     <p class="contoh-judul" id="sim-contoh-judul">Belum tahu nilainya? Pilih contoh barang:</p>
                     <div class="contoh-daftar" id="sim-contoh-daftar" role="group" aria-labelledby="sim-contoh-judul"></div>

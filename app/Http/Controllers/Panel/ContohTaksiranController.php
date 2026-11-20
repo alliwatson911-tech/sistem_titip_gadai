@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Services\Audit;
+use App\Services\Situs;
+use App\Support\Rupiah;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
 
@@ -22,7 +26,35 @@ class ContohTaksiranController extends Controller
 
         return view('panel.konten.contoh-taksiran', [
             'produk' => Product::where('is_active', true)->clientFeatured()->orderBy('id')->get(),
+            'emas' => Situs::hargaEmas(),
         ]);
+    }
+
+    /** Harga emas 24K per gram untuk simulasi emas & perhiasan. Sumber wajib jelas; tanggal pembaruan tercatat otomatis. */
+    public function emas(Request $r): RedirectResponse
+    {
+        Gate::authorize('konten.situs');
+        $r->merge(['harga_emas_gram' => Rupiah::digit($r->input('harga_emas_gram'))]);
+        $d = $r->validate([
+            'harga_emas_gram' => ['required', 'integer', 'min:1', 'max:100000000'],
+            'sumber' => ['required', 'string', 'max:120'],
+        ], [
+            'harga_emas_gram.required' => 'Isi harga emas per gram.',
+            'harga_emas_gram.integer' => 'Harga emas harus berupa angka rupiah.',
+            'harga_emas_gram.min' => 'Harga emas harus lebih dari nol.',
+            'harga_emas_gram.max' => 'Harga emas terlalu besar.',
+            'sumber.required' => 'Sebutkan sumber harga (mis. Antam, tanggal).',
+        ]);
+
+        $lama = Situs::hargaEmas();
+        DB::transaction(function () use ($d) {
+            foreach (['harga_emas_gram' => (string) $d['harga_emas_gram'], 'harga_emas_sumber' => $d['sumber']] as $kunci => $nilai) {
+                DB::table('site_contents')->updateOrInsert(['branch_id' => null, 'kunci' => $kunci], ['nilai' => $nilai, 'updated_at' => now(), 'created_at' => now()]);
+            }
+        });
+        Audit::log('situs.harga_emas', null, ['harga' => $lama['harga'], 'sumber' => $lama['sumber']], ['harga' => $d['harga_emas_gram'], 'sumber' => $d['sumber']]);
+
+        return back()->with('status', 'Harga emas disimpan.');
     }
 
     public function update(Request $r, Product $produk): RedirectResponse

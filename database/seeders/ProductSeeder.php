@@ -19,6 +19,7 @@ class ProductSeeder extends Seeder
             [
                 'nama' => 'Gadai Emas & Perhiasan',
                 'slug' => 'gadai-emas-perhiasan',
+                'urutan' => 9, // setelah elektronik dan kendaraan: bukan pilihan bawaan simulator
                 'kategori_barang' => 'emas',
                 'kelompok_agunan' => 'emas',
                 'deskripsi' => 'Terima jaminan emas batangan (Antam, UBS, Lotus Archi) dan perhiasan emas (kalung, cincin, gelang, anting) dengan uji kadar karat akurat, timbangan digital tersertifikasi, dan sewa modal ringan.',
@@ -463,7 +464,7 @@ class ProductSeeder extends Seeder
                 'admin_bp' => $item['admin_bp'],
                 'admin_min' => $item['admin_min'],
                 'admin_max' => $item['admin_max'],
-                'urutan' => $i + 1,
+                'urutan' => $item['urutan'] ?? $i + 1,
                 'is_active' => true,
                 'badge_label' => $item['badge_label'] ?? null,
                 'dokumen_wajib' => $item['dokumen_wajib'] ?? null,

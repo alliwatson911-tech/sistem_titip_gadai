@@ -155,6 +155,7 @@ Route::middleware(['auth', 'wajib.2fa'])->prefix('panel')->group(function () {
     Route::get('/situs', [KontenSitusController::class, 'edit'])->name('panel.situs');
     Route::put('/situs', [KontenSitusController::class, 'update'])->name('panel.situs.update');
     Route::get('/contoh-taksiran', [ContohTaksiranController::class, 'index'])->name('panel.contoh.index');
+    Route::put('/harga-emas', [ContohTaksiranController::class, 'emas'])->name('panel.emas.update');
     Route::put('/contoh-taksiran/{produk}', [ContohTaksiranController::class, 'update'])->name('panel.contoh.update');
 
     // Laporan dan audit
